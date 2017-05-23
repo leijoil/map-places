@@ -6,6 +6,8 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -28,11 +30,32 @@
       <div class="modal-content">
         <span class="button-close" onclick="closeModal();"></span>
 
-        <h3>Lorem ipsum dolor sit amet.</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus itaque eligendi, laboriosam accusamus sunt amet ipsum minus.</p>
-          <p>Repudiandae illo atque alias beatae reprehenderit tenetur temporibus quidem! Vitae fuga, expedita alias et illo laudantium voluptate.</p>
-          <p>Dolore aut voluptatum illum atque perferendis ut corporis error maxime recusandae magnam, vero laborum, provident maiores quo!</p>
-          <p>In voluptates, aperiam ipsa incidunt iure reprehenderit? Incidunt quod et tempora ea asperiores, necessitatibus tempore dolor ipsum.</p>
+        <h3>Place</h3>
+
+<table style="width:100%">
+  <tr>
+    <td><label for="title">Title</label></td>
+    <td><input type="text" name="title"><br></td> 
+  </tr>
+  <tr>
+    <td><label for="description">Description</label></td>
+    <td><input type="text" name="description"><br></td> 
+  </tr>
+  <tr>
+    <td><label for="from">From</label></td>
+    <td><input type="text" name="from"><br></td> 
+  </tr>
+  <tr>
+    <td><label for="until">Until</label></td>
+    <td><input type="text" name="until"><br></td> 
+  </tr>
+</table>
+          
+          <br>
+
+          <button type="button">Add</button>
+          <button type="button" onclick="closeModal();">Cancel</button>
+
       </div>
     </div>
 
@@ -60,9 +83,112 @@
             <button type="button" onclick="esa(false)">CANCEL</button>
           </div>
 
-          <h2> Added places</h2>
-          <input type="text" name="search"><br>
-          <input type="checkbox" name="vehicle" value="Bike"> Show only open places<br>
+          
+          
+
+
+
+
+
+
+	
+
+		<div class="all-products page">
+
+			<div class="filters">
+        
+        <h2> Added places</h2>
+        
+				<form>
+
+					<div class="filter-criteria">
+						<span>Screen Size</span>
+						<label><input type="checkbox" value="16" name="storage">16 GB</label>
+						<label><input type="checkbox" value="32" name="storage">32 GB</label>
+					</div>
+
+<button>Clear filters</button> <br><br>
+<!--
+					<div class="filter-criteria">
+						<span>Manufacturer</span>
+						<label><input type="checkbox" name="manufacturer" value="apple">Apple</label>
+						<label><input type="checkbox" name="manufacturer" value="samsung">Samsung</label>
+						<label><input type="checkbox" name="manufacturer" value="htc">HTC</label>
+						<label><input type="checkbox" name="manufacturer" value="nokia">Nokia</label>
+						<label><input type="checkbox" name="manufacturer" value="zte">ZTE</label>
+						<label><input type="checkbox" name="manufacturer" value="sony">Sony</label>
+					</div>
+
+					<div class="filter-criteria">
+						<span>OS</span>
+						<label><input type="checkbox" value="android" name="os">Android</label>
+						<label><input type="checkbox" value="ios" name="os">iOS</label>
+						<label><input type="checkbox" value="windows" name="os">Windows</label>
+					</div>
+
+					<div class="filter-criteria">
+						<span>Camera</span>
+						<label><input type="checkbox" value="5" name="camera">5 Mpx</label>
+						<label><input type="checkbox" value="8" name="camera">8 Mpx</label>
+						<label><input type="checkbox" value="12" name="camera">12 Mpx</label>
+						<label><input type="checkbox" value="15" name="camera">15 Mpx</label>
+					</div>
+-->
+      <ul class="products-list">
+				<script id="products-template" type="x-handlebars-template">​
+					{{#each this}}
+						<li data-index="{{id}}">
+							<a href="#"> {{name}} </a>
+							<div class="highlight"></div>
+						</li>
+					{{/each}}
+				</script>
+			</ul>
+
+
+					
+
+				</form>
+
+			</div>
+
+		</div>
+
+
+
+
+		<div class="single-product page">
+
+			
+
+			<div class="preview-large">
+				<h3>Single product view</h3>
+				<img src=""/>
+				<p></p>
+
+				<span class="close">×</span>
+			</div>
+
+		</div>
+
+		<div class="error page">
+			<h3>Sorry, something went wrong :(</h3>
+		</div>
+
+	
+
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+	<script src="assets/js/script.js"></script>
+
+
+
+
+
+
+
+          
         </div>
         <div id="map"></div>
         
@@ -122,7 +248,25 @@
         async defer></script>
 
   
+<script type="text/javascript">
+      $(document).ready(function() {
+        $.getJSON("foo.txt", function(json1) {
+          $.each(json1, function(key, data) {
+            var latLng = new google.maps.LatLng(data.lat, data.lng); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+                position: latLng,
+                title: data.title
+            });
+            marker.setMap(map);
+          });
+        });
+      });
+    </script>
 
+
+
+    
   </body>
 </html>
 

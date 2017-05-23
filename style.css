@@ -1,15 +1,11 @@
 #leftmenu {
   float: left;
+  width: 250px;
 }
 
 #newpost {
   display:none;
 }
 
-#map {
 
 
-}
-
-
- 
