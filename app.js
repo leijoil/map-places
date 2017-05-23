@@ -33,6 +33,12 @@ server.put('/api/v1/places/:id',updatePlace);
 server.del('/api/v1/places/:id',deletePlace);
 */
 
-server.listen(4000, function() {
-    console.log('REST API Server listening at http://localhost:4000');
+server.get(/\/?.*/, restify.serveStatic({
+            directory: __dirname,
+            default: 'index.html'
+            // match: /^((?!app.js).)*$/
+     }));
+
+server.listen(3000, function() {
+    console.log('REST API Server listening at http://localhost:3000');
 });
