@@ -265,8 +265,19 @@
     </script>
 
 
+<script type="text/javascript">
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        console.log(JSON.parse(xhr.responseText).data);
+      }
+  }
+  xhr.open('GET', 'http://localhost:3000/api/v1/places', true);
+  xhr.send(null);
 
-    
+</script>
+
+
   </body>
 </html>
 
