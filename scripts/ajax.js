@@ -1,4 +1,7 @@
-(function () {
+esaksi();
+
+function esaksi () {
+    console.log('AJETTIIN')
     var results = document.getElementById('results'),
         toReadyStateDescription = function (state) {
             switch (state) {
@@ -20,17 +23,17 @@
             oReq = new XMLHttpRequest();
         oReq.onload = function (e) {
             var xhr = e.target;
-            console.log('Inside the onload event');
-            console.log('THIS IS: ', e.target)
+            //console.log('Inside the onload event');
+            //console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
                 
-                
+                results.innerHTML = '';
                 for (i = 0; i < xhr.response.data.length; i++) { 
 
                     results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit('+ xhr.response.data[i].id +');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>SHOPPING<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>'+  xhr.response.data[i].description  +'<\/p><\/div></a><\/li>'
                 }
-                console.log('results.innerHTML ', results.innerHTML);
+                //console.log('results.innerHTML ', results.innerHTML);
                 
             } else {
               console.log('ELSE')
@@ -47,7 +50,7 @@
         oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0');
         oReq.send();
 
-}());
+};
 
 function getPlaceById (id) {
 
@@ -106,7 +109,7 @@ function getPlaceById (id) {
 
 
 
-function deletePlace () {
+function deletePlaceFromDb () {
 	console.log('DELETE: ',document.getElementById("id").value)
     var id = document.getElementById("id").value;
 
@@ -135,7 +138,8 @@ function deletePlace () {
             console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
-                
+                closeModal();
+                esaksi();
             } else {
               console.log('ELSE')
                 results.innerHTML = JSON.parse(xhr.responseText).data;
@@ -150,8 +154,6 @@ function deletePlace () {
         oReq.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0');
         oReq.send();
-        closeModal();
-
 }
 
 function createNewPlace (placeObj) {
@@ -181,6 +183,8 @@ function createNewPlace (placeObj) {
             console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
+                closeModal()
+                esaksi();
             } else {
               console.log('ELSE')
                 results.innerHTML = JSON.parse(xhr.responseText).data;
@@ -200,3 +204,53 @@ function createNewPlace (placeObj) {
         //oReq.send();
 
 }
+
+function updatePlace (placeObj) {
+
+        console.log('UPDATEA ', placeObj)
+        toReadyStateDescription = function (state) {
+            switch (state) {
+            case 0:
+                return 'UNSENT';
+            case 1:
+                return 'OPENED';
+            case 2:
+                return 'HEADERS_RECEIVED';
+            case 3:
+                return 'LOADING';
+            case 4:
+                return 'DONE';
+            default:
+                return '';
+            }
+        };
+        var bustCache = '?' + new Date().getTime(),
+            oReq = new XMLHttpRequest();
+        oReq.onload = function (e) {
+            var xhr = e.target;
+            console.log('Inside the onload event');
+            console.log('THIS IS: ', e.target)
+            if (xhr.responseType === 'json') {
+                // results.innerHTML = xhr.response.data;
+                closeModal()
+                esaksi();
+            } else {
+              console.log('ELSE')
+                results.innerHTML = JSON.parse(xhr.responseText).data;
+            }
+        };
+        oReq.onreadystatechange = function () {
+            console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
+        };
+
+        console.log('AJAXJS', placeObj)
+
+        oReq.open('PUT', '/api/v1/places/' + placeObj.id, true);
+        oReq.responseType = 'json';
+        oReq.setRequestHeader("Content-Type", "application/json");
+        oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0');
+        oReq.send(JSON.stringify(placeObj));
+        //oReq.send();
+
+}
+

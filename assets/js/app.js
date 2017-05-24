@@ -1,7 +1,6 @@
 var overlay = document.getElementById('overlay');
 
 function openModal(id){
-	console.log('OPEN MODAL ID: ', id)
 	overlay.classList.remove("is-hidden");
 }
 
@@ -14,6 +13,7 @@ function getAllFields () {
 
 		var placeObj = {}
 
+		placeObj.id = document.getElementById("id").value || undefined
 		placeObj.title = document.getElementById("title").value
 		placeObj.description = document.getElementById("description").value
 		placeObj.openfrom = document.getElementById("openfrom").value

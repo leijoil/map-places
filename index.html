@@ -69,7 +69,7 @@
 
       <br>
 
-      <button type="button" onclick="addNewPlace();">Add</button>
+      <button type="button" onclick="addOrEditPlace();">Save</button>
       <button type="button" onclick="closeModal();">Cancel</button>
       <button type="button" onclick="deletePlace(id);">Delete</button>
 
@@ -176,11 +176,19 @@
       openModal(id);
     }
 
-    function addNewPlace () {
+    function addOrEditPlace () {
       var placeObj = getAllFields();
-      createNewPlace(placeObj);
+      console.log('PO', placeObj);
+      if (placeObj.id === undefined) {
+        createNewPlace(placeObj);
+      } else {
+        updatePlace(placeObj);
+      }
     }
 
+    function deletePlace () {
+      deletePlaceFromDb();
+    }
 
     function placeMarker(location) {
       var marker = new google.maps.Marker({
@@ -195,7 +203,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDECN7QlKaqFBL5MTgdF8G1bcBjZPpgM_o&callback=initMap" async
     defer></script>
 
-
+<!--
   <script type="text/javascript">
     $(document).ready(function () {
       $.getJSON("foo.txt", function (json1) {
@@ -211,7 +219,7 @@
       });
     });
   </script>
-
+-->
 
   <script type="text/javascript">
     var xhr = new XMLHttpRequest();
