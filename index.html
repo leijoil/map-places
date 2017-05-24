@@ -178,7 +178,6 @@
 
     function addOrEditPlace () {
       var placeObj = getAllFields();
-      console.log('PO', placeObj);
       if (placeObj.id === undefined) {
         createNewPlace(placeObj);
       } else {
@@ -195,8 +194,7 @@
         position: location,
         map: map
       });
-      console.log('LAT', marker.getPosition().lat())
-      console.log('LONG', marker.getPosition().lng())
+
       // map.setCenter(location);
     }
   </script>
@@ -225,7 +223,7 @@
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
       if (xhr.readyState == XMLHttpRequest.DONE) {
-        console.log(JSON.parse(xhr.responseText).data);
+        //console.log(JSON.parse(xhr.responseText).data);
       }
     }
     xhr.open('GET', 'http://localhost:3000/api/v1/places', true);
