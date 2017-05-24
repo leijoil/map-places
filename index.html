@@ -131,6 +131,7 @@
   <script>
     var map;
     var bounds;
+    var markers = [];
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 60.192059, lng: 24.945831 },
@@ -140,7 +141,7 @@
 
 
 
-        google.maps.event.addListener(map, 'bounds_changed', function () {
+        google.maps.event.addListener(map, 'idle', function () {
             //bounds = map.getBounds();
             //ne = bounds.getNorthEast();
             //sw = bounds.getSouthWest();
@@ -150,12 +151,13 @@
             
             for (i = 0; i < currentPlaces.length; i++) {
                 var location = new google.maps.LatLng(currentPlaces[i].lat, currentPlaces[i].lng)
-                addMarker(location)
+                addMarker(location, currentPlaces[i].id)
             }
             
     
 
         });
+        
 
 
 
@@ -163,11 +165,28 @@
     }
 
 
-    function addMarker(location) {
-        marker = new google.maps.Marker({
+    function addMarker(location, id) {
+        var marker = new google.maps.Marker({
             position: location,
-            map: map
+            map: map,
+            id: id
         });
+        markers.push(marker)
+    }
+
+    function removeMarkers () {
+        for(i=0; i<markers.length; i++){
+            markers[i].setMap(null);
+        }
+    }
+
+    function removeSingleMarker (id) {
+      for (i=0; i<markers.length; i++) {
+        if(parseInt(id) === markers[i].id) {
+          console.log('POISTETAANKO')
+          markers[i].setMap(null);
+        }
+      }
     }
 /*
     // Testing the addMarker function
@@ -229,6 +248,7 @@
 
     function deletePlace () {
       deletePlaceFromDb();
+
     }
 
     function placeMarker(location) {

@@ -138,7 +138,10 @@ function deletePlaceFromDb () {
             //console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
+                console.log('DEL-ID: ', id)
                 closeModal();
+                removeSingleMarker(id);
+                // removeMarkers();
                 esaksi();
             } else {
               //console.log('ELSE')
