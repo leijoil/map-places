@@ -1,6 +1,7 @@
 var overlay = document.getElementById('overlay');
 
-function openModal(){
+function openModal(id){
+	console.log('OPEN MODAL ID: ', id)
 	overlay.classList.remove("is-hidden");
 }
 

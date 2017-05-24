@@ -37,20 +37,31 @@
 
       <table style="width:100%">
         <tr>
+          <td><input type="hidden" name="id" id="id"><br></td>
+        </tr>
+        <tr>
           <td><label for="title">Title</label></td>
-          <td><input type="text" name="title"><br></td>
+          <td><input type="text" name="title" id="title"><br></td>
         </tr>
         <tr>
           <td><label for="description">Description</label></td>
-          <td><input type="text" name="description"><br></td>
+          <td><input type="text" name="description" id="description"><br></td>
         </tr>
         <tr>
           <td><label for="from">From</label></td>
-          <td><input type="text" name="from"><br></td>
+          <td><input type="text" name="openfrom" id="openfrom"><br></td>
         </tr>
         <tr>
           <td><label for="until">Until</label></td>
-          <td><input type="text" name="until"><br></td>
+          <td><input type="text" name="opento" id="opento"><br></td>
+        </tr>
+        <tr>
+          <td><label for="until">Lat</label></td>
+          <td><input type="text" name="lat" id="lat"><br></td>
+        </tr>
+        <tr>
+          <td><label for="until">Lng</label></td>
+          <td><input type="text" name="lng" id="lng"><br></td>
         </tr>
       </table>
 
@@ -58,6 +69,8 @@
 
       <button type="button">Add</button>
       <button type="button" onclick="closeModal();">Cancel</button>
+      <button type="button" onclick="deletePlace(id);">Delete</button>
+
 
     </div>
   </div>
@@ -86,6 +99,13 @@
 
 <div id="retrieve" data-url="/api/v1/places">
   <div class="cont_princ_lists">
+    <ul>
+      <li class="list_shopping li_num_0_1">
+        <div class="col_md_1_list">
+          <p><a href="#">LISÄÄ UUSI +</a></p>
+        </div>
+      </li>
+    </ul>
     <ul id="results">
     </ul>
   </div>
@@ -135,6 +155,11 @@
         google.maps.event.clearListeners(map);
       }
 
+    }
+
+    function openEdit (id) {
+      getPlaceById(id);
+      openModal(id);
     }
 
 
