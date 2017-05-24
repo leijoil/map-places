@@ -26,7 +26,8 @@ function esaksi () {
             //console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
-                
+                currentPlaces = xhr.response.data;
+
                 results.innerHTML = '';
                 for (i = 0; i < xhr.response.data.length; i++) { 
 

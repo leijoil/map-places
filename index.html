@@ -70,7 +70,6 @@
       <br>
 
       <button type="button" onclick="addOrEditPlace();">Save</button>
-      <button type="button" onclick="closeModal();">Cancel</button>
       <button type="button" onclick="deletePlace(id);">Delete</button>
 
 
@@ -126,15 +125,58 @@
 
   </div>
   <div id="map"></div>
+  
+
 
   <script>
     var map;
+    var bounds;
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 60.192059, lng: 24.945831 },
-        zoom: 10
+        zoom: 11
       });
+
+
+
+
+        google.maps.event.addListener(map, 'bounds_changed', function () {
+            //bounds = map.getBounds();
+            //ne = bounds.getNorthEast();
+            //sw = bounds.getSouthWest();
+            //document.getElementById('mapBounds').innerHTML = bounds.toUrlValue(6);
+            
+            console.log('JUU', currentPlaces);
+            
+            for (i = 0; i < currentPlaces.length; i++) {
+                var location = new google.maps.LatLng(currentPlaces[i].lat, currentPlaces[i].lng)
+                addMarker(location)
+            }
+            
+    
+
+        });
+
+
+
+
     }
+
+
+    function addMarker(location) {
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
+/*
+    // Testing the addMarker function
+    function TestMarker() {
+        CentralPark = new google.maps.LatLng(40.779502, -73.967857);
+        addMarker(CentralPark);
+    }
+
+*/
 
     function flushModal () {
       document.getElementById("id").value = ''
