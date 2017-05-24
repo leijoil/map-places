@@ -67,7 +67,7 @@
 
       <br>
 
-      <button type="button">Add</button>
+      <button type="button" onclick="addNewPlace();">Add</button>
       <button type="button" onclick="closeModal();">Cancel</button>
       <button type="button" onclick="deletePlace(id);">Delete</button>
 
@@ -102,7 +102,7 @@
     <ul>
       <li class="list_shopping li_num_0_1">
         <div class="col_md_1_list">
-          <p><a href="#">LISÄÄ UUSI +</a></p>
+          <p><a href="javascript:openModal();">LISÄÄ UUSI +</a></p>
         </div>
       </li>
     </ul>
@@ -134,6 +134,18 @@
       });
     }
 
+    function flushModal () {
+      document.getElementById("id").value = ''
+      document.getElementById("title").value = ''
+      document.getElementById("description").value = ''
+      document.getElementById("openfrom").value = ''
+      document.getElementById("opento").value = ''
+      document.getElementById("lat").value = ''
+      document.getElementById("lng").value = ''
+      console.log('FLUSHED')
+    }
+
+
     function esa(addBoolean) {
 
       var div = document.getElementById('newpost');
@@ -160,6 +172,11 @@
     function openEdit (id) {
       getPlaceById(id);
       openModal(id);
+    }
+
+    function addNewPlace () {
+      var placeObj = getAllFields();
+      createNewPlace(placeObj);
     }
 
 

@@ -153,3 +153,50 @@ function deletePlace () {
         closeModal();
 
 }
+
+function createNewPlace (placeObj) {
+
+       
+        toReadyStateDescription = function (state) {
+            switch (state) {
+            case 0:
+                return 'UNSENT';
+            case 1:
+                return 'OPENED';
+            case 2:
+                return 'HEADERS_RECEIVED';
+            case 3:
+                return 'LOADING';
+            case 4:
+                return 'DONE';
+            default:
+                return '';
+            }
+        };
+        var bustCache = '?' + new Date().getTime(),
+            oReq = new XMLHttpRequest();
+        oReq.onload = function (e) {
+            var xhr = e.target;
+            console.log('Inside the onload event');
+            console.log('THIS IS: ', e.target)
+            if (xhr.responseType === 'json') {
+                // results.innerHTML = xhr.response.data;
+            } else {
+              console.log('ELSE')
+                results.innerHTML = JSON.parse(xhr.responseText).data;
+            }
+        };
+        oReq.onreadystatechange = function () {
+            console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
+        };
+
+        console.log('AJAXJS', placeObj)
+
+        oReq.open('POST', '/api/v1/places', true);
+        oReq.responseType = 'json';
+        oReq.setRequestHeader("Content-Type", "application/json");
+        oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0');
+        oReq.send(JSON.stringify(placeObj));
+        //oReq.send();
+
+}
