@@ -1,20 +1,16 @@
 #leftmenu {
   float: left;
-  width: 250px;
+  width: 380px;
+  background: lightslategray;
 }
 
 #newpost {
   display:none;
 }
 
-
-
-
-
-
-
-
-
+#extra {
+  
+}
 
 
 * {
@@ -36,7 +32,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faf9f7', end
 
 .cont_centrar {
   position: relative;
-  width: 500px;
+  width: 380px;
  }
 
 .cont_todo_list_top {
@@ -129,7 +125,7 @@ document.querySelector('.cont_add_titulo_cont').className = "cont_add_titulo_con
   t++;
   } 
 } 20px;
-  box-shadow: 1px 15px 25px -5px rgba(0,0,0,0.3);
+  
 }
 
 .cont_titulo_cont > h3 {
@@ -241,7 +237,7 @@ color: #607D8B;
   width: 100%;
   padding: 10px 0px;
   background-color: #fff;
-box-shadow: 1px 5px 10px -5px rgba(0,0,0,0.5);
+
 text-align: left;
 }
 
@@ -250,7 +246,7 @@ text-align: left;
   padding: 10px 2%;
   background-color: #fff;
 border: none;
-box-shadow: 1px 5px 10px -5px rgba(0,0,0,0.5);
+
 text-align: left;
 outline:none;
 }
@@ -261,7 +257,7 @@ outline:none;
   background-color: #4C75A1;
   border: none;
   margin: 10px auto;  
-  box-shadow: 1px 5px 10px -5px rgba(0,0,0,0.5);
+  
 color: #fff;
 cursor: pointer;
 }
@@ -286,6 +282,7 @@ margin-top: 15px;
 }
 
 .cont_princ_lists > ul > li  {
+  margin: 10px 10px 10px 0px;
   position: relative;
   float: left;
   width: 100%; 
@@ -293,7 +290,7 @@ margin-top: 15px;
   left: 0;
   background-color: #F1F1EF;
 list-style: none;
-box-shadow: 1px 10px 20px 0px rgba(218, 215, 206,0.8);
+
 z-index: 2;
 -webkit-transition: all 0.5s;
 -o-transition: all 0.5s;

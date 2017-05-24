@@ -25,10 +25,12 @@
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
                 
-
+                
                 for (i = 0; i < xhr.response.data.length; i++) { 
-                    results.innerHTML += '<li>' + xhr.response.data[i].title + '</li>';
+
+                    results.innerHTML += '<li class=\"list_shopping li_num_0_1\"><div class=\"col_md_1_list\"><p>SHOPPING<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>'+  xhr.response.data[i].description  +'<\/p><\/div><\/li>'
                 }
+                console.log('results.innerHTML ', results.innerHTML);
                 
             } else {
               console.log('ELSE')
