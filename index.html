@@ -83,13 +83,6 @@
 
   <div id="leftmenu">
 
-    <div id="addplace">
-      <button type="button" onclick="esa(true)">ADD NEW PLACE</button>
-    </div>
-    <div id="newpost">
-      <button type="button" onclick="esa(false)">CANCEL</button>
-    </div>
-
 <!--
     <div id="retrieve" data-url="/api/v1/places">
       <ul id="results"></ul>
@@ -104,7 +97,7 @@
     <ul>
       <li class="list_shopping li_num_0_1">
         <div class="col_md_1_list">
-          <p><a href="javascript:openModal();">LISÄÄ UUSI +</a></p>
+          <p><a href="javascript:openModal();">ADD NEW +</a></p>
         </div>
       </li>
     </ul>
@@ -256,6 +249,7 @@
     }
 
 
+/*
     function esa(addBoolean) {
 
       var div = document.getElementById('newpost');
@@ -278,6 +272,8 @@
       }
 
     }
+
+*/
 
     function openEdit (id) {
       getPlaceById(id);
