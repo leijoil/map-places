@@ -6,7 +6,7 @@ function openModal(id){
 
 function closeModal(){
 	overlay.classList.add("is-hidden");
-	flushModal();
+	// flushModal();
 }
 
 function getAllFields () {

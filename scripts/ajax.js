@@ -1,6 +1,6 @@
-esaksi();
+esaksi(true);
 
-function esaksi () {
+function esaksi (init) {
     var results = document.getElementById('results'),
         toReadyStateDescription = function (state) {
             switch (state) {
@@ -34,14 +34,18 @@ function esaksi () {
                     results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit('+ xhr.response.data[i].id +');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>'+  xhr.response.data[i].description  +'<\/p><\/div></a><\/li>'
                 }
                 //console.log('results.innerHTML ', results.innerHTML);
+                if (!init) {
+                  reloadMarkers();
+                }
+                
                 
             } else {
-              console.log('ELSE')
+              //console.log('ELSE')
                 results.innerHTML = JSON.parse(xhr.responseText).data;
             }
         };
         oReq.onreadystatechange = function () {
-            console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
+            //console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
         };
 
         oReq.open('GET', '/api/v1/places', true);
@@ -75,7 +79,7 @@ function getPlaceById (id) {
             oReq = new XMLHttpRequest();
         oReq.onload = function (e) {
             var xhr = e.target;
-            console.log('Inside the onload event');
+            //console.log('Inside the onload event');
             //console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
@@ -96,7 +100,7 @@ function getPlaceById (id) {
             }
         };
         oReq.onreadystatechange = function () {
-            console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
+            //console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
         };
 
         oReq.open('GET', '/api/v1/places/' + id, true);
@@ -140,7 +144,8 @@ function deletePlaceFromDb () {
                 // results.innerHTML = xhr.response.data;
                 console.log('DEL-ID: ', id)
                 closeModal();
-                removeSingleMarker(id);
+                //removeSingleMarker(id);
+                reloadMarkers();
                 // removeMarkers();
                 esaksi();
             } else {
@@ -149,7 +154,7 @@ function deletePlaceFromDb () {
             }
         };
         oReq.onreadystatechange = function () {
-            console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
+            //console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
         };
 
         oReq.open('DELETE', '/api/v1/places/' + id, true);
@@ -182,7 +187,7 @@ function createNewPlace (placeObj) {
             oReq = new XMLHttpRequest();
         oReq.onload = function (e) {
             var xhr = e.target;
-            console.log('Inside the onload event');
+            //console.log('Inside the onload event');
             //console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
@@ -194,7 +199,7 @@ function createNewPlace (placeObj) {
             }
         };
         oReq.onreadystatechange = function () {
-            console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
+            //console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
         };
 
         //console.log('AJAXJS', placeObj)
@@ -210,7 +215,6 @@ function createNewPlace (placeObj) {
 
 function updatePlace (placeObj) {
 
-        console.log('UPDATEA ', placeObj)
         toReadyStateDescription = function (state) {
             switch (state) {
             case 0:
@@ -231,19 +235,20 @@ function updatePlace (placeObj) {
             oReq = new XMLHttpRequest();
         oReq.onload = function (e) {
             var xhr = e.target;
-            console.log('Inside the onload event');
+            //console.log('Inside the onload event');
             //console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
                 closeModal()
+                flushModal()
                 esaksi();
             } else {
-              console.log('ELSE')
+              //console.log('ELSE')
                 results.innerHTML = JSON.parse(xhr.responseText).data;
             }
         };
         oReq.onreadystatechange = function () {
-            console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
+            //console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
         };
 
         //console.log('AJAXJS', placeObj)
