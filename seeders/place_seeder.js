@@ -50,6 +50,38 @@ module.exports = {
                 opento: '22:00:00',
                 lat: 60.185836,
                 lng: 25.003339
+            },
+            {
+                title: 'Urheilukenttä',
+                description: 'Jalkapalloa ja muuta urheilua',
+                openfrom: '10:00:00',
+                opento: '22:00:00',
+                lat: 60.199965,
+                lng: 24.904649
+            },
+            {
+                title: 'Kirkko',
+                description: 'Häät ja hautajaiset',
+                openfrom: '10:00:00',
+                opento: '22:00:00',
+                lat: 60.230151,
+                lng: 24.995458
+            },
+            {
+                title: 'Tonin koti',
+                description: 'Tonin uusi koti Lauttasaaressa',
+                openfrom: '10:00:00',
+                opento: '22:00:00',
+                lat: 60.163517,
+                lng: 24.881475
+            },
+            {
+                title: 'Keilahalli',
+                description: 'Keilailu ja sisäpelit',
+                openfrom: '10:00:00',
+                opento: '22:00:00',
+                lat: 60.201425,
+                lng: 24.908685
             }
         ], {});
 
