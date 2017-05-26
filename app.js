@@ -7,7 +7,9 @@ var models = require('./models/index');
 var error_messages = null;
 
 function getAllPlaces(request,response,next){
-    models.place.findAll({})
+    models.Place.findAll({
+        include: models.Keyword
+        })
         .then(function(places) {
         var data = {
             error: "false",
@@ -21,14 +23,14 @@ function getAllPlaces(request,response,next){
 
 function getPlace(request,response,next){
 
-    models.place.find({
+    models.Place.find({
         where: {
             'id': request.params.id
         }
-    }).then(function(place) {
+    }).then(function(Place) {
         var data = {
             error: "false",
-            data: place
+            data: Place
         };
 
         response.send(data);
@@ -63,7 +65,7 @@ function addPlace(request,response,next){
         return;
     }
 
-    models.place.create({
+    models.Place.create({
         title: request.params['title'],
         description: request.params['description'],
         openfrom: request.params['openfrom'],
@@ -71,11 +73,11 @@ function addPlace(request,response,next){
         opento: request.params['opento'],
         lat: request.params['lat'],
         lng: request.params['lng']
-    }).then(function(place) {
+    }).then(function(Place) {
         var data = {
             error: "false",
-            message: "New place created successfully",
-            data: place
+            message: "New Place created successfully",
+            data: Place
         };
 
         response.send(data);
@@ -89,13 +91,13 @@ function updatePlace(request,response,next){
         return;
     }
 
-    models.place.find({
+    models.Place.find({
         where: {
             'id': request.params.id
         }
-    }).then(function(place) {
-        if(place){
-            place.updateAttributes({
+    }).then(function(Place) {
+        if(Place){
+            Place.updateAttributes({
               title: request.params['title'],
               description: request.params['description'],
               openfrom: request.params['openfrom'],
@@ -103,11 +105,11 @@ function updatePlace(request,response,next){
               opento: request.params['opento'],
               lat: request.params['lat'],
               lng: request.params['lng']
-            }).then(function(place) {
+            }).then(function(Place) {
                 var data = {
                     error: "false",
-                    message: "Updated place successfully",
-                    data: place
+                    message: "Updated Place successfully",
+                    data: Place
                 };
 
                 response.send(data);
@@ -118,15 +120,15 @@ function updatePlace(request,response,next){
 }
 
 function deletePlace(request,response,next){
-    models.place.destroy({
+    models.Place.destroy({
         where: {
             id: request.params['id']
         }
-    }).then(function(place) {
+    }).then(function(Place) {
         var data = {
             error: "false",
-            message: "Deleted place successfully",
-            data: place
+            message: "Deleted Place successfully",
+            data: Place
         };
 
         response.send(data);

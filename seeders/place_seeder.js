@@ -2,7 +2,7 @@
 
 module.exports = {
     up: function (queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('place', [
+        return queryInterface.bulkInsert('Place', [
             {
                 title: 'Kahvila Kesäheinä',
                 description: 'Erittäin hauska kahvila lähellä rantaa',
@@ -88,6 +88,6 @@ module.exports = {
     },
 
     down: function (queryInterface, Sequelize) {
-        return queryInterface.bulkDelete('place', null, {});
+        return queryInterface.bulkDelete('Place', null, {});
     }
 };

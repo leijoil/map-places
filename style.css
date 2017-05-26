@@ -1,11 +1,33 @@
 #wrapper {
-  
+  height: 100%;
+  width: 100%;
+  overflow: hidden; 
 }
 
 #leftmenu {
   float: left;
   width: 380px;
+  height: 100%;
   background: lightslategray;
+}
+
+#consolepanel {
+  height: 15%;
+  background: white;
+}
+
+#consolepanel li {
+  background: white;
+}
+
+#filterpanel {
+  height: 25%;
+  background: white;
+}
+
+#retrieve {
+  overflow-y: auto;
+  height: 60%;
 }
 
 #newpost {
@@ -16,11 +38,9 @@
   
 }
 
-
 * {
   margin: 0px auto;
-  padding: 0px;
-  text-align: center;  
+  padding: 0px;  
 }
 .cont_principal {
   position: absolute;
@@ -185,10 +205,9 @@ float: left;
 }
 
 .cont_princ_lists {
-  position: relative;
   float: left;
   width: 100%;
-  margin-top: 15px;
+  margin-top: 8px;
 }
 
 
@@ -239,7 +258,7 @@ float: left;
   font-family: 'Open Sans', sans-serif;
   font-size: 10px;
   font-weight: 700;
-  color: #999;
+  color: yell;
 }
 
 

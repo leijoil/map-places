@@ -83,32 +83,53 @@
 
   <div id="leftmenu">
 
-<!--
+    <div id="consolepanel">
+      <div class="cont_princ_lists">
+        <ul>
+          <li class="list_shopping li_num_0_1">
+            <div class="col_md_1_list">
+              <p><a href="javascript:openModal();">ADD NEW +</a></p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <div id="retrieve" data-url="/api/v1/places">
-      <ul id="results"></ul>
+      <div class="cont_princ_lists">
+        <ul id="results">
+        </ul>
+      </div>
       <script src="/scripts/ajax.js" async></script>
     </div>
--->
 
+    <div id="filterpanel">
+      <h2>Filters</h2>
 
+      <table style="width:100%">
+        <tr>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+          <td><input type="checkbox" name="vehicle" value="Bike"> I have a bike<br></td>
+        </tr>
+      </table>
 
-<div id="retrieve" data-url="/api/v1/places">
-  <div class="cont_princ_lists">
-    <ul>
-      <li class="list_shopping li_num_0_1">
-        <div class="col_md_1_list">
-          <p><a href="javascript:openModal();">ADD NEW +</a></p>
-        </div>
-      </li>
-    </ul>
-    <ul id="results">
-    </ul>
-  </div>
-  <script src="/scripts/ajax.js" async></script>
-</div>
-
-
-
+    </div>
 
   </div>
 
@@ -116,10 +137,9 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
 
 
-
-  </div>
   <div id="map"></div>
-  
+
+</div>
 
 
   <script>
