@@ -12,7 +12,8 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         // associations can be defined here
         Place.belongsToMany( models.Keyword, {
-            through: models.PlaceKeyword
+            through: models.PlaceKeyword,
+            foreignKey: 'placeId'
         });
       }
     },
