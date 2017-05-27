@@ -131,9 +131,21 @@ function deletePlace(request,response,next){
             message: "Deleted Place successfully",
             data: Place
         };
-
         response.send(data);
         next();
+        models.PlaceKeyword.destroy({
+            where: {
+                id: request.params['id']
+            }
+        }).then(function(PlaceKeyword) {
+            var data = {
+                error: "false",
+                message: "Deleted PlaceKeyword successfully",
+                data: PlaceKeyword
+            };
+            response.send(data);
+            next();
+        });
     });
 }
 
