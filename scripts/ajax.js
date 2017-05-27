@@ -29,11 +29,30 @@ function esaksi (init) {
                 currentPlaces = xhr.response.data;
 
                 results.innerHTML = '';
-                for (i = 0; i < xhr.response.data.length; i++) { 
+                filters.innerHTML = '';
+                var keywordsArr = []
+
+                for (i = 0; i < xhr.response.data.length; i++) {
 
                     results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit('+ xhr.response.data[i].id +');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>'+  xhr.response.data[i].description  +'<\/p><\/div></a><\/li>'
+
+                    //console.log(xhr.response.data[i].Keywords)
+                    
+                    for (k = 0; k < xhr.response.data[i].Keywords.length; k++) {
+                        if(!keywordsArr.includes(xhr.response.data[i].Keywords[k].label)) {
+                            //console.log(keywordsArr.push(xhr.response.data[i].Keywords[k].label))
+                            keywordsArr.push(xhr.response.data[i].Keywords[k].label)
+                        }
+                    }
+                    
+
                 }
-                //console.log('results.innerHTML ', results.innerHTML);
+console.log('keywordsArr ', keywordsArr);
+                for (i = 0; i < keywordsArr.length; i++) {
+                    filters.innerHTML += '<li><input type=\"checkbox\" name=\"vehicle\" value=\"Bike\">' +keywordsArr[i] + ' <\/li>'
+                    //console.log('results.innerHTML ', results.innerHTML);
+                }
+
                 if (!init) {
                   reloadMarkers();
                 }
@@ -296,7 +315,7 @@ function updateKeywordsForPlace (keywords, placeId) {
                 xhr[i].onreadystatechange = function () {
                     if (xhr[i].readyState == 4 && xhr[i].status == 200) {
                         //console.log('Response from request ' + i + ' [ ' + xhr[i].responseText + ']');
-                        console.log('elli', JSON.parse(xhr[i].responseText).data.id)
+                        //console.log('elli', JSON.parse(xhr[i].responseText).data.id)
                     }
                 };
                 xhr[i].send(JSON.stringify(keyword));

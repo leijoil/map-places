@@ -144,14 +144,21 @@ function addKeywordForPlace(request,response,next){
         return;
     }
     */
-    models.Keyword.count({
+    models.Keyword.find({
         where: {
           label: request.params['label']
         }
-    }).then(function (result) {
-        if (result > 0) {
+    }).then(function (Keyword) {
+        if (Keyword) {
             console.log('Already exists: ', request.body.label)
-            response.send('already exists');
+
+            var addPlaceKeywordMappingReq = {}
+            addPlaceKeywordMappingReq.placeId = request.params.placeId
+            addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
+            addPlaceKeywordMapping(addPlaceKeywordMappingReq)
+            
+            response.send('already exists, added mapping');
+
         } else {
             models.Keyword.create({
                 label: request.params['label']

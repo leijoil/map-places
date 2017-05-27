@@ -25,6 +25,11 @@
   background: white;
 }
 
+#filterpanel li {
+  font-size: 8pt;
+ 
+}
+
 #retrieve {
   overflow-y: auto;
   height: 60%;
