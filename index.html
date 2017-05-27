@@ -58,14 +58,22 @@
           <td><input type="text" name="opento" id="opento"><br></td>
         </tr>
         <tr>
-          <td><label for="until">Lat</label></td>
+          <td><label for="lat">Lat</label></td>
           <td><input type="text" name="lat" id="lat"><br></td>
         </tr>
         <tr>
-          <td><label for="until">Lng</label></td>
+          <td><label for="lng">Lng</label></td>
           <td><input type="text" name="lng" id="lng"><br></td>
         </tr>
       </table>
+
+      <br>
+
+      <h4>Keywords</h3></br>
+      <div id="keywords"></div>
+      <div id="addkeyword"></div>
+      <input type="button" id="addKeyword" onclick="addKeyword();" value="Add Keyword" />
+      <br><br>
 
       <br>
 
@@ -191,6 +199,10 @@
         marker.setMap(map);
 
       }
+    }
+
+    function addKeyword() {
+      document.getElementById('addkeyword').innerHTML +=  '<input type=\"text\" name=\"keyword\" id=\"\"><br>'
     }
 
     function chooseLocation () {

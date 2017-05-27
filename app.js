@@ -26,7 +26,8 @@ function getPlace(request,response,next){
     models.Place.find({
         where: {
             'id': request.params.id
-        }
+        },
+        include: models.Keyword
     }).then(function(Place) {
         var data = {
             error: "false",

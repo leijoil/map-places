@@ -59,7 +59,9 @@ function esaksi (init) {
 function getPlaceById (id) {
 
         // console.log('IIDEE', id)
-        toReadyStateDescription = function (state) {
+        var keywords = document.getElementById('keywords');
+        var addkeyword = document.getElementById('addkeyword');
+        var toReadyStateDescription = function (state) {
             switch (state) {
             case 0:
                 return 'UNSENT';
@@ -83,7 +85,16 @@ function getPlaceById (id) {
             //console.log('THIS IS: ', e.target)
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
-                
+            console.log('JEAA',xhr.response.data.Keywords)
+
+            addkeyword.innerHTML = '';
+            keywords.innerHTML = '';
+            for (i = 0; i < xhr.response.data.Keywords.length; i++) { 
+                keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\"><br>';
+                //document.getElementById(xhr.response.data.Keywords[i].id).value = xhr.response.data.Keywords[i].label
+            }
+            
+            console.log('keywords.innerHTML ', keywords.innerHTML)
                 
             document.getElementById("id").value = xhr.response.data.id;
             document.getElementById("title").value = xhr.response.data.title;
@@ -92,7 +103,12 @@ function getPlaceById (id) {
             document.getElementById("opento").value = xhr.response.data.opento;
             document.getElementById("lat").value = xhr.response.data.lat;
             document.getElementById("lng").value = xhr.response.data.lng;
-              
+            
+            for (i = 0; i < xhr.response.data.Keywords.length; i++) { 
+            
+                document.getElementById(xhr.response.data.Keywords[i].id).value = xhr.response.data.Keywords[i].label
+
+            }
                 
             } else {
               //console.log('ELSE')
