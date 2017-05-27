@@ -25,3 +25,12 @@ function getAllFields () {
 		return placeObj;
 
 }
+
+function getKeywords () {
+		var keywords = []
+		console.log('KEYWORDS: ', keywords)
+		for (i = 0; i < document.getElementsByName("keyword").length; i++) { 
+			keywords.push(document.getElementsByName("keyword")[i].value)
+		}
+		return keywords;
+}

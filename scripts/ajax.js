@@ -278,3 +278,31 @@ function updatePlace (placeObj) {
 
 }
 
+
+function updateKeywordsForPlace (keywords, placeId) {
+
+    console.log('updateKeywordsForPlace')
+
+    var addKeywords = (function(){
+        var xhr = [];
+        for (i = 0; i < keywords.length; i++){
+            (function (i){
+                var keyword = {}
+                keyword.label = keywords[i];
+                //console.log('KW ', keyword)
+                xhr[i] = new XMLHttpRequest();
+                xhr[i].open("POST", 'api/v1/'+ placeId +'/keywords', true);
+                xhr[i].setRequestHeader("Content-Type", "application/json");
+                xhr[i].onreadystatechange = function () {
+                    if (xhr[i].readyState == 4 && xhr[i].status == 200) {
+                        //console.log('Response from request ' + i + ' [ ' + xhr[i].responseText + ']');
+                        console.log('elli', JSON.parse(xhr[i].responseText).data.id)
+                    }
+                };
+                xhr[i].send(JSON.stringify(keyword));
+            })(i);
+        }
+    })();
+
+}
+

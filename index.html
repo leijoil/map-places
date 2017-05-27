@@ -314,10 +314,12 @@
 
     function addOrEditPlace () {
       var placeObj = getAllFields();
+      var keywords = getKeywords();
       if (placeObj.id === undefined) {
         createNewPlace(placeObj);
       } else {
         updatePlace(placeObj);
+        updateKeywordsForPlace(keywords, placeObj.id)
       }
     }
 

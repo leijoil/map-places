@@ -137,6 +137,67 @@ function deletePlace(request,response,next){
     });
 }
 
+function addKeywordForPlace(request,response,next){
+    /*
+    if (!verifyRequiredParams(request)){
+        response.send(422,error_messages);
+        return;
+    }
+    */
+    models.Keyword.count({
+        where: {
+          label: request.params['label']
+        }
+    }).then(function (result) {
+        if (result > 0) {
+            console.log('Already exists: ', request.body.label)
+            response.send('already exists');
+        } else {
+            models.Keyword.create({
+                label: request.params['label']
+            }).then(function(Keyword) {
+                var data = {
+                    error: "false",
+                    message: "New Keyword created successfully",
+                    data: Keyword
+                };
+
+                response.send(data);
+                next();
+
+                //console.log('placeID: ', request.params.placeId)
+
+                var addPlaceKeywordMappingReq = {}
+                addPlaceKeywordMappingReq.placeId = request.params.placeId
+                addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
+                addPlaceKeywordMapping(addPlaceKeywordMappingReq)
+
+            });
+        }
+    })
+
+}
+
+
+function addPlaceKeywordMapping (request){
+
+    models.PlaceKeyword.create({
+        placeId: request.placeId,
+        keywordId: request.keywordId
+    }).then(function(PlaceKeyword) {
+        var data = {
+            error: "false",
+            message: "New PlaceKeyword created successfully",
+            data: PlaceKeyword
+        };
+
+        //response.send(data);
+        //console.log(data)
+        //next();
+    });
+}
+
+
 var server = restify.createServer();
 
 server.use(restify.bodyParser());
@@ -148,6 +209,9 @@ server.get('/api/v1/places/:id', getPlace);
 server.post('/api/v1/places', addPlace);
 server.put('/api/v1/places/:id', updatePlace);
 server.del('/api/v1/places/:id', deletePlace);
+
+server.post('/api/v1/:placeId/keywords', addKeywordForPlace);
+
 
 server.get(/\/?.*/, restify.serveStatic({
             directory: __dirname,
