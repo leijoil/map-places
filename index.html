@@ -171,6 +171,33 @@
 
     }
 
+    var filterArr  = []
+    
+
+    function toggleCheckbox(element)
+    {
+      //console.log('clicked', element)
+      //element.checked = !element.checked;
+      if(filterArr.includes(element.value)) {
+        filterArr.remove(element.value)
+      } else {
+        filterArr.push(element.value)
+      }
+      esaksi(false, filterArr)
+      console.log(filterArr)
+    }
+
+    Array.prototype.remove = function() {
+        var what, a = arguments, L = a.length, ax;
+        while (L && this.length) {
+            what = a[--L];
+            while ((ax = this.indexOf(what)) !== -1) {
+                this.splice(ax, 1);
+            }
+        }
+        return this;
+    };
+
     function setMarkers(currentPlaces) {
       for (i = 0; i < currentPlaces.length; i++) {
         var location = new google.maps.LatLng(currentPlaces[i].lat, currentPlaces[i].lng)
@@ -342,6 +369,7 @@
   </script>
 -->
 
+  <!--
   <script type="text/javascript">
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -353,6 +381,7 @@
     xhr.send(null);
 
   </script>
+  -->
 
 </body>
 

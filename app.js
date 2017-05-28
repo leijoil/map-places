@@ -7,8 +7,15 @@ var models = require('./models/index');
 var error_messages = null;
 
 function getAllPlaces(request,response,next){
+    
+    console.log('request.params')
+    
     models.Place.findAll({
-        include: models.Keyword
+            include: [{ 
+                model: models.Keyword,
+                where: params || {}
+            }]
+
         })
         .then(function(places) {
         var data = {

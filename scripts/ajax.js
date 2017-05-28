@@ -1,8 +1,10 @@
-esaksi(true);
+esaksi(true, []);
+var keywordsArr = []
 
-function esaksi (init) {
-    var results = document.getElementById('results'),
-        toReadyStateDescription = function (state) {
+function esaksi (init, filterArr) {
+    console.log('esaksi', filterArr)
+    //var results = document.getElementById('results')
+    var toReadyStateDescription = function (state) {
             switch (state) {
             case 0:
                 return 'UNSENT';
@@ -29,30 +31,37 @@ function esaksi (init) {
                 currentPlaces = xhr.response.data;
 
                 results.innerHTML = '';
-                filters.innerHTML = '';
-                var keywordsArr = []
+                // filters.innerHTML = '';
 
                 for (i = 0; i < xhr.response.data.length; i++) {
 
                     results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit('+ xhr.response.data[i].id +');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>'+  xhr.response.data[i].description  +'<\/p><\/div></a><\/li>'
 
                     //console.log(xhr.response.data[i].Keywords)
-                    
-                    for (k = 0; k < xhr.response.data[i].Keywords.length; k++) {
-                        if(!keywordsArr.includes(xhr.response.data[i].Keywords[k].label)) {
-                            //console.log(keywordsArr.push(xhr.response.data[i].Keywords[k].label))
-                            keywordsArr.push(xhr.response.data[i].Keywords[k].label)
+
+                    if(filterArr.length === 0) {
+
+                        for (k = 0; k < xhr.response.data[i].Keywords.length; k++) {
+                            if(!keywordsArr.includes(xhr.response.data[i].Keywords[k].label)) {
+                                //console.log(keywordsArr.push(xhr.response.data[i].Keywords[k].label))
+                                keywordsArr.push(xhr.response.data[i].Keywords[k].label)
+                            }
                         }
                     }
-                    
 
                 }
-console.log('keywordsArr ', keywordsArr);
-                for (i = 0; i < keywordsArr.length; i++) {
-                    filters.innerHTML += '<li><input type=\"checkbox\" name=\"vehicle\" value=\"Bike\">' +keywordsArr[i] + ' <\/li>'
-                    //console.log('results.innerHTML ', results.innerHTML);
-                }
+                
+                    console.log('keywordsArr ', keywordsArr);
 
+                    if(filterArr.length === 0) {
+                        filters.innerHTML = '';
+                        for (i = 0; i < keywordsArr.length; i++) {
+                            filters.innerHTML += '<li><input type=\"checkbox\" name=\"' + keywordsArr[i] + '\" value=\"' + keywordsArr[i] + '\" onchange=\"toggleCheckbox(this)\">' +keywordsArr[i] + ' <\/li>'
+                            //console.log('results.innerHTML ', results.innerHTML);
+                        }
+                    }
+                
+                
                 if (!init) {
                   reloadMarkers();
                 }
@@ -67,7 +76,15 @@ console.log('keywordsArr ', keywordsArr);
             //console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
         };
 
-        oReq.open('GET', '/api/v1/places', true);
+        //var params = filterArr.toString();
+        console.log(filterArr);
+        if(filterArr.length > 0) {
+            var url = '/api/v1/places?label=' + filterArr
+        } else {
+            var url = '/api/v1/places'
+        }
+        
+        oReq.open('GET', url, true);
         oReq.responseType = 'json';
         oReq.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0');
