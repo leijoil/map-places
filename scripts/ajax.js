@@ -293,7 +293,7 @@ function updatePlace (placeObj) {
                 // results.innerHTML = xhr.response.data;
                 closeModal()
                 flushModal()
-                esaksi();
+                esaksi(false, []);
             } else {
               //console.log('ELSE')
                 results.innerHTML = JSON.parse(xhr.responseText).data;
