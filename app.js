@@ -8,24 +8,42 @@ var error_messages = null;
 
 function getAllPlaces(request,response,next){
     
-    console.log('request.params')
-    
-    models.Place.findAll({
-            include: [{ 
-                model: models.Keyword,
-                where: params || {}
-            }]
+    console.log('request.params:', request.params)
 
-        })
-        .then(function(places) {
-        var data = {
-            error: "false",
-            data: places
-        };
-
-        response.send(data);
-        next();
-    });
+    if (Object.keys(request.params).length !== 0) {
+        models.Place.findAll({
+                include: [{
+                    model: models.Keyword,
+                    where: {
+                        label: {
+                            in: (request.params.label).split(',')
+                        }
+                    }
+                }]
+            })
+            .then(function(places) {
+            var data = {
+                error: "false",
+                data: places
+            };
+            response.send(data);
+            next();
+        });
+    } else {
+        models.Place.findAll({
+                include: [{
+                    model: models.Keyword
+                }]
+            })
+            .then(function(places) {
+            var data = {
+                error: "false",
+                data: places
+            };
+            response.send(data);
+            next();
+        });
+    }
 }
 
 function getPlace(request,response,next){
