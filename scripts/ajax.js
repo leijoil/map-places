@@ -199,7 +199,7 @@ function deletePlaceFromDb () {
                 //removeSingleMarker(id);
                 reloadMarkers();
                 // removeMarkers();
-                esaksi();
+                esaksi(false, []);
             } else {
               //console.log('ELSE')
                 results.innerHTML = JSON.parse(xhr.responseText).data;
@@ -244,7 +244,7 @@ function createNewPlace (placeObj) {
             if (xhr.responseType === 'json') {
                 // results.innerHTML = xhr.response.data;
                 closeModal()
-                esaksi();
+                esaksi(false, []);
             } else {
               //console.log('ELSE')
                 results.innerHTML = JSON.parse(xhr.responseText).data;
