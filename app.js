@@ -15,22 +15,23 @@ function getAllPlaces (request, response, next) {
     }
   }
 
-  if((request.params.label).length > 0) {
-    var whereKeyword = {
-      label: {
-        in: (request.params.label).split(',')
+  if((request.params).hasOwnProperty('label') && (request.params.label).length > 0) {
+    var include = [{
+      model: models.Keyword,
+      where: {
+        label: {
+          in: (request.params.label).split(',')
+        }
       }
-    }
+    }]
   } else {
-    var whereKeyword = {}
+    var include = models.Keyword
   }
+
 
   models.Place.findAll({
     where: wherePlace || {},
-    include: [{
-      model: models.Keyword,
-      where: whereKeyword
-    }]
+    include: include
   }).then(function (places) {
       var data = {
         error: 'false',

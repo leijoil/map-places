@@ -4,8 +4,8 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Place', [
       {
-        title: 'Kahvila Kesäheinä',
-        description: 'Erittäin hauska kahvila lähellä rantaa',
+        title: 'Coffee House 9th Level',
+        description: 'Nice coffee shop at good location',
         openfrom: '12:00:00',
         opento: '18:00:00',
         lat: 60.196723,
@@ -13,8 +13,8 @@ module.exports = {
         favourite: 1
       },
       {
-        title: 'Elokuvateatteri Kino Indie',
-        description: 'Hyviä indie-leffoja',
+        title: 'Cinema Kino Indie',
+        description: 'Best Indie Movies in Town',
         openfrom: '06:00:00',
         opento: '10:00:00',
         lat: 60.175284,
