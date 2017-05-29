@@ -150,7 +150,6 @@
     var bounds;
     var markers = [];
     function initMap() {
-      console.log('initMap()')
       map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 60.192059, lng: 24.945831 },
         zoom: 11
@@ -164,9 +163,7 @@
             //ne = bounds.getNorthEast();
             //sw = bounds.getSouthWest();
             //document.getElementById('mapBounds').innerHTML = bounds.toUrlValue(6);
-            
-            console.log('google.maps.event.addListener');
-            
+                        
             setMarkers(currentPlaces);
             /*
             for (i = 0; i < currentPlaces.length; i++) {
@@ -187,15 +184,12 @@
 
     function toggleCheckbox(element)
     {
-      //console.log('clicked', element)
-      //element.checked = !element.checked;
       if(filterArr.includes(element.value)) {
         filterArr.remove(element.value)
       } else {
         filterArr.push(element.value)
       }
       esaksi(false, filterArr, true)
-      console.log(filterArr)
     }
 
     Array.prototype.remove = function() {
@@ -231,7 +225,6 @@
       google.maps.event.addListener(map, 'click', function(event) {
           var latitude = event.latLng.lat();
           var longitude = event.latLng.lng();
-          console.log( latitude + ', ' + longitude );
           openModal();
           document.getElementById("title").value = placeObj.title;
           document.getElementById("description").value = placeObj.description;
@@ -241,7 +234,6 @@
           document.getElementById("lng").value = longitude;
       });
       var placeObj = getAllFields();
-      console.log('placeObj', placeObj)
       closeModal();
     }
 
@@ -272,24 +264,6 @@
             markers[i].setMap(null);
         }
     }
-/*
-    function removeSingleMarker (id) {
-      for (i=0; i<markers.length; i++) {
-        if(parseInt(id) === markers[i].id) {
-          console.log('POISTETAANKO')
-          markers[i].setMap(null);
-        }
-      }
-    }
-*/
-/*
-    // Testing the addMarker function
-    function TestMarker() {
-        CentralPark = new google.maps.LatLng(40.779502, -73.967857);
-        addMarker(CentralPark);
-    }
-
-*/
 
     function flushModal () {
       document.getElementById("id").value = ''
@@ -299,7 +273,6 @@
       document.getElementById("opento").value = ''
       document.getElementById("lat").value = ''
       document.getElementById("lng").value = ''
-      console.log('FLUSHED')
     }
 
 
@@ -361,38 +334,6 @@
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDECN7QlKaqFBL5MTgdF8G1bcBjZPpgM_o&callback=initMap" async
     defer></script>
-
-<!--
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $.getJSON("foo.txt", function (json1) {
-        $.each(json1, function (key, data) {
-          var latLng = new google.maps.LatLng(data.lat, data.lng);
-          // Creating a marker and putting it on the map
-          var marker = new google.maps.Marker({
-            position: latLng,
-            title: data.title
-          });
-          marker.setMap(map);
-        });
-      });
-    });
-  </script>
--->
-
-  <!--
-  <script type="text/javascript">
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == XMLHttpRequest.DONE) {
-        //console.log(JSON.parse(xhr.responseText).data);
-      }
-    }
-    xhr.open('GET', 'http://localhost:3000/api/v1/places', true);
-    xhr.send(null);
-
-  </script>
-  -->
 
 </body>
 

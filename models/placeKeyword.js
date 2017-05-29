@@ -1,15 +1,15 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+'use strict'
+module.exports = function (sequelize, DataTypes) {
   var PlaceKeyword = sequelize.define('PlaceKeyword', {
     placeId: DataTypes.INTEGER,
-    keywordId: DataTypes.INTEGER,
+    keywordId: DataTypes.INTEGER
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: function (models) {
         // associations can be defined here
       }
     },
     freezeTableName: true
-  });
-  return PlaceKeyword;
-};
+  })
+  return PlaceKeyword
+}

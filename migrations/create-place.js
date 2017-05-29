@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 module.exports = {
-  up: function(queryInterface, Sequelize) {
+  up: function (queryInterface, Sequelize) {
     return queryInterface.createTable('Place', {
       id: {
         allowNull: false,
@@ -29,9 +29,9 @@ module.exports = {
       favourite: {
         type: Sequelize.BOOLEAN
       }
-    });
+    })
   },
-  down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Place');
+  down: function (queryInterface, Sequelize) {
+    return queryInterface.dropTable('Place')
   }
-};
+}

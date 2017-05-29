@@ -1,5 +1,5 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+'use strict'
+module.exports = function (sequelize, DataTypes) {
   var Place = sequelize.define('Place', {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
@@ -10,15 +10,15 @@ module.exports = function(sequelize, DataTypes) {
     favourite: DataTypes.BOOLEAN
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: function (models) {
         // associations can be defined here
-        Place.belongsToMany( models.Keyword, {
-            through: models.PlaceKeyword,
-            foreignKey: 'placeId'
-        });
+        Place.belongsToMany(models.Keyword, {
+          through: models.PlaceKeyword,
+          foreignKey: 'placeId'
+        })
       }
     },
     freezeTableName: true
-  });
-  return Place;
-};
+  })
+  return Place
+}

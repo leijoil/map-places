@@ -1,98 +1,126 @@
-var restify = require('restify');
-var restifyValidator = require('restify-validator');
-var util = require('util');
+var restify = require('restify')
+var restifyValidator = require('restify-validator')
+var util = require('util')
 
-var models = require('./models/index');
+var models = require('./models/index')
 
-var error_messages = null;
+var error_messages = null
 
-function getAllPlaces(request,response,next){
-    
-    console.log('request.params:', request.params)
-
-    if (Object.keys(request.params).length !== 0) {
-        models.Place.findAll({
-                include: [{
-                    model: models.Keyword,
-                    where: {
-                        label: {
-                            in: (request.params.label).split(',')
-                        }
-                    }
-                }]
-            })
-            .then(function(places) {
-            var data = {
-                error: "false",
-                data: places
-            };
-            response.send(data);
-            next();
-        });
-    } else {
-        models.Place.findAll({
-                include: [{
-                    model: models.Keyword
-                }]
-            })
-            .then(function(places) {
-            var data = {
-                error: "false",
-                data: places
-            };
-            response.send(data);
-            next();
-        });
-    }
-}
-
-function getPlace(request,response,next){
-
-    models.Place.find({
+function getAllPlaces (request, response, next) {
+  if (Object.keys(request.params).length !== 0) {
+    models.Place.findAll({
+      include: [{
+        model: models.Keyword,
         where: {
-            'id': request.params.id
-        },
-        include: models.Keyword
-    }).then(function(Place) {
-        var data = {
-            error: "false",
-            data: Place
-        };
-
-        response.send(data);
-        next();
-    });
+          label: {
+            in: (request.params.label).split(',')
+          }
+        }
+      }]
+    })
+            .then(function (places) {
+              var data = {
+                error: 'false',
+                data: places
+              }
+              response.send(data)
+              next()
+            })
+  } else {
+    models.Place.findAll({
+      include: [{
+        model: models.Keyword
+      }]
+    })
+            .then(function (places) {
+              var data = {
+                error: 'false',
+                data: places
+              }
+              response.send(data)
+              next()
+            })
+  }
 }
 
-function verifyRequiredParams(request){
-    request.assert('title', 'title field is required').notEmpty();
-    request.assert('description', 'description field is required').notEmpty();
-    request.assert('openfrom', 'openfrom field is required').notEmpty();
-    request.assert('opento', 'opento field is required').notEmpty();
-    request.assert('lat', 'lat field is required').notEmpty();
-    request.assert('lng', 'lng field is required').notEmpty();
-    request.assert('favourite', 'favourite field is required').notEmpty();
-
-    var errors = request.validationErrors();
-    if (errors) {
-        error_messages = {
-            error: "true",
-            message : util.inspect(errors)
-        };
-
-        return false;
-    }else{
-        return true;
+function getPlace (request, response, next) {
+  models.Place.find({
+    where: {
+      'id': request.params.id
+    },
+    include: models.Keyword
+  }).then(function (Place) {
+    var data = {
+      error: 'false',
+      data: Place
     }
+
+    response.send(data)
+    next()
+  })
 }
 
-function addPlace(request,response,next){
-    if (!verifyRequiredParams(request)){
-        response.send(422,error_messages);
-        return;
+function verifyRequiredParams (request) {
+  request.assert('title', 'title field is required').notEmpty()
+  request.assert('description', 'description field is required').notEmpty()
+  request.assert('openfrom', 'openfrom field is required').notEmpty()
+  request.assert('opento', 'opento field is required').notEmpty()
+  request.assert('lat', 'lat field is required').notEmpty()
+  request.assert('lng', 'lng field is required').notEmpty()
+  request.assert('favourite', 'favourite field is required').notEmpty()
+
+  var errors = request.validationErrors()
+  if (errors) {
+    error_messages = {
+      error: 'true',
+      message: util.inspect(errors)
     }
 
-    models.Place.create({
+    return false
+  } else {
+    return true
+  }
+}
+
+function addPlace (request, response, next) {
+  if (!verifyRequiredParams(request)) {
+    response.send(422, error_messages)
+    return
+  }
+
+  models.Place.create({
+    title: request.params['title'],
+    description: request.params['description'],
+    openfrom: request.params['openfrom'],
+    opento: request.params['opento'],
+    lat: request.params['lat'],
+    lng: request.params['lng'],
+    favourite: request.params['favourite']
+  }).then(function (Place) {
+    var data = {
+      error: 'false',
+      message: 'New Place created successfully',
+      data: Place
+    }
+
+    response.send(data)
+    next()
+  })
+}
+
+function updatePlace (request, response, next) {
+  if (!verifyRequiredParams(request)) {
+    response.send(422, error_messages)
+    return
+  }
+
+  models.Place.find({
+    where: {
+      'id': request.params.id
+    }
+  }).then(function (Place) {
+    if (Place) {
+      Place.updateAttributes({
         title: request.params['title'],
         description: request.params['description'],
         openfrom: request.params['openfrom'],
@@ -100,170 +128,122 @@ function addPlace(request,response,next){
         lat: request.params['lat'],
         lng: request.params['lng'],
         favourite: request.params['favourite']
-    }).then(function(Place) {
+      }).then(function (Place) {
         var data = {
-            error: "false",
-            message: "New Place created successfully",
-            data: Place
-        };
+          error: 'false',
+          message: 'Updated Place successfully',
+          data: Place
+        }
 
-        response.send(data);
-        next();
-    });
-}
-
-function updatePlace(request,response,next){
-    if (!verifyRequiredParams(request)){
-        response.send(422,error_messages);
-        return;
+        response.send(data)
+        next()
+      })
     }
-
-    models.Place.find({
-        where: {
-            'id': request.params.id
-        }
-    }).then(function(Place) {
-        if(Place){
-            Place.updateAttributes({
-              title: request.params['title'],
-              description: request.params['description'],
-              openfrom: request.params['openfrom'],
-              opento: request.params['opento'],
-              lat: request.params['lat'],
-              lng: request.params['lng'],
-              favourite: request.params['favourite']
-            }).then(function(Place) {
-                var data = {
-                    error: "false",
-                    message: "Updated Place successfully",
-                    data: Place
-                };
-
-                response.send(data);
-                next();
-            });
-        }
-    });
+  })
 }
 
-function deletePlace(request,response,next){
-    models.Place.destroy({
-        where: {
-            id: request.params['id']
-        }
-    }).then(function(Place) {
-        var data = {
-            error: "false",
-            message: "Deleted Place successfully",
-            data: Place
-        };
-        response.send(data);
-        next();
-        models.PlaceKeyword.destroy({
-            where: {
-                id: request.params['id']
-            }
-        }).then(function(PlaceKeyword) {
-            var data = {
-                error: "false",
-                message: "Deleted PlaceKeyword successfully",
-                data: PlaceKeyword
-            };
-            response.send(data);
-            next();
-        });
-    });
+function deletePlace (request, response, next) {
+  models.Place.destroy({
+    where: {
+      id: request.params['id']
+    }
+  }).then(function (Place) {
+    var data = {
+      error: 'false',
+      message: 'Deleted Place successfully',
+      data: Place
+    }
+    response.send(data)
+    next()
+    models.PlaceKeyword.destroy({
+      where: {
+        id: request.params['id']
+      }
+    }).then(function (PlaceKeyword) {
+      var data = {
+        error: 'false',
+        message: 'Deleted PlaceKeyword successfully',
+        data: PlaceKeyword
+      }
+      response.send(data)
+      next()
+    })
+  })
 }
 
-function addKeywordForPlace(request,response,next){
+function addKeywordForPlace (request, response, next) {
     /*
     if (!verifyRequiredParams(request)){
         response.send(422,error_messages);
         return;
     }
     */
-    models.Keyword.find({
-        where: {
-          label: request.params['label']
-        }
-    }).then(function (Keyword) {
-        if (Keyword) {
-            console.log('Already exists: ', request.body.label)
+  models.Keyword.find({
+    where: {
+      label: request.params['label']
+    }
+  }).then(function (Keyword) {
+    if (Keyword) {
+      var addPlaceKeywordMappingReq = {}
+      addPlaceKeywordMappingReq.placeId = request.params.placeId
+      addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
+      addPlaceKeywordMapping(addPlaceKeywordMappingReq)
 
-            var addPlaceKeywordMappingReq = {}
-            addPlaceKeywordMappingReq.placeId = request.params.placeId
-            addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
-            addPlaceKeywordMapping(addPlaceKeywordMappingReq)
-            
-            response.send('already exists, added mapping');
-
-        } else {
-            models.Keyword.create({
-                label: request.params['label']
-            }).then(function(Keyword) {
-                var data = {
-                    error: "false",
-                    message: "New Keyword created successfully",
-                    data: Keyword
-                };
-
-                response.send(data);
-                next();
-
-                //console.log('placeID: ', request.params.placeId)
-
-                var addPlaceKeywordMappingReq = {}
-                addPlaceKeywordMappingReq.placeId = request.params.placeId
-                addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
-                addPlaceKeywordMapping(addPlaceKeywordMappingReq)
-
-            });
-        }
-    })
-
-}
-
-
-function addPlaceKeywordMapping (request){
-
-    models.PlaceKeyword.create({
-        placeId: request.placeId,
-        keywordId: request.keywordId
-    }).then(function(PlaceKeyword) {
+      response.send('already exists, added mapping')
+    } else {
+      models.Keyword.create({
+        label: request.params['label']
+      }).then(function (Keyword) {
         var data = {
-            error: "false",
-            message: "New PlaceKeyword created successfully",
-            data: PlaceKeyword
-        };
+          error: 'false',
+          message: 'New Keyword created successfully',
+          data: Keyword
+        }
 
-        //response.send(data);
-        //console.log(data)
-        //next();
-    });
+        response.send(data)
+        next()
+        var addPlaceKeywordMappingReq = {}
+        addPlaceKeywordMappingReq.placeId = request.params.placeId
+        addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
+        addPlaceKeywordMapping(addPlaceKeywordMappingReq)
+      })
+    }
+  })
 }
 
+function addPlaceKeywordMapping (request) {
+  models.PlaceKeyword.create({
+    placeId: request.placeId,
+    keywordId: request.keywordId
+  }).then(function (PlaceKeyword) {
+    var data = {
+      error: 'false',
+      message: 'New PlaceKeyword created successfully',
+      data: PlaceKeyword
+    }
+  })
+}
 
-var server = restify.createServer();
+var server = restify.createServer()
 
-server.use(restify.bodyParser());
-server.use(restify.queryParser());
-server.use(restifyValidator);
+server.use(restify.bodyParser())
+server.use(restify.queryParser())
+server.use(restifyValidator)
 
-server.get('/api/v1/places', getAllPlaces);
-server.get('/api/v1/places/:id', getPlace);
-server.post('/api/v1/places', addPlace);
-server.put('/api/v1/places/:id', updatePlace);
-server.del('/api/v1/places/:id', deletePlace);
+server.get('/api/v1/places', getAllPlaces)
+server.get('/api/v1/places/:id', getPlace)
+server.post('/api/v1/places', addPlace)
+server.put('/api/v1/places/:id', updatePlace)
+server.del('/api/v1/places/:id', deletePlace)
 
-server.post('/api/v1/:placeId/keywords', addKeywordForPlace);
-
+server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 
 server.get(/\/?.*/, restify.serveStatic({
-            directory: __dirname,
-            default: 'index.html'
+  directory: __dirname,
+  default: 'index.html'
             // match: /^((?!app.js).)*$/
-     }));
+}))
 
-server.listen(3000, function() {
-    console.log('REST API Server listening at http://localhost:3000');
-});
+server.listen(3000, function () {
+  console.log('REST API Server listening at http://localhost:3000')
+})
