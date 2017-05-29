@@ -14,7 +14,7 @@ module.exports = {
       },
       {
         title: 'Cinema Kino Indie',
-        description: 'Best Indie Movies in Town',
+        description: 'Best indie movies in town',
         openfrom: '06:00:00',
         opento: '10:00:00',
         lat: 60.175284,
@@ -22,8 +22,8 @@ module.exports = {
         favourite: 0
       },
       {
-        title: 'Pussikalja spotti',
-        description: 'Auringonlasku tulee tähän hyvin',
+        title: 'Skate Park',
+        description: 'Nice place to skate and bike',
         openfrom: '00:00:00',
         opento: '00:00:00',
         lat: 60.184723,
@@ -31,8 +31,8 @@ module.exports = {
         favourite: 0
       },
       {
-        title: 'Ravintola Täysi Maha',
-        description: 'Hyvää kotiruokaa halvalla!',
+        title: 'Restaurant That Has No name',
+        description: 'Excellent ribs',
         openfrom: '11:30:00',
         opento: '21:00:00',
         lat: 60.156801,
@@ -40,8 +40,8 @@ module.exports = {
         favourite: 1
       },
       {
-        title: 'Parturi-kampaamo Geelitukka',
-        description: 'Halpa hiustenleikkuu',
+        title: 'Barber Shop Jimmy',
+        description: 'Cheap haircut',
         openfrom: '10:00:00',
         opento: '18:30:00',
         lat: 60.165004,
@@ -49,8 +49,8 @@ module.exports = {
         favourite: 1
       },
       {
-        title: 'Huvipuisto',
-        description: 'Hauska paikka vietää vapaa-aikaa',
+        title: 'Theme Park',
+        description: 'Lots of fun in here',
         openfrom: '10:00:00',
         opento: '22:00:00',
         lat: 60.185836,
@@ -58,8 +58,8 @@ module.exports = {
         favourite: 1
       },
       {
-        title: 'Urheilukenttä',
-        description: 'Jalkapalloa ja muuta urheilua',
+        title: 'Football Field',
+        description: 'Football in summer and ice hockey in winter',
         openfrom: '10:00:00',
         opento: '22:00:00',
         lat: 60.199965,
@@ -67,8 +67,8 @@ module.exports = {
         favourite: 0
       },
       {
-        title: 'Kirkko',
-        description: 'Häät ja hautajaiset',
+        title: 'Church',
+        description: 'Weddings here',
         openfrom: '10:00:00',
         opento: '22:00:00',
         lat: 60.230151,
@@ -76,8 +76,8 @@ module.exports = {
         favourite: 0
       },
       {
-        title: 'Tonin koti',
-        description: 'Tonin uusi koti Lauttasaaressa',
+        title: 'Tony\'s house',
+        description: 'The new home of Toni',
         openfrom: '10:00:00',
         opento: '22:00:00',
         lat: 60.163517,
@@ -85,12 +85,48 @@ module.exports = {
         favourite: 0
       },
       {
-        title: 'Keilahalli',
-        description: 'Keilailu ja sisäpelit',
+        title: 'Bowling place',
+        description: 'Bowling and table tennis',
         openfrom: '10:00:00',
         opento: '22:00:00',
         lat: 60.201425,
         lng: 24.908685,
+        favourite: 1
+      },
+      {
+        title: 'Swimming hall',
+        description: 'Swimming hall with long tracks',
+        openfrom: '10:00:00',
+        opento: '22:00:00',
+        lat: 60.216711,
+        lng: 24.825014,
+        favourite: 1
+      },
+      {
+        title: 'Irish Bar Old Barrel',
+        description: 'Good athmosphere and selection of beers',
+        openfrom: '10:00:00',
+        opento: '22:00:00',
+        lat: 60.217961,
+        lng: 24.786761,
+        favourite: 1
+      },
+      {
+        title: 'Car Repair Shop',
+        description: 'They fix windscreens',
+        openfrom: '10:00:00',
+        opento: '22:00:00',
+        lat: 60.188711,
+        lng: 24.974717,
+        favourite: 1
+      },
+      {
+        title: 'Pizza Restaurant Little Italy',
+        description: 'Best quattro stagioni in town',
+        openfrom: '10:00:00',
+        opento: '22:00:00',
+        lat: 60.204210,
+        lng: 24.933109,
         favourite: 1
       }
     ], {})
