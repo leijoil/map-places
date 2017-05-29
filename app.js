@@ -7,41 +7,41 @@ var models = require('./models/index')
 var errorMessages = null
 
 function getAllPlaces (request, response, next) {
-  if (Object.keys(request.params).length !== 0) {
-    models.Place.findAll({
-      include: [{
-        model: models.Keyword,
-        where: {
-          label: {
-            in: (request.params.label).split(',')
-          }
-        }
-      }]
-    })
-            .then(function (places) {
-              var data = {
-                error: 'false',
-                data: places
-              }
-              response.send(data)
-              next()
-            })
-  } else {
-    models.Place.findAll({
-      include: [{
-        model: models.Keyword
-      }]
-    })
-            .then(function (places) {
-              var data = {
-                error: 'false',
-                data: places
-              }
-              response.send(data)
-              next()
-            })
+  console.log(request.params)
+
+  if(request.params.onlyfav === '1') {
+    var wherePlace = {
+      favourite: 1
+    }
   }
+
+  if((request.params.label).length > 0) {
+    var whereKeyword = {
+      label: {
+        in: (request.params.label).split(',')
+      }
+    }
+  } else {
+    var whereKeyword = {}
+  }
+
+  models.Place.findAll({
+    where: wherePlace || {},
+    include: [{
+      model: models.Keyword,
+      where: whereKeyword
+    }]
+  }).then(function (places) {
+      var data = {
+        error: 'false',
+        data: places
+      }
+      response.send(data)
+      next()
+  })
+
 }
+
 
 function getPlace (request, response, next) {
   models.Place.find({

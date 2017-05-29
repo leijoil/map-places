@@ -108,3 +108,8 @@ function placeMarker (location) {
     map: map
   })
 }
+
+
+function showFavourites (element) {
+  getPlaces(false, filterArr, element.checked)
+}

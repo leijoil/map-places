@@ -1,10 +1,20 @@
-getPlaces(true, [])
+getPlaces(true, [], false)
 var keywordsArr = []
 
-function getPlaces (init, filterArr) {
+function getPlaces (init, filterArr, onlyFavourites) {
   var oReq = new XMLHttpRequest()
+  onlyFavourites = onlyFavourites ? 1 : 0;
+  console.log('onlyFavourites', onlyFavourites)
   oReq.onload = function (e) {
     var xhr = e.target
+    
+    /*
+    if (onlyFavourites) {
+      filterArr.push('kulli')
+    }
+    console.log(filterArr)
+    */
+
     if (xhr.responseType === 'json') {
       currentPlaces = xhr.response.data
       results.innerHTML = ''
@@ -37,11 +47,9 @@ function getPlaces (init, filterArr) {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
   }
-  if (filterArr.length > 0) {
-    var url = '/api/v1/places?label=' + filterArr
-  } else {
-    var url = '/api/v1/places'
-  }
+
+  var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&label=' + filterArr
+
   oReq.open('GET', url, true)
   oReq.responseType = 'json'
   oReq.send()
