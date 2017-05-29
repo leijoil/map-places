@@ -90,14 +90,31 @@
 
 
   <div id="leftbar">
-
-    <div id="consolepanel">
-      <form action="javascript:openModal();">
+    <div id="uppestpanel">
+      <div id="add">
+        <form action="javascript:openModal();">
           <input type="submit" value="Add New" />
+        </form>
+      </div>
+      <div id="time"></div>
+    </div>
+
+
+<!--
+        
+        <div id="showopen">
+          <input type="checkbox" name="showopen" id="showopen"  onchange="showopen(this)">
+          <label for="showopen">Show open places only</label>
+        </div>
+    <div id="consolepanel">
+
+        <div id="showfavourites">
           <input type="checkbox" name="showfavourites" id="showfavourites"  onchange="showFavourites(this)">
           <label for="showfavourites">Show favourites only</label>
-      </form>
+        </div>
+      
     </div>
+-->
 
     <div id="places" data-url="/api/v1/places">
       <div id="placebox">
@@ -107,15 +124,32 @@
       <script src="assets/js/requests.js" async></script>
     </div>
 
-    <div id="filterpanel">
 
-      <div id="filterlist">
-        <h4> Filters </h4>
-        <ul id="filters">
+
+
+    <div id="filterpanel">
+      <table style="border:1">
+        <tr>
+          <th>
+            <div id="filterlist">
+              <h4>Filters</h4>
+              <div id="filters">
+              </div>
+            </div>
+          </th>
+          <th>
             
-        </ul>
-        
-      </div>
+            <div id="extras">
+              <h4>Extras</h4>
+                <input type="checkbox" name="showopen" id="showopen" onchange="showopen(this)">
+                <label for="showopen">show open places only</label><br>
+                <input type="checkbox" name="showfavourites" id="showfavourites"  onchange="showFavourites(this)">
+                <label for="showfavourites">show favourites only</label>
+            </div>
+          </th> 
+        </tr>
+      </table>
+
 
     </div>
 
