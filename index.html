@@ -65,6 +65,10 @@
           <td><label for="lng">Lng</label></td>
           <td><input type="text" name="lng" id="lng"><br></td>
         </tr>
+        <tr>
+          <td><label for="lng">Favourite</label></td>
+          <td><input type="checkbox" name="favourite" id="favourite"><br></td>
+        </tr>
       </table>
 
       <br>
@@ -190,7 +194,7 @@
       } else {
         filterArr.push(element.value)
       }
-      esaksi(false, filterArr)
+      esaksi(false, filterArr, true)
       console.log(filterArr)
     }
 

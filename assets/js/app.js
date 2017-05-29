@@ -20,7 +20,9 @@ function getAllFields () {
 		placeObj.opento = document.getElementById("opento").value
 		placeObj.lat = document.getElementById("lat").value
 		placeObj.lng = document.getElementById("lng").value
+		placeObj.favourite = document.getElementById("favourite").checked ? 1 : 0;
 
+		console.log('plcobj', placeObj)
 
 		return placeObj;
 

@@ -35,7 +35,13 @@ function esaksi (init, filterArr) {
 
                 for (i = 0; i < xhr.response.data.length; i++) {
 
-                    results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit('+ xhr.response.data[i].id +');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>'+  xhr.response.data[i].description  +'<\/p><\/div></a><\/li>'
+                    var favImage = ''
+                    console.log(xhr.response.data[i].favourite)
+                    if(xhr.response.data[i].favourite) {
+                        favImage = '<\/p><img src="test.png" height="22" width="22"><\/img>'
+                    }
+
+                    results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit('+ xhr.response.data[i].id +');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>'+  xhr.response.data[i].description  + favImage + '<\/div></a><\/li>'
 
                     //console.log(xhr.response.data[i].Keywords)
 
@@ -139,6 +145,7 @@ function getPlaceById (id) {
             document.getElementById("opento").value = xhr.response.data.opento;
             document.getElementById("lat").value = xhr.response.data.lat;
             document.getElementById("lng").value = xhr.response.data.lng;
+            document.getElementById("favourite").checked = xhr.response.data.favourite;
             
             for (i = 0; i < xhr.response.data.Keywords.length; i++) { 
             
@@ -303,7 +310,7 @@ function updatePlace (placeObj) {
             //console.log('Inside the onreadystatechange event with readyState: ' + toReadyStateDescription(oReq.readyState));
         };
 
-        //console.log('AJAXJS', placeObj)
+        console.log('AJAXJS', placeObj)
 
         oReq.open('PUT', '/api/v1/places/' + placeObj.id, true);
         oReq.responseType = 'json';

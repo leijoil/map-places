@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
     openfrom: DataTypes.TIME,
     opento: DataTypes.TIME,
     lat: DataTypes.DECIMAL,
-    lng: DataTypes.DECIMAL
+    lng: DataTypes.DECIMAL,
+    favourite: DataTypes.BOOLEAN
   }, {
     classMethods: {
       associate: function(models) {

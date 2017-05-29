@@ -70,7 +70,8 @@ function verifyRequiredParams(request){
     request.assert('openfrom', 'openfrom field is required').notEmpty();
     request.assert('opento', 'opento field is required').notEmpty();
     request.assert('lat', 'lat field is required').notEmpty();
-    request.assert('lat', 'lng field is required').notEmpty();
+    request.assert('lng', 'lng field is required').notEmpty();
+    request.assert('favourite', 'favourite field is required').notEmpty();
 
     var errors = request.validationErrors();
     if (errors) {
@@ -96,9 +97,9 @@ function addPlace(request,response,next){
         description: request.params['description'],
         openfrom: request.params['openfrom'],
         opento: request.params['opento'],
-        opento: request.params['opento'],
         lat: request.params['lat'],
-        lng: request.params['lng']
+        lng: request.params['lng'],
+        favourite: request.params['favourite']
     }).then(function(Place) {
         var data = {
             error: "false",
@@ -128,9 +129,9 @@ function updatePlace(request,response,next){
               description: request.params['description'],
               openfrom: request.params['openfrom'],
               opento: request.params['opento'],
-              opento: request.params['opento'],
               lat: request.params['lat'],
-              lng: request.params['lng']
+              lng: request.params['lng'],
+              favourite: request.params['favourite']
             }).then(function(Place) {
                 var data = {
                     error: "false",

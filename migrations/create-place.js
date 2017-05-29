@@ -25,6 +25,9 @@ module.exports = {
       },
       lng: {
         type: Sequelize.DECIMAL(11, 8)
+      },
+      favourite: {
+        type: Sequelize.BOOLEAN
       }
     });
   },

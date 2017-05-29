@@ -67,6 +67,12 @@
   float: left;
 }
 
+.super {
+  text-align: left;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
 
 .col_md_2_list {
   width: 250px;
@@ -86,6 +92,12 @@
   font-size: 10px;
   font-weight: 700;
   color: yell;
+}
+
+.col_md_2_list img {
+  position: absolute;
+  left: 190px;
+  bottom: 3px;
 }
 
 .list_shopping {
