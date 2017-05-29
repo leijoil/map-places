@@ -1,41 +1,20 @@
-esaksi(true, [])
+getPlaces(true, [])
 var keywordsArr = []
 
-function esaksi (init, filterArr) {
-    // var results = document.getElementById('results')
-  var toReadyStateDescription = function (state) {
-    switch (state) {
-      case 0:
-        return 'UNSENT'
-      case 1:
-        return 'OPENED'
-      case 2:
-        return 'HEADERS_RECEIVED'
-      case 3:
-        return 'LOADING'
-      case 4:
-        return 'DONE'
-      default:
-        return ''
-    }
-  }
-
+function getPlaces (init, filterArr) {
   var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
-
     if (xhr.responseType === 'json') {
       currentPlaces = xhr.response.data
-
       results.innerHTML = ''
-
       for (var i = 0; i < xhr.response.data.length; i++) {
         var favImage = ''
         if (xhr.response.data[i].favourite) {
           favImage = '<\/p><img src="assets/images/favourite.png" height="22" width="22"><\/img>'
         }
 
-        results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit(' + xhr.response.data[i].id + ');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>' + xhr.response.data[i].description + favImage + '<\/div></a><\/li>'
+        results.innerHTML += '<li class=\"placeslist li_num_0_1\" onClick=\"openEdit(' + xhr.response.data[i].id + ');\"><a href=\"#\"><div id=\"openhours\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div id=\"title\"><h4>' + xhr.response.data[i].title + '<\/h4><p>' + xhr.response.data[i].description + favImage + '<\/div></a><\/li>'
 
         if (filterArr.length === 0) {
           for (var k = 0; k < xhr.response.data[i].Keywords.length; k++) {
@@ -45,14 +24,12 @@ function esaksi (init, filterArr) {
           }
         }
       }
-
       if (filterArr.length === 0) {
         filters.innerHTML = ''
         for (i = 0; i < keywordsArr.length; i++) {
           filters.innerHTML += '<li><input type=\"checkbox\" name=\"' + keywordsArr[i] + '\" value=\"' + keywordsArr[i] + '\" onchange=\"toggleCheckbox(this)\">' + keywordsArr[i] + ' <\/li>'
         }
       }
-
       if (!init) {
         reloadMarkers()
       }
@@ -60,23 +37,17 @@ function esaksi (init, filterArr) {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
   }
-  oReq.onreadystatechange = function () {
-  }
-
   if (filterArr.length > 0) {
     var url = '/api/v1/places?label=' + filterArr
   } else {
     var url = '/api/v1/places'
   }
-
   oReq.open('GET', url, true)
   oReq.responseType = 'json'
-  oReq.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-  oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0')
   oReq.send()
-};
+}
 
-function getPlaceById (id) {
+function getPlace (id) {
   var keywords = document.getElementById('keywords')
   var addkeyword = document.getElementById('addkeyword')
 
@@ -91,14 +62,7 @@ function getPlaceById (id) {
         keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\"><br>'
       }
 
-      document.getElementById('id').value = xhr.response.data.id
-      document.getElementById('title').value = xhr.response.data.title
-      document.getElementById('description').value = xhr.response.data.description
-      document.getElementById('openfrom').value = xhr.response.data.openfrom
-      document.getElementById('opento').value = xhr.response.data.opento
-      document.getElementById('lat').value = xhr.response.data.lat
-      document.getElementById('lng').value = xhr.response.data.lng
-      document.getElementById('favourite').checked = xhr.response.data.favourite
+      fillModal(xhr.response.data)
 
       for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
         document.getElementById(xhr.response.data.Keywords[i].id).value = xhr.response.data.Keywords[i].label
@@ -113,31 +77,11 @@ function getPlaceById (id) {
 
   oReq.open('GET', '/api/v1/places/' + id, true)
   oReq.responseType = 'json'
-  oReq.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-  oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0')
   oReq.send()
 }
 
-function deletePlaceFromDb () {
+function deletePlace () {
   var id = document.getElementById('id').value
-
-  toReadyStateDescription = function (state) {
-    switch (state) {
-      case 0:
-        return 'UNSENT'
-      case 1:
-        return 'OPENED'
-      case 2:
-        return 'HEADERS_RECEIVED'
-      case 3:
-        return 'LOADING'
-      case 4:
-        return 'DONE'
-      default:
-        return ''
-    }
-  }
-
   var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
@@ -145,7 +89,7 @@ function deletePlaceFromDb () {
     if (xhr.responseType === 'json') {
       closeModal()
       reloadMarkers()
-      esaksi(false, [])
+      getPlaces(false, [])
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
@@ -156,36 +100,17 @@ function deletePlaceFromDb () {
 
   oReq.open('DELETE', '/api/v1/places/' + id, true)
   oReq.responseType = 'json'
-  oReq.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-  oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0')
   oReq.send()
 }
 
-function createNewPlace (placeObj) {
-  toReadyStateDescription = function (state) {
-    switch (state) {
-      case 0:
-        return 'UNSENT'
-      case 1:
-        return 'OPENED'
-      case 2:
-        return 'HEADERS_RECEIVED'
-      case 3:
-        return 'LOADING'
-      case 4:
-        return 'DONE'
-      default:
-        return ''
-    }
-  }
-
+function createPlace (placeObj) {
   var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
 
     if (xhr.responseType === 'json') {
       closeModal()
-      esaksi(false, [])
+      getPlaces(false, [])
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
@@ -194,30 +119,12 @@ function createNewPlace (placeObj) {
   }
 
   oReq.open('POST', '/api/v1/places', true)
-  oReq.responseType = 'json'
   oReq.setRequestHeader('Content-Type', 'application/json')
-  oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0')
+  oReq.responseType = 'json'
   oReq.send(JSON.stringify(placeObj))
 }
 
 function updatePlace (placeObj) {
-  toReadyStateDescription = function (state) {
-    switch (state) {
-      case 0:
-        return 'UNSENT'
-      case 1:
-        return 'OPENED'
-      case 2:
-        return 'HEADERS_RECEIVED'
-      case 3:
-        return 'LOADING'
-      case 4:
-        return 'DONE'
-      default:
-        return ''
-    }
-  }
-
   var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
@@ -225,7 +132,7 @@ function updatePlace (placeObj) {
     if (xhr.responseType === 'json') {
       closeModal()
       flushModal()
-      esaksi(false, [])
+      getPlaces(false, [])
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
@@ -237,7 +144,6 @@ function updatePlace (placeObj) {
   oReq.open('PUT', '/api/v1/places/' + placeObj.id, true)
   oReq.responseType = 'json'
   oReq.setRequestHeader('Content-Type', 'application/json')
-  oReq.setRequestHeader('x-vanillaAjaxWithoutjQuery-version', '1.0')
   oReq.send(JSON.stringify(placeObj))
 }
 
@@ -260,4 +166,15 @@ function updateKeywordsForPlace (keywords, placeId) {
       })(i)
     }
   })()
+}
+
+function fillModal (place) {
+  document.getElementById('id').value = place.id
+  document.getElementById('title').value = place.title
+  document.getElementById('description').value = place.description
+  document.getElementById('openfrom').value = place.openfrom
+  document.getElementById('opento').value = place.opento
+  document.getElementById('lat').value = place.lat
+  document.getElementById('lng').value = place.lng
+  document.getElementById('favourite').checked = place.favourite
 }

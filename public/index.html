@@ -5,8 +5,7 @@
   <title>Simple Map</title>
   <meta name="viewport" content="initial-scale=1.0">
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-  <link rel="stylesheet" type="text/css" href="assets/css/app.css" />
+  <link href="assets/css/style.css" rel="stylesheet"/>
   <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet">
   <style>
     /* Always set the map height explicitly to define the size of the div
@@ -81,7 +80,7 @@
       <br>
 
       <button type="button" onclick="addOrEditPlace();">Save</button>
-      <button type="button" onclick="deletePlace(id);">Delete</button>
+      <button type="button" onclick="removePlace(id);">Delete</button>
       <button type="button" onclick="chooseLocation();">Choose location from map</button>
 
 
@@ -89,23 +88,8 @@
   </div>
 
 
-  <script type="text/javascript" src="assets/js/app.js"></script>
 
-
-  <div id="leftmenu">
-    <!--
-    <div id="consolepanel">
-      <div class="cont_princ_lists">
-        <ul>
-          <li class="list_shopping li_num_0_1">
-            <div class="col_md_1_list">
-              <p><a href="javascript:openModal();">ADD NEW +</a></p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    -->
+  <div id="leftbar">
 
     <div id="consolepanel">
       <form action="javascript:openModal();">
@@ -113,12 +97,12 @@
       </form>
     </div>
 
-    <div id="retrieve" data-url="/api/v1/places">
-      <div class="cont_princ_lists">
+    <div id="places" data-url="/api/v1/places">
+      <div id="placebox">
         <ul id="results">
         </ul>
       </div>
-      <script src="assets/js/ajax.js" async></script>
+      <script src="assets/js/requests.js" async></script>
     </div>
 
     <div id="filterpanel">
@@ -135,204 +119,16 @@
 
   </div>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
-
-
   <div id="map"></div>
 
 </div>
 
 
-  <script>
-    var map;
-    var bounds;
-    var markers = [];
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 60.192059, lng: 24.945831 },
-        zoom: 11
-      });
+<script src="assets/js/googlemaps.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDECN7QlKaqFBL5MTgdF8G1bcBjZPpgM_o&callback=initMap" async></script>
+<script src="assets/js/scripts.js"></script>
 
 
-
-
-        google.maps.event.addListener(map, 'idle', function () {
-            //bounds = map.getBounds();
-            //ne = bounds.getNorthEast();
-            //sw = bounds.getSouthWest();
-            //document.getElementById('mapBounds').innerHTML = bounds.toUrlValue(6);
-                        
-            setMarkers(currentPlaces);
-            /*
-            for (i = 0; i < currentPlaces.length; i++) {
-                var location = new google.maps.LatLng(currentPlaces[i].lat, currentPlaces[i].lng)
-                addMarker(location, currentPlaces[i].id)
-            }
-            */
-            
-    
-
-        });
-
-
-    }
-
-    var filterArr  = []
-    
-
-    function toggleCheckbox(element)
-    {
-      if(filterArr.includes(element.value)) {
-        filterArr.remove(element.value)
-      } else {
-        filterArr.push(element.value)
-      }
-      esaksi(false, filterArr, true)
-    }
-
-    Array.prototype.remove = function() {
-        var what, a = arguments, L = a.length, ax;
-        while (L && this.length) {
-            what = a[--L];
-            while ((ax = this.indexOf(what)) !== -1) {
-                this.splice(ax, 1);
-            }
-        }
-        return this;
-    };
-
-    function setMarkers(currentPlaces) {
-      for (i = 0; i < currentPlaces.length; i++) {
-        var location = new google.maps.LatLng(currentPlaces[i].lat, currentPlaces[i].lng)
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            id: currentPlaces[i].id
-        });
-        markers.push(marker)
-        marker.setMap(map);
-
-      }
-    }
-
-    function addKeyword() {
-      document.getElementById('addkeyword').innerHTML +=  '<input type=\"text\" name=\"keyword\" id=\"\"><br>'
-    }
-
-    function chooseLocation () {
-      google.maps.event.addListener(map, 'click', function(event) {
-          var latitude = event.latLng.lat();
-          var longitude = event.latLng.lng();
-          openModal();
-          document.getElementById("title").value = placeObj.title;
-          document.getElementById("description").value = placeObj.description;
-          document.getElementById("openfrom").value = placeObj.openfrom;
-          document.getElementById("opento").value = placeObj.opento;
-          document.getElementById("lat").value = latitude;
-          document.getElementById("lng").value = longitude;
-      });
-      var placeObj = getAllFields();
-      closeModal();
-    }
-
-/*
-    function addMarker(location, id) {
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            id: id
-        });
-        markers.push(marker)
-        marker.setMap(map);
-    }
-*/
-
-    function reloadMarkers() {
-      
-        for (var i=0; i<markers.length; i++) {
-            markers[i].setMap(null);
-        }
-        markers = [];
-        setMarkers(currentPlaces);
-      
-    }
-
-    function removeMarkers () {
-        for(i=0; i<markers.length; i++){
-            markers[i].setMap(null);
-        }
-    }
-
-    function flushModal () {
-      document.getElementById("id").value = ''
-      document.getElementById("title").value = ''
-      document.getElementById("description").value = ''
-      document.getElementById("openfrom").value = ''
-      document.getElementById("opento").value = ''
-      document.getElementById("lat").value = ''
-      document.getElementById("lng").value = ''
-    }
-
-
-/*
-    function esa(addBoolean) {
-
-      var div = document.getElementById('newpost');
-      var div2 = document.getElementById('addplace');
-
-
-      if (addBoolean) {
-        div.style.display = 'block';
-        div2.style.display = 'none';
-        google.maps.event.addListener(map, 'click', function (event) {
-          placeMarker(event.latLng);
-          openModal();
-        });
-      }
-
-      else {
-        div.style.display = 'none';
-        div2.style.display = 'block';
-        google.maps.event.clearListeners(map);
-      }
-
-    }
-
-*/
-
-    function openEdit (id) {
-      getPlaceById(id);
-      openModal(id);
-    }
-
-    function addOrEditPlace () {
-      var placeObj = getAllFields();
-      var keywords = getKeywords();
-      if (placeObj.id === undefined) {
-        createNewPlace(placeObj);
-      } else {
-        updatePlace(placeObj);
-        updateKeywordsForPlace(keywords, placeObj.id)
-      }
-    }
-
-    function deletePlace () {
-      deletePlaceFromDb();
-      flushModal();
-    }
-
-    function placeMarker(location) {
-      var marker = new google.maps.Marker({
-        position: location,
-        map: map
-      });
-
-      // map.setCenter(location);
-    }
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDECN7QlKaqFBL5MTgdF8G1bcBjZPpgM_o&callback=initMap" async
-    defer></script>
 
 </body>
 
