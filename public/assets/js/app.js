@@ -12,7 +12,7 @@ function closeModal () {
 function getAllFields () {
   var placeObj = {}
 
-  placeObj.id = document.getElementById('id').value || undefined
+  placeObj.id = document.getElementById('id').value || undefined
   placeObj.title = document.getElementById('title').value
   placeObj.description = document.getElementById('description').value
   placeObj.openfrom = document.getElementById('openfrom').value
@@ -26,7 +26,7 @@ function getAllFields () {
 
 function getKeywords () {
   var keywords = []
-  for (i = 0; i < document.getElementsByName('keyword').length; i++) {
+  for (var i = 0; i < document.getElementsByName('keyword').length; i++) {
     keywords.push(document.getElementsByName('keyword')[i].value)
   }
   return keywords

@@ -19,8 +19,8 @@ function esaksi (init, filterArr) {
         return ''
     }
   }
-  var bustCache = '?' + new Date().getTime(),
-    oReq = new XMLHttpRequest()
+
+  var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
 
@@ -29,16 +29,16 @@ function esaksi (init, filterArr) {
 
       results.innerHTML = ''
 
-      for (i = 0; i < xhr.response.data.length; i++) {
+      for (var i = 0; i < xhr.response.data.length; i++) {
         var favImage = ''
         if (xhr.response.data[i].favourite) {
-          favImage = '<\/p><img src="test.png" height="22" width="22"><\/img>'
+          favImage = '<\/p><img src="assets/images/favourite.png" height="22" width="22"><\/img>'
         }
 
         results.innerHTML += '<li class=\"list_shopping li_num_0_1\" onClick=\"openEdit(' + xhr.response.data[i].id + ');\"><a href=\"#\"><div class=\"col_md_1_list\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div class=\"col_md_2_list\"><h4>' + xhr.response.data[i].title + '<\/h4><p>' + xhr.response.data[i].description + favImage + '<\/div></a><\/li>'
 
         if (filterArr.length === 0) {
-          for (k = 0; k < xhr.response.data[i].Keywords.length; k++) {
+          for (var k = 0; k < xhr.response.data[i].Keywords.length; k++) {
             if (!keywordsArr.includes(xhr.response.data[i].Keywords[k].label)) {
               keywordsArr.push(xhr.response.data[i].Keywords[k].label)
             }
@@ -79,31 +79,15 @@ function esaksi (init, filterArr) {
 function getPlaceById (id) {
   var keywords = document.getElementById('keywords')
   var addkeyword = document.getElementById('addkeyword')
-  var toReadyStateDescription = function (state) {
-    switch (state) {
-      case 0:
-        return 'UNSENT'
-      case 1:
-        return 'OPENED'
-      case 2:
-        return 'HEADERS_RECEIVED'
-      case 3:
-        return 'LOADING'
-      case 4:
-        return 'DONE'
-      default:
-        return ''
-    }
-  }
-  var bustCache = '?' + new Date().getTime(),
-    oReq = new XMLHttpRequest()
+
+  var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
 
     if (xhr.responseType === 'json') {
       addkeyword.innerHTML = ''
       keywords.innerHTML = ''
-      for (i = 0; i < xhr.response.data.Keywords.length; i++) {
+      for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
         keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\"><br>'
       }
 
@@ -116,7 +100,7 @@ function getPlaceById (id) {
       document.getElementById('lng').value = xhr.response.data.lng
       document.getElementById('favourite').checked = xhr.response.data.favourite
 
-      for (i = 0; i < xhr.response.data.Keywords.length; i++) {
+      for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
         document.getElementById(xhr.response.data.Keywords[i].id).value = xhr.response.data.Keywords[i].label
       }
     } else {
@@ -153,8 +137,8 @@ function deletePlaceFromDb () {
         return ''
     }
   }
-  var bustCache = '?' + new Date().getTime(),
-    oReq = new XMLHttpRequest()
+
+  var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
 
@@ -194,8 +178,8 @@ function createNewPlace (placeObj) {
         return ''
     }
   }
-  var bustCache = '?' + new Date().getTime(),
-    oReq = new XMLHttpRequest()
+
+  var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
 
@@ -233,8 +217,8 @@ function updatePlace (placeObj) {
         return ''
     }
   }
-  var bustCache = '?' + new Date().getTime(),
-    oReq = new XMLHttpRequest()
+
+  var oReq = new XMLHttpRequest()
   oReq.onload = function (e) {
     var xhr = e.target
 
@@ -260,7 +244,7 @@ function updatePlace (placeObj) {
 function updateKeywordsForPlace (keywords, placeId) {
   var addKeywords = (function () {
     var xhr = []
-    for (i = 0; i < keywords.length; i++) {
+    for (var i = 0; i < keywords.length; i++) {
       (function (i) {
         var keyword = {}
         keyword.label = keywords[i]
@@ -268,7 +252,7 @@ function updateKeywordsForPlace (keywords, placeId) {
         xhr[i].open('POST', 'api/v1/' + placeId + '/keywords', true)
         xhr[i].setRequestHeader('Content-Type', 'application/json')
         xhr[i].onreadystatechange = function () {
-          if (xhr[i].readyState == 4 && xhr[i].status == 200) {
+          if (xhr[i].readyState === 4 && xhr[i].status === 200) {
 
           }
         }

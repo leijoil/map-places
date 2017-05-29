@@ -4,7 +4,7 @@ var util = require('util')
 
 var models = require('./models/index')
 
-var error_messages = null
+var errorMessages = null
 
 function getAllPlaces (request, response, next) {
   if (Object.keys(request.params).length !== 0) {
@@ -71,7 +71,7 @@ function verifyRequiredParams (request) {
 
   var errors = request.validationErrors()
   if (errors) {
-    error_messages = {
+    errorMessages = {
       error: 'true',
       message: util.inspect(errors)
     }
@@ -84,7 +84,7 @@ function verifyRequiredParams (request) {
 
 function addPlace (request, response, next) {
   if (!verifyRequiredParams(request)) {
-    response.send(422, error_messages)
+    response.send(422, errorMessages)
     return
   }
 
@@ -110,7 +110,7 @@ function addPlace (request, response, next) {
 
 function updatePlace (request, response, next) {
   if (!verifyRequiredParams(request)) {
-    response.send(422, error_messages)
+    response.send(422, errorMessages)
     return
   }
 
@@ -174,7 +174,7 @@ function deletePlace (request, response, next) {
 function addKeywordForPlace (request, response, next) {
     /*
     if (!verifyRequiredParams(request)){
-        response.send(422,error_messages);
+        response.send(422,errorMessages);
         return;
     }
     */
@@ -205,13 +205,13 @@ function addKeywordForPlace (request, response, next) {
         var addPlaceKeywordMappingReq = {}
         addPlaceKeywordMappingReq.placeId = request.params.placeId
         addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
-        addPlaceKeywordMapping(addPlaceKeywordMappingReq)
+        addPlaceKeywordMapping(addPlaceKeywordMappingReq, response, next)
       })
     }
   })
 }
 
-function addPlaceKeywordMapping (request) {
+function addPlaceKeywordMapping (request, response, next) {
   models.PlaceKeyword.create({
     placeId: request.placeId,
     keywordId: request.keywordId
@@ -221,6 +221,8 @@ function addPlaceKeywordMapping (request) {
       message: 'New PlaceKeyword created successfully',
       data: PlaceKeyword
     }
+    response.send(data)
+    next()
   })
 }
 
@@ -239,7 +241,7 @@ server.del('/api/v1/places/:id', deletePlace)
 server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 
 server.get(/\/?.*/, restify.serveStatic({
-  directory: __dirname,
+  directory: 'public/',
   default: 'index.html'
             // match: /^((?!app.js).)*$/
 }))
