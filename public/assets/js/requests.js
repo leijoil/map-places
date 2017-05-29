@@ -4,16 +4,8 @@ var keywordsArr = []
 function getPlaces (init, filterArr, onlyFavourites) {
   var oReq = new XMLHttpRequest()
   onlyFavourites = onlyFavourites ? 1 : 0;
-  console.log('onlyFavourites', onlyFavourites)
   oReq.onload = function (e) {
     var xhr = e.target
-    
-    /*
-    if (onlyFavourites) {
-      filterArr.push('kulli')
-    }
-    console.log(filterArr)
-    */
 
     if (xhr.responseType === 'json') {
       currentPlaces = xhr.response.data

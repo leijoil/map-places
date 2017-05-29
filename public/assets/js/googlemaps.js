@@ -16,10 +16,22 @@ function setMarkers (currentPlaces) {
     var marker = new google.maps.Marker({
       position: location,
       map: map,
-      id: currentPlaces[i].id
+      id: currentPlaces[i].id,
+      title: currentPlaces[i].title,
+      label: {
+        text: currentPlaces[i].title,
+        color: 'blue',
+        fontWeight: 'bold',
+        fontSize: '10px'
+      }
     })
     markers.push(marker)
-    marker.setMap(map)
+   // marker.setMap(map)
+  }
+  for(var i=0; i<markers.length; i++) {
+    markers[i].addListener('click', function() {
+      openEdit(this.id)
+    });
   }
 }
 

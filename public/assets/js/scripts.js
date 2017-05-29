@@ -120,14 +120,6 @@ function removePlace () {
   flushModal()
 }
 
-function placeMarker (location) {
-  var marker = new google.maps.Marker({
-    position: location,
-    map: map
-  })
-}
-
-
 function showFavourites (element) {
   getPlaces(false, filterArr, element.checked)
 }
