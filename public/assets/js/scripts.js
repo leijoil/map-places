@@ -2,6 +2,7 @@ var overlay = document.getElementById('overlay')
 var filterArr = []
 var showfavourites = false
 var showopen = false
+var searchTerm = ''
 
 function openModal (id) {
   overlay.classList.remove('is-hidden')
@@ -57,7 +58,7 @@ function toggleCheckbox (element) {
   } else {
     filterArr.push(element.value)
   }
-  getPlaces(false, filterArr)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
 }
 
 Array.prototype.remove = function () {
@@ -142,9 +143,17 @@ function extras (element) {
    showopen = element.checked
   }
 
-  console.log('showfavourites', showfavourites)
-  console.log('showopen', showopen)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
 
-  getPlaces(false, filterArr, showfavourites, showopen)
+}
 
+function search () {
+  searchTerm = document.getElementById('search').value;
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+}
+
+function resetSearch () {
+  console.log('reset')
+  searchTerm = ''
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
 }

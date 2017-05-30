@@ -7,6 +7,7 @@ var models = require('./models/index')
 var errorMessages = null
 
 function getAllPlaces (request, response, next) {
+  console.log(request.params)
   var timeNow = new Date();
   var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
   var wherePlace = {}
@@ -20,7 +21,13 @@ function getAllPlaces (request, response, next) {
     wherePlace.opento = {$gte: currentTime}
   }
 
-  if((request.params).hasOwnProperty('keywords') && (request.params.keywords).length > 0) {
+  if ((request.params.search).length > 0) {
+    wherePlace.title = { 
+      $like: '%' + request.params.search + '%'
+    }
+  }
+
+  if ((request.params.keywords).length > 0) {
     var include = [{
       model: models.Keyword,
       where: {

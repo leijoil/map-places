@@ -99,9 +99,13 @@
       <div id="time"></div>
     </div>
 
+
     <div id="searchpanel">
-      <input type="text" placeholder="Title" />
-      <button type="submit">Find</button>
+      <form action="javascript:search();">
+        <input type="text" placeholder="Title" id="search"/>
+        <button type="submit">Search</button>
+        <button type="reset" onclick="resetSearch()">Clear</button>
+      </form>
     </div>
 
 
