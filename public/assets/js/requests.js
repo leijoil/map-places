@@ -1,9 +1,10 @@
 getPlaces(true, [], false)
 var keywordsArr = []
 
-function getPlaces (init, filterArr, onlyFavourites) {
+function getPlaces (init, filterArr, onlyFavourites, onlyOpen) {
   var oReq = new XMLHttpRequest()
   onlyFavourites = onlyFavourites ? 1 : 0;
+  onlyOpen = onlyOpen ? 1 : 0;
   oReq.onload = function (e) {
     var xhr = e.target
 
@@ -40,7 +41,7 @@ function getPlaces (init, filterArr, onlyFavourites) {
     }
   }
 
-  var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&label=' + filterArr
+  var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&onlyopen=' + onlyOpen + '&keywords=' + filterArr
 
   oReq.open('GET', url, true)
   oReq.responseType = 'json'

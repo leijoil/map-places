@@ -1,5 +1,7 @@
 var overlay = document.getElementById('overlay')
 var filterArr = []
+var showfavourites = false
+var showopen = false
 
 function openModal (id) {
   overlay.classList.remove('is-hidden')
@@ -120,6 +122,29 @@ function removePlace () {
   flushModal()
 }
 
+/*
 function showFavourites (element) {
   getPlaces(false, filterArr, element.checked)
+}
+
+function showOpen (element) {
+  getPlaces(false, filterArr, null, element.checked)
+}
+*/
+
+function extras (element) {
+  
+  if (element.id === 'showfavourites') {
+    showfavourites = element.checked
+  }
+
+  if (element.id === 'showopen') {
+   showopen = element.checked
+  }
+
+  console.log('showfavourites', showfavourites)
+  console.log('showopen', showopen)
+
+  getPlaces(false, filterArr, showfavourites, showopen)
+
 }

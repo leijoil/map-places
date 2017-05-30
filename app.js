@@ -7,20 +7,25 @@ var models = require('./models/index')
 var errorMessages = null
 
 function getAllPlaces (request, response, next) {
-  console.log(request.params)
+  var timeNow = new Date();
+  var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
+  var wherePlace = {}
 
-  if(request.params.onlyfav === '1') {
-    var wherePlace = {
-      favourite: 1
-    }
+  if (request.params.onlyfav === '1') {
+    wherePlace.favourite = 1
   }
 
-  if((request.params).hasOwnProperty('label') && (request.params.label).length > 0) {
+  if (request.params.onlyopen === '1') {
+    wherePlace.openfrom = {$lt: currentTime}
+    wherePlace.opento = {$gte: currentTime}
+  }
+
+  if((request.params).hasOwnProperty('keywords') && (request.params.keywords).length > 0) {
     var include = [{
       model: models.Keyword,
       where: {
         label: {
-          in: (request.params.label).split(',')
+          in: (request.params.keywords).split(',')
         }
       }
     }]
@@ -30,7 +35,7 @@ function getAllPlaces (request, response, next) {
 
 
   models.Place.findAll({
-    where: wherePlace || {},
+    where: wherePlace,
     include: include
   }).then(function (places) {
       var data = {
