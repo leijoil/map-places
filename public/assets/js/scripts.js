@@ -73,7 +73,12 @@ Array.prototype.remove = function () {
 }
 
 function addKeyword () {
-  document.getElementById('addkeyword').innerHTML += '<input type=\"text\" name=\"keyword\" id=\"\"><br>'
+
+  console.log('lokki', document.getElementById('addkeyword').innerHTML)
+
+  document.getElementById('addkeyword').innerHTML += '<input type=\"text\" name=\"keyword\"><br>'
+
+
 }
 
 function chooseLocation () {
@@ -100,6 +105,7 @@ function flushModal () {
   document.getElementById('opento').value = ''
   document.getElementById('lat').value = ''
   document.getElementById('lng').value = ''
+  document.getElementById('keyword').value = ''
 }
 
 function openEdit (id) {

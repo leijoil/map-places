@@ -111,7 +111,7 @@ function createPlace (placeObj) {
 
     if (xhr.responseType === 'json') {
       closeModal()
-      getPlaces(false, [])
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
@@ -133,7 +133,7 @@ function updatePlace (placeObj) {
     if (xhr.responseType === 'json') {
       closeModal()
       flushModal()
-      getPlaces(false, [])
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
