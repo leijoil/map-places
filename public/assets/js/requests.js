@@ -90,7 +90,7 @@ function deletePlace () {
     if (xhr.responseType === 'json') {
       closeModal()
       reloadMarkers()
-      getPlaces(false, [])
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
