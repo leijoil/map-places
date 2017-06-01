@@ -126,29 +126,6 @@ function createPlace (placeObj) {
 }
 
 function updatePlace (placeObj) {
-/*
-function updateKeywordsForPlace (keywords, placeId) {
-  var addKeywords = (function () {
-    var xhr = []
-    for (var i = 0; i < keywords.length; i++) {
-      (function (i) {
-        var keyword = {}
-        keyword.label = keywords[i]
-        xhr[i] = new XMLHttpRequest()
-        xhr[i].open('POST', 'api/v1/' + placeId + '/keywords', true)
-        xhr[i].setRequestHeader('Content-Type', 'application/json')
-        xhr[i].onreadystatechange = function () {
-          if (xhr[i].readyState === 4 && xhr[i].status === 200) {
-            getPlace(placeId);
-          }
-        }
-        xhr[i].send(JSON.stringify(keyword))
-      })(i)
-    }
-  })()
-}
-*/
-
   xhr = new XMLHttpRequest()
   xhr.open('PUT', '/api/v1/places/' + placeObj.id, true)
   xhr.responseType = 'json'

@@ -139,11 +139,9 @@ function extras (element) {
   if (element.id === 'showfavourites') {
     showfavourites = element.checked
   }
-
   if (element.id === 'showopen') {
     showopen = element.checked
   }
-
   getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
 }
 

@@ -23,13 +23,10 @@
 <body>
 
 <div id="wrapper">
-
   <div class="overlay is-hidden" id="overlay">
     <div class="modal-content">
       <span class="button-close" onclick="closeModal();"></span>
-
       <h3>Place</h3>
-
       <table style="width:100%">
         <tr>
           <td><input type="hidden" name="id" id="id"><br></td>
@@ -63,20 +60,13 @@
           <td><input type="checkbox" name="favourite" id="favourite"><br></td>
         </tr>
       </table>
-
       <br>
 
       <h4>Keywords</h3></br>
-      
 
       <div id="keywords"></div>
-      <!--
-      <input type="text" name="keyword" id="keyword" onkeyup="checkIfEmpty(this)"/><br>
-      -->
       <input type="button" id="addkeywordbtn" onclick="addKeyword();" value="Add Keyword" disabled/>
       <br><br><br>
-
-
 
       <button type="button" onclick="addOrEditPlace();">Save</button>
       <button type="button" onclick="removePlace(id);">Delete</button>
@@ -84,8 +74,6 @@
 
     </div>
   </div>
-
-
 
   <div id="leftbar">
     <div id="uppestpanel">
@@ -97,7 +85,6 @@
       <div id="time"></div>
     </div>
 
-
     <div id="searchpanel">
       <form action="javascript:search();">
         <input type="text" placeholder="Title" id="search"/>
@@ -106,33 +93,12 @@
       </form>
     </div>
 
-
-<!--
-        
-        <div id="showopen">
-          <input type="checkbox" name="showopen" id="showopen"  onchange="showopen(this)">
-          <label for="showopen">Show open places only</label>
-        </div>
-    <div id="consolepanel">
-
-        <div id="showfavourites">
-          <input type="checkbox" name="showfavourites" id="showfavourites"  onchange="showFavourites(this)">
-          <label for="showfavourites">Show favourites only</label>
-        </div>
-      
-    </div>
--->
-
     <div id="places" data-url="/api/v1/places">
       <div id="placebox">
         <ul id="results">
         </ul>
       </div>
-      <script src="assets/js/requests.js" async></script>
     </div>
-
-
-
 
     <div id="filterpanel">
       <table style="border:1">
@@ -145,7 +111,6 @@
             </div>
           </th>
           <th>
-            
             <div id="extras">
               <h4>Extras</h4>
                 <input type="checkbox" name="showopen" id="showopen" onchange="extras(this)">
@@ -156,23 +121,15 @@
           </th> 
         </tr>
       </table>
-
-
     </div>
-
   </div>
-
   <div id="map"></div>
-
 </div>
-
 
 <script src="assets/js/googlemaps.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDECN7QlKaqFBL5MTgdF8G1bcBjZPpgM_o&callback=initMap" async></script>
+<script src="assets/js/requests.js" async></script>
 <script src="assets/js/scripts.js"></script>
 
-
-
 </body>
-
 </html>

@@ -27,6 +27,10 @@ function setMarkers (currentPlaces) {
     })
     markers.push(marker)
   }
+  makeMarkersClickable()
+}
+
+function makeMarkersClickable () {
   for (var i = 0; i < markers.length; i++) {
     markers[i].addListener('click', function () {
       openEdit(this.id)

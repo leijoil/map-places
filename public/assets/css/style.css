@@ -1,6 +1,6 @@
 * {
-	margin:0;
-	padding:0;
+  margin:0;
+  padding:0;
 }
 
 #wrapper {
@@ -65,9 +65,9 @@
 }
 
 table, th, td {
-    text-align: top;
-    vertical-align: text-top;
-    padding: 0px 40px 0px 0px;
+  text-align: top;
+  vertical-align: text-top;
+  padding: 0px 40px 0px 0px;
 }
 
 #consolepanel {
@@ -86,12 +86,14 @@ table, th, td {
   overflow-y: auto;
   height: 15%;
 }
+
 #filters {
   text-align: left;
   font-size: 10pt;
   margin-top: 0px;
   font-weight: normal;
 }
+
 #places {
   overflow-y: auto;
   height: 76%;
@@ -105,7 +107,6 @@ table, th, td {
   background-color: #F1F1EF;
   list-style: none;
   z-index: 2;
-
 }
 
 #openhours {
@@ -119,6 +120,7 @@ table, th, td {
   position: relative;
   float: left;
 }
+
 #title h4 {
   text-align: left;
   font-family: 'Open Sans', sans-serif;
@@ -145,35 +147,35 @@ table, th, td {
 }
 
 .overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0,0,0,0.6);
-	z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
 }
 
 .modal-content {
-	padding: 20px 30px;
-	width: 600px;
-	position: relative;
-	min-height: 300px;
-	margin: 5% auto 0;
-	background: #fff;
+  padding: 20px 30px;
+  width: 600px;
+  position: relative;
+  min-height: 300px;
+  margin: 5% auto 0;
+  background: #fff;
 }
 
 .is-hidden {
-	display: none;
+  display: none;
 }
 
 .button-close {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
-	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAowAAAKMB8MeazgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAB5SURBVDiNrZPRCcAwCEQfnUiySAZuF8kSWeH6Yz8KrQZMQAicJ+epAB0YwAmYJKIADLic0/GPPCbQAnLznCd/4NWUFfkgy1VjH8CryA95ApYltAiTRCZxpuoW+gz9WXE6NPeg+ra1UDIxGlWEObe4SGxY5fIxlc75Bkt9V4JS7KWJAAAAAElFTkSuQmCC59ef34356faa7edebc7ed5432ddb673d');
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAowAAAKMB8MeazgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAB5SURBVDiNrZPRCcAwCEQfnUiySAZuF8kSWeH6Yz8KrQZMQAicJ+epAB0YwAmYJKIADLic0/GPPCbQAnLznCd/4NWUFfkgy1VjH8CryA95ApYltAiTRCZxpuoW+gz9WXE6NPeg+ra1UDIxGlWEObe4SGxY5fIxlc75Bkt9V4JS7KWJAAAAAElFTkSuQmCC59ef34356faa7edebc7ed5432ddb673d');
 }
