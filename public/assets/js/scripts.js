@@ -14,22 +14,22 @@ function closeModal () {
 }
 
 (function () {
-    function checkTime(i) {
-        return (i < 10) ? "0" + i : i;
-    }
+  function checkTime (i) {
+    return (i < 10) ? '0' + i : i
+  }
 
-    function startTime() {
-        var today = new Date(),
-            h = checkTime(today.getHours()),
-            m = checkTime(today.getMinutes()),
-            s = checkTime(today.getSeconds());
-        document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
-        t = setTimeout(function () {
-            startTime()
-        }, 500);
-    }
-    startTime();
-})();
+  function startTime () {
+    var today = new Date(),
+      h = checkTime(today.getHours()),
+      m = checkTime(today.getMinutes()),
+      s = checkTime(today.getSeconds())
+    document.getElementById('time').innerHTML = h + ':' + m + ':' + s
+    t = setTimeout(function () {
+      startTime()
+    }, 500)
+  }
+  startTime()
+})()
 
 function getAllFields () {
   var placeObj = {}
@@ -73,21 +73,19 @@ Array.prototype.remove = function () {
 }
 
 function checkIfEmpty (esa) {
-  if(esa.value.length > 0) { 
-    document.getElementById('addkeywordbtn').disabled = false; 
-  } else { 
-    document.getElementById('addkeywordbtn').disabled = true;
+  if (esa.value.length > 0) {
+    document.getElementById('addkeywordbtn').disabled = false
+  } else {
+    document.getElementById('addkeywordbtn').disabled = true
   }
 }
 
-
-function addKeyword() {
+function addKeyword () {
   console.log('addKeyword')
   var placeObj = getAllFields()
   var keywords = getKeywords()
   updateKeywordsForPlace(keywords, placeObj.id)
 }
-
 
 function chooseLocation () {
   google.maps.event.addListener(map, 'click', function (event) {
@@ -124,6 +122,9 @@ function openEdit (id) {
 function addOrEditPlace () {
   var placeObj = getAllFields()
   var keywords = getKeywords()
+
+  console.log('getKeywords()', getKeywords())
+
   if (placeObj.id === undefined) {
     createPlace(placeObj)
   } else {
@@ -148,21 +149,19 @@ function showOpen (element) {
 */
 
 function extras (element) {
-  
   if (element.id === 'showfavourites') {
     showfavourites = element.checked
   }
 
   if (element.id === 'showopen') {
-   showopen = element.checked
+    showopen = element.checked
   }
 
   getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
-
 }
 
 function search () {
-  searchTerm = document.getElementById('search').value;
+  searchTerm = document.getElementById('search').value
   getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
 }
 

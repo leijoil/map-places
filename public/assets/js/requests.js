@@ -2,9 +2,10 @@ getPlaces(true, [], false, false, '')
 var keywordsArr = []
 
 function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
+  console.log('INIT')
   var oReq = new XMLHttpRequest()
-  onlyFavourites = onlyFavourites ? 1 : 0;
-  onlyOpen = onlyOpen ? 1 : 0;
+  onlyFavourites = onlyFavourites ? 1 : 0
+  onlyOpen = onlyOpen ? 1 : 0
   oReq.onload = function (e) {
     var xhr = e.target
 
@@ -61,7 +62,7 @@ function getPlace (id) {
       // addkeyword.innerHTML = ''
       keywords.innerHTML = ''
       for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
-        keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\"><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + xhr.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
+        keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\" readonly><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + xhr.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
       }
 
       keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"keyword\" onkeyup=\"checkIfEmpty(this)\"\/><br>'
@@ -128,28 +129,7 @@ function createPlace (placeObj) {
 }
 
 function updatePlace (placeObj) {
-  var oReq = new XMLHttpRequest()
-  oReq.onload = function (e) {
-    var xhr = e.target
-
-    if (xhr.responseType === 'json') {
-      closeModal()
-      flushModal()
-      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
-    } else {
-      results.innerHTML = JSON.parse(xhr.responseText).data
-    }
-  }
-  oReq.onreadystatechange = function () {
-
-  }
-
-  oReq.open('PUT', '/api/v1/places/' + placeObj.id, true)
-  oReq.responseType = 'json'
-  oReq.setRequestHeader('Content-Type', 'application/json')
-  oReq.send(JSON.stringify(placeObj))
-}
-
+/*
 function updateKeywordsForPlace (keywords, placeId) {
   var addKeywords = (function () {
     var xhr = []
@@ -170,8 +150,70 @@ function updateKeywordsForPlace (keywords, placeId) {
     }
   })()
 }
+*/
 
-function deleteKeyword(placeId, keywordId) {
+  xhr = new XMLHttpRequest()
+  xhr.open('PUT', '/api/v1/places/' + placeObj.id, true)
+  xhr.responseType = 'json'
+  xhr.setRequestHeader('Content-Type', 'application/json')
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      closeModal()
+      flushModal()
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+    }
+  }
+  xhr.send(JSON.stringify(placeObj))
+
+/*
+
+  var oReq = new XMLHttpRequest()
+  oReq.onload = function (e) {
+    var xhr = e.target
+
+    if (xhr.responseType === 'json') {
+      closeModal()
+      flushModal()
+      console.log('TAALLA')
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+    } else {
+      results.innerHTML = JSON.parse(xhr.responseText).data
+    }
+  }
+  oReq.onreadystatechange = function () {
+
+  }
+
+  oReq.open('PUT', '/api/v1/places/' + placeObj.id, true)
+  oReq.responseType = 'json'
+  oReq.setRequestHeader('Content-Type', 'application/json')
+  oReq.send(JSON.stringify(placeObj))
+
+*/
+}
+
+function updateKeywordsForPlace (keywords, placeId) {
+  var addKeywords = (function () {
+    var xhr = []
+    for (var i = 0; i < keywords.length; i++) {
+      (function (i) {
+        var keyword = {}
+        keyword.label = keywords[i]
+        xhr[i] = new XMLHttpRequest()
+        xhr[i].open('POST', 'api/v1/' + placeId + '/keywords', true)
+        xhr[i].setRequestHeader('Content-Type', 'application/json')
+        xhr[i].onreadystatechange = function () {
+          if (xhr[i].readyState === 4 && xhr[i].status === 200) {
+            getPlace(placeId)
+          }
+        }
+        xhr[i].send(JSON.stringify(keyword))
+      })(i)
+    }
+  })()
+}
+
+function deleteKeyword (placeId, keywordId) {
   console.log(placeId, keywordId)
 
   var id = document.getElementById('id').value
@@ -180,11 +222,10 @@ function deleteKeyword(placeId, keywordId) {
     var xhr = e.target
 
     if (xhr.responseType === 'json') {
-      //closeModal()
-      //reloadMarkers()
-      //getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
-      getPlace(placeId);
-
+      // closeModal()
+      // reloadMarkers()
+      // getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+      getPlace(placeId)
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data
     }
@@ -195,7 +236,6 @@ function deleteKeyword(placeId, keywordId) {
   oReq.open('DELETE', '/api/v1/' + placeId + '/' + keywordId + '/keywords', true)
   oReq.responseType = 'json'
   oReq.send()
-
 }
 
 function fillModal (place) {

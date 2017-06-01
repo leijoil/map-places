@@ -28,10 +28,10 @@ function setMarkers (currentPlaces) {
     markers.push(marker)
    // marker.setMap(map)
   }
-  for(var i=0; i<markers.length; i++) {
-    markers[i].addListener('click', function() {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].addListener('click', function () {
       openEdit(this.id)
-    });
+    })
   }
 }
 

@@ -8,7 +8,7 @@ var errorMessages = null
 
 function getAllPlaces (request, response, next) {
   console.log(request.params)
-  var timeNow = new Date();
+  var timeNow = new Date()
   var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
   var wherePlace = {}
 
@@ -22,7 +22,7 @@ function getAllPlaces (request, response, next) {
   }
 
   if ((request.params.search).length > 0) {
-    wherePlace.title = { 
+    wherePlace.title = {
       $like: '%' + request.params.search + '%'
     }
   }
@@ -40,21 +40,18 @@ function getAllPlaces (request, response, next) {
     var include = models.Keyword
   }
 
-
   models.Place.findAll({
     where: wherePlace,
     include: include
   }).then(function (places) {
-      var data = {
-        error: 'false',
-        data: places
-      }
-      response.send(data)
-      next()
+    var data = {
+      error: 'false',
+      data: places
+    }
+    response.send(data)
+    next()
   })
-
 }
-
 
 function getPlace (request, response, next) {
   models.Place.find({
@@ -257,8 +254,6 @@ function deleteKeywordForPlace (request, response, next) {
     response.send(data)
     next()
   })
-
-
 }
 
 var server = restify.createServer()
