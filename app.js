@@ -7,7 +7,6 @@ var models = require('./models/index')
 var errorMessages = null
 
 function getAllPlaces (request, response, next) {
-  console.log(request.params)
   var timeNow = new Date()
   var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
   var wherePlace = {}
@@ -182,12 +181,6 @@ function deletePlace (request, response, next) {
 }
 
 function addKeywordForPlace (request, response, next) {
-    /*
-    if (!verifyRequiredParams(request)){
-        response.send(422,errorMessages);
-        return;
-    }
-    */
   models.Keyword.find({
     where: {
       label: request.params['label']
@@ -237,9 +230,6 @@ function addPlaceKeywordMapping (request, response, next) {
 }
 
 function deleteKeywordForPlace (request, response, next) {
-  console.log(request.params['placeId'])
-  console.log(request.params['keywordId'])
-
   models.PlaceKeyword.destroy({
     where: {
       placeId: request.params['placeId'],
@@ -267,14 +257,12 @@ server.get('/api/v1/places/:id', getPlace)
 server.post('/api/v1/places', addPlace)
 server.put('/api/v1/places/:id', updatePlace)
 server.del('/api/v1/places/:id', deletePlace)
-
 server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 server.del('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
 server.get(/\/?.*/, restify.serveStatic({
   directory: 'public/',
   default: 'index.html'
-            // match: /^((?!app.js).)*$/
 }))
 
 server.listen(3000, function () {

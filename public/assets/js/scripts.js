@@ -81,7 +81,6 @@ function checkIfEmpty (esa) {
 }
 
 function addKeyword () {
-  console.log('addKeyword')
   var placeObj = getAllFields()
   var keywords = getKeywords()
   updateKeywordsForPlace(keywords, placeObj.id)
@@ -123,8 +122,6 @@ function addOrEditPlace () {
   var placeObj = getAllFields()
   var keywords = getKeywords()
 
-  console.log('getKeywords()', getKeywords())
-
   if (placeObj.id === undefined) {
     createPlace(placeObj)
   } else {
@@ -137,16 +134,6 @@ function removePlace () {
   deletePlace()
   flushModal()
 }
-
-/*
-function showFavourites (element) {
-  getPlaces(false, filterArr, element.checked)
-}
-
-function showOpen (element) {
-  getPlaces(false, filterArr, null, element.checked)
-}
-*/
 
 function extras (element) {
   if (element.id === 'showfavourites') {
@@ -166,7 +153,6 @@ function search () {
 }
 
 function resetSearch () {
-  console.log('reset')
   searchTerm = ''
   getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
 }

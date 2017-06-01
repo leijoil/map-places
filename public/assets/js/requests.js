@@ -2,7 +2,6 @@ getPlaces(true, [], false, false, '')
 var keywordsArr = []
 
 function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
-  console.log('INIT')
   var oReq = new XMLHttpRequest()
   onlyFavourites = onlyFavourites ? 1 : 0
   onlyOpen = onlyOpen ? 1 : 0
@@ -50,7 +49,6 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
 }
 
 function getPlace (id) {
-  console.log('getPlace')
   var keywords = document.getElementById('keywords')
   var addkeyword = document.getElementById('addkeyword')
 
@@ -59,7 +57,6 @@ function getPlace (id) {
     var xhr = e.target
 
     if (xhr.responseType === 'json') {
-      // addkeyword.innerHTML = ''
       keywords.innerHTML = ''
       for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
         keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\" readonly><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + xhr.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
@@ -164,32 +161,6 @@ function updateKeywordsForPlace (keywords, placeId) {
     }
   }
   xhr.send(JSON.stringify(placeObj))
-
-/*
-
-  var oReq = new XMLHttpRequest()
-  oReq.onload = function (e) {
-    var xhr = e.target
-
-    if (xhr.responseType === 'json') {
-      closeModal()
-      flushModal()
-      console.log('TAALLA')
-      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
-    } else {
-      results.innerHTML = JSON.parse(xhr.responseText).data
-    }
-  }
-  oReq.onreadystatechange = function () {
-
-  }
-
-  oReq.open('PUT', '/api/v1/places/' + placeObj.id, true)
-  oReq.responseType = 'json'
-  oReq.setRequestHeader('Content-Type', 'application/json')
-  oReq.send(JSON.stringify(placeObj))
-
-*/
 }
 
 function updateKeywordsForPlace (keywords, placeId) {
@@ -222,9 +193,6 @@ function deleteKeyword (placeId, keywordId) {
     var xhr = e.target
 
     if (xhr.responseType === 'json') {
-      // closeModal()
-      // reloadMarkers()
-      // getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
       getPlace(placeId)
     } else {
       results.innerHTML = JSON.parse(xhr.responseText).data

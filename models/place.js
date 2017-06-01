@@ -11,7 +11,6 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function (models) {
-        // associations can be defined here
         Place.belongsToMany(models.Keyword, {
           through: models.PlaceKeyword,
           foreignKey: 'placeId'
