@@ -5,6 +5,7 @@ var showopen = false
 var searchTerm = ''
 
 function openModal (id) {
+  keywords.innerHTML = '<input type=\"text\" name=\"keyword\" id=\"keyword\" onkeyup=\"checkIfEmpty(this)\"\/><br>'
   overlay.classList.remove('is-hidden')
 }
 
@@ -32,7 +33,7 @@ function flushModal () {
   document.getElementById('opento').value = ''
   document.getElementById('lat').value = ''
   document.getElementById('lng').value = ''
-  // document.getElementById('keyword').value = ''
+  //document.getElementById('keyword').value = ''
 }
 
 function getAllFields () {
@@ -69,7 +70,9 @@ function getAllFields () {
 function getKeywords () {
   var keywords = []
   for (var i = 0; i < document.getElementsByName('keyword').length; i++) {
-    keywords.push(document.getElementsByName('keyword')[i].value)
+    if ((document.getElementsByName('keyword')[i].value).length > 0) {
+      keywords.push(document.getElementsByName('keyword')[i].value)
+    }
   }
   return keywords
 }
@@ -138,6 +141,8 @@ function addOrEditPlace () {
   } else {
     updatePlace(placeObj)
     updateKeywordsForPlace(keywords, placeObj.id)
+    closeModal()
+    
   }
 }
 

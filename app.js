@@ -197,8 +197,8 @@ function addPlaceKeywordMapping (request, response, next) {
       message: 'New PlaceKeyword created successfully',
       data: PlaceKeyword
     }
-    response.send(data)
-    next()
+    //response.send(data)
+    //next()
   })
 }
 
