@@ -72,11 +72,16 @@
       <br>
 
       <h4>Keywords</h3></br>
+      
+
       <div id="keywords"></div>
-      <input type="text" name="keyword" id="keyword" onkeyup="if(this.value.length > 0) document.getElementById('addkeywordbtn').disabled = false; else document.getElementById('addkeywordbtn').disabled = true;"/><br>
-      <div id="addkeyword"></div>
+      <!--
+      <input type="text" name="keyword" id="keyword" onkeyup="checkIfEmpty(this)"/><br>
+      -->
       <input type="button" id="addkeywordbtn" onclick="addKeyword();" value="Add Keyword" disabled/>
       <br><br><br>
+
+
 
       <button type="button" onclick="addOrEditPlace();">Save</button>
       <button type="button" onclick="removePlace(id);">Delete</button>

@@ -72,14 +72,21 @@ Array.prototype.remove = function () {
   return this
 }
 
-function addKeyword () {
-
-  console.log('lokki', document.getElementById('addkeyword').innerHTML)
-
-  document.getElementById('addkeyword').innerHTML += '<input type=\"text\" name=\"keyword\"><br>'
-
-
+function checkIfEmpty (esa) {
+  if(esa.value.length > 0) { 
+    document.getElementById('addkeywordbtn').disabled = false; 
+  } else { 
+    document.getElementById('addkeywordbtn').disabled = true;
+  }
 }
+
+
+function addKeyword() {
+  var placeObj = getAllFields()
+  var keywords = getKeywords()
+  updateKeywordsForPlace(keywords, placeObj.id)
+}
+
 
 function chooseLocation () {
   google.maps.event.addListener(map, 'click', function (event) {
