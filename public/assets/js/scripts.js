@@ -82,6 +82,7 @@ function checkIfEmpty (esa) {
 
 
 function addKeyword() {
+  console.log('addKeyword')
   var placeObj = getAllFields()
   var keywords = getKeywords()
   updateKeywordsForPlace(keywords, placeObj.id)

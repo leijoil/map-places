@@ -49,6 +49,7 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
 }
 
 function getPlace (id) {
+  console.log('getPlace')
   var keywords = document.getElementById('keywords')
   var addkeyword = document.getElementById('addkeyword')
 
@@ -57,12 +58,13 @@ function getPlace (id) {
     var xhr = e.target
 
     if (xhr.responseType === 'json') {
-      addkeyword.innerHTML = ''
+      // addkeyword.innerHTML = ''
       keywords.innerHTML = ''
       for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
-        keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\"><br>'
+        keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\"><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + xhr.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
       }
 
+      keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"keyword\" onkeyup=\"checkIfEmpty(this)\"\/><br>'
       fillModal(xhr.response.data)
 
       for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
@@ -160,13 +162,40 @@ function updateKeywordsForPlace (keywords, placeId) {
         xhr[i].setRequestHeader('Content-Type', 'application/json')
         xhr[i].onreadystatechange = function () {
           if (xhr[i].readyState === 4 && xhr[i].status === 200) {
-
+            getPlace(placeId);
           }
         }
         xhr[i].send(JSON.stringify(keyword))
       })(i)
     }
   })()
+}
+
+function deleteKeyword(placeId, keywordId) {
+  console.log(placeId, keywordId)
+
+  var id = document.getElementById('id').value
+  var oReq = new XMLHttpRequest()
+  oReq.onload = function (e) {
+    var xhr = e.target
+
+    if (xhr.responseType === 'json') {
+      //closeModal()
+      //reloadMarkers()
+      //getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+      getPlace(placeId);
+
+    } else {
+      results.innerHTML = JSON.parse(xhr.responseText).data
+    }
+  }
+  oReq.onreadystatechange = function () {
+
+  }
+  oReq.open('DELETE', '/api/v1/' + placeId + '/' + keywordId + '/keywords', true)
+  oReq.responseType = 'json'
+  oReq.send()
+
 }
 
 function fillModal (place) {

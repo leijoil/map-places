@@ -239,6 +239,28 @@ function addPlaceKeywordMapping (request, response, next) {
   })
 }
 
+function deleteKeywordForPlace (request, response, next) {
+  console.log(request.params['placeId'])
+  console.log(request.params['keywordId'])
+
+  models.PlaceKeyword.destroy({
+    where: {
+      placeId: request.params['placeId'],
+      keywordId: request.params['keywordId']
+    }
+  }).then(function (Place) {
+    var data = {
+      error: 'false',
+      message: 'Deleted Keyword for Place successfully',
+      data: Place
+    }
+    response.send(data)
+    next()
+  })
+
+
+}
+
 var server = restify.createServer()
 
 server.use(restify.bodyParser())
@@ -252,6 +274,7 @@ server.put('/api/v1/places/:id', updatePlace)
 server.del('/api/v1/places/:id', deletePlace)
 
 server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
+server.del('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
 server.get(/\/?.*/, restify.serveStatic({
   directory: 'public/',
