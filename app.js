@@ -63,32 +63,9 @@ function getPlace (request, response, next) {
       error: 'false',
       data: Place
     }
-
     response.send(data)
     next()
   })
-}
-
-function verifyRequiredParams (request) {
-  request.assert('title', 'title field is required').notEmpty()
-  request.assert('description', 'description field is required').notEmpty()
-  request.assert('openfrom', 'openfrom field is required').notEmpty()
-  request.assert('opento', 'opento field is required').notEmpty()
-  request.assert('lat', 'lat field is required').notEmpty()
-  request.assert('lng', 'lng field is required').notEmpty()
-  request.assert('favourite', 'favourite field is required').notEmpty()
-
-  var errors = request.validationErrors()
-  if (errors) {
-    errorMessages = {
-      error: 'true',
-      message: util.inspect(errors)
-    }
-
-    return false
-  } else {
-    return true
-  }
 }
 
 function addPlace (request, response, next) {
@@ -96,7 +73,6 @@ function addPlace (request, response, next) {
     response.send(422, errorMessages)
     return
   }
-
   models.Place.create({
     title: request.params['title'],
     description: request.params['description'],
@@ -111,7 +87,6 @@ function addPlace (request, response, next) {
       message: 'New Place created successfully',
       data: Place
     }
-
     response.send(data)
     next()
   })
@@ -122,7 +97,6 @@ function updatePlace (request, response, next) {
     response.send(422, errorMessages)
     return
   }
-
   models.Place.find({
     where: {
       'id': request.params.id
@@ -143,7 +117,6 @@ function updatePlace (request, response, next) {
           message: 'Updated Place successfully',
           data: Place
         }
-
         response.send(data)
         next()
       })
@@ -244,6 +217,28 @@ function deleteKeywordForPlace (request, response, next) {
     response.send(data)
     next()
   })
+}
+
+function verifyRequiredParams (request) {
+  request.assert('title', 'title field is required').notEmpty()
+  request.assert('description', 'description field is required').notEmpty()
+  request.assert('openfrom', 'openfrom field is required').notEmpty()
+  request.assert('opento', 'opento field is required').notEmpty()
+  request.assert('lat', 'lat field is required').notEmpty()
+  request.assert('lng', 'lng field is required').notEmpty()
+  request.assert('favourite', 'favourite field is required').notEmpty()
+
+  var errors = request.validationErrors()
+  if (errors) {
+    errorMessages = {
+      error: 'true',
+      message: util.inspect(errors)
+    }
+
+    return false
+  } else {
+    return true
+  }
 }
 
 var server = restify.createServer()

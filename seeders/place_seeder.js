@@ -8,7 +8,7 @@ module.exports = {
         description: 'Nice coffee shop at good location',
         openfrom: '12:00:00',
         opento: '18:00:00',
-        lat: 60.196723,
+        lat: 60.226723,
         lng: 24.923532,
         favourite: 1
       },
@@ -26,7 +26,7 @@ module.exports = {
         description: 'Nice place to skate and bike',
         openfrom: '00:00:00',
         opento: '00:00:00',
-        lat: 60.184723,
+        lat: 60.216723,
         lng: 24.976392,
         favourite: 0
       },
@@ -62,7 +62,7 @@ module.exports = {
         description: 'Football in summer and ice hockey in winter',
         openfrom: '10:00:00',
         opento: '22:00:00',
-        lat: 60.199965,
+        lat: 60.209965,
         lng: 24.904649,
         favourite: 0
       },
@@ -80,8 +80,8 @@ module.exports = {
         description: 'The new home of Toni',
         openfrom: '10:00:00',
         opento: '22:00:00',
-        lat: 60.163517,
-        lng: 24.881475,
+        lat: 60.243517,
+        lng: 24.992475,
         favourite: 0
       },
       {
@@ -89,7 +89,7 @@ module.exports = {
         description: 'Bowling and table tennis',
         openfrom: '10:00:00',
         opento: '22:00:00',
-        lat: 60.201425,
+        lat: 60.241425,
         lng: 24.908685,
         favourite: 1
       },
@@ -98,7 +98,7 @@ module.exports = {
         description: 'Swimming hall with long tracks',
         openfrom: '10:00:00',
         opento: '22:00:00',
-        lat: 60.216711,
+        lat: 60.259810,
         lng: 24.825014,
         favourite: 1
       },
@@ -125,8 +125,8 @@ module.exports = {
         description: 'Best quattro stagioni in town',
         openfrom: '10:00:00',
         opento: '22:00:00',
-        lat: 60.204210,
-        lng: 24.933109,
+        lat: 60.274210,
+        lng: 24.833109,
         favourite: 1
       }
     ], {})

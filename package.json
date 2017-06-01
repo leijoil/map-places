@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "author": "Ilja Leijo",
   "dependencies": {
-    "mysql": "^2.13.0",
-    "restify": "^4.3.0",
-    "restify-validator": "^0.3.1",
-    "sequelize": "^3.30.4"
+    "mysql": "2.13.0",
+    "restify": "4.3.0",
+    "restify-validator": "0.3.1",
+    "sequelize": "3.30.4"
   }
 }

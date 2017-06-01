@@ -2,13 +2,11 @@ getPlaces(true, [], false, false, '')
 var keywordsArr = []
 
 function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
-  var oReq = new XMLHttpRequest()
   onlyFavourites = onlyFavourites ? 1 : 0
   onlyOpen = onlyOpen ? 1 : 0
-  oReq.onload = function (e) {
-    var xhr = e.target
-
-    if (xhr.responseType === 'json') {
+  var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&onlyopen=' + onlyOpen + '&keywords=' + filterArr + '&search=' + searchTerm
+  genericXhrReq('GET', url).onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       currentPlaces = xhr.response.data
       results.innerHTML = ''
       for (var i = 0; i < xhr.response.data.length; i++) {
@@ -36,27 +34,15 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
       if (!init) {
         reloadMarkers()
       }
-    } else {
-      results.innerHTML = JSON.parse(xhr.responseText).data
     }
   }
-
-  var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&onlyopen=' + onlyOpen + '&keywords=' + filterArr + '&search=' + searchTerm
-
-  oReq.open('GET', url, true)
-  oReq.responseType = 'json'
-  oReq.send()
 }
 
 function getPlace (id) {
   var keywords = document.getElementById('keywords')
-  var addkeyword = document.getElementById('addkeyword')
-
-  var oReq = new XMLHttpRequest()
-  oReq.onload = function (e) {
-    var xhr = e.target
-
-    if (xhr.responseType === 'json') {
+  var url = '/api/v1/places/' + id
+  genericXhrReq('GET', url).onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       keywords.innerHTML = ''
       for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
         keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\" readonly><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + xhr.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
@@ -68,76 +54,39 @@ function getPlace (id) {
       for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
         document.getElementById(xhr.response.data.Keywords[i].id).value = xhr.response.data.Keywords[i].label
       }
-    } else {
-      results.innerHTML = JSON.parse(xhr.responseText).data
     }
   }
-  oReq.onreadystatechange = function () {
-
-  }
-
-  oReq.open('GET', '/api/v1/places/' + id, true)
-  oReq.responseType = 'json'
-  oReq.send()
 }
 
 function deletePlace () {
   var id = document.getElementById('id').value
-  var oReq = new XMLHttpRequest()
-  oReq.onload = function (e) {
-    var xhr = e.target
-
-    if (xhr.responseType === 'json') {
-      closeModal()
-      reloadMarkers()
-      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
-    } else {
-      results.innerHTML = JSON.parse(xhr.responseText).data
-    }
+  var url = '/api/v1/places/' + id
+  genericXhrReq('DELETE', url).onreadystatechange = function () {
+    closeModal()
+    reloadMarkers()
+    getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
   }
-  oReq.onreadystatechange = function () {
-
-  }
-
-  oReq.open('DELETE', '/api/v1/places/' + id, true)
-  oReq.responseType = 'json'
-  oReq.send()
 }
 
 function createPlace (placeObj) {
-  var oReq = new XMLHttpRequest()
-  oReq.onload = function (e) {
-    var xhr = e.target
-
-    if (xhr.responseType === 'json') {
+  var url = '/api/v1/places'
+  genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       closeModal()
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
-    } else {
-      results.innerHTML = JSON.parse(xhr.responseText).data
     }
   }
-  oReq.onreadystatechange = function () {
-  }
-
-  oReq.open('POST', '/api/v1/places', true)
-  oReq.setRequestHeader('Content-Type', 'application/json')
-  oReq.responseType = 'json'
-  oReq.send(JSON.stringify(placeObj))
 }
 
 function updatePlace (placeObj) {
-  xhr = new XMLHttpRequest()
-  xhr.open('PUT', '/api/v1/places/' + placeObj.id, true)
-  xhr.responseType = 'json'
-  xhr.setRequestHeader('Content-Type', 'application/json')
-  xhr.onreadystatechange = function () {
+  var url = '/api/v1/places/' + placeObj.id
+  genericXhrReq('PUT', url, placeObj).onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       closeModal()
       flushModal()
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
     }
   }
-  xhr.send(JSON.stringify(placeObj))
 }
 
 function updateKeywordsForPlace (keywords, placeId) {
@@ -162,34 +111,23 @@ function updateKeywordsForPlace (keywords, placeId) {
 }
 
 function deleteKeyword (placeId, keywordId) {
-  console.log(placeId, keywordId)
-
-  var id = document.getElementById('id').value
-  var oReq = new XMLHttpRequest()
-  oReq.onload = function (e) {
-    var xhr = e.target
-
-    if (xhr.responseType === 'json') {
+  var url = '/api/v1/' + placeId + '/' + keywordId + '/keywords'
+  genericXhrReq('DELETE', url).onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
       getPlace(placeId)
-    } else {
-      results.innerHTML = JSON.parse(xhr.responseText).data
     }
   }
-  oReq.onreadystatechange = function () {
-
-  }
-  oReq.open('DELETE', '/api/v1/' + placeId + '/' + keywordId + '/keywords', true)
-  oReq.responseType = 'json'
-  oReq.send()
 }
 
-function fillModal (place) {
-  document.getElementById('id').value = place.id
-  document.getElementById('title').value = place.title
-  document.getElementById('description').value = place.description
-  document.getElementById('openfrom').value = place.openfrom
-  document.getElementById('opento').value = place.opento
-  document.getElementById('lat').value = place.lat
-  document.getElementById('lng').value = place.lng
-  document.getElementById('favourite').checked = place.favourite
+function genericXhrReq (httpVerb, url, dataObj) {
+  xhr = new XMLHttpRequest()
+  xhr.open(httpVerb, url, true)
+  xhr.responseType = 'json'
+  xhr.setRequestHeader('Content-Type', 'application/json')
+  if (dataObj) {
+    xhr.send(JSON.stringify(dataObj))
+  } else {
+    xhr.send()
+  }
+  return xhr
 }

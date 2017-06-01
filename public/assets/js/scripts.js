@@ -13,6 +13,41 @@ function closeModal () {
   flushModal()
 }
 
+function fillModal (place) {
+  document.getElementById('id').value = place.id
+  document.getElementById('title').value = place.title
+  document.getElementById('description').value = place.description
+  document.getElementById('openfrom').value = place.openfrom
+  document.getElementById('opento').value = place.opento
+  document.getElementById('lat').value = place.lat
+  document.getElementById('lng').value = place.lng
+  document.getElementById('favourite').checked = place.favourite
+}
+
+function flushModal () {
+  document.getElementById('id').value = ''
+  document.getElementById('title').value = ''
+  document.getElementById('description').value = ''
+  document.getElementById('openfrom').value = ''
+  document.getElementById('opento').value = ''
+  document.getElementById('lat').value = ''
+  document.getElementById('lng').value = ''
+  // document.getElementById('keyword').value = ''
+}
+
+function getAllFields () {
+  var placeObj = {}
+  placeObj.id = document.getElementById('id').value || undefined
+  placeObj.title = document.getElementById('title').value
+  placeObj.description = document.getElementById('description').value
+  placeObj.openfrom = document.getElementById('openfrom').value
+  placeObj.opento = document.getElementById('opento').value
+  placeObj.lat = document.getElementById('lat').value
+  placeObj.lng = document.getElementById('lng').value
+  placeObj.favourite = document.getElementById('favourite').checked ? 1 : 0
+  return placeObj
+}
+
 (function () {
   function checkTime (i) {
     return (i < 10) ? '0' + i : i
@@ -30,19 +65,6 @@ function closeModal () {
   }
   startTime()
 })()
-
-function getAllFields () {
-  var placeObj = {}
-  placeObj.id = document.getElementById('id').value || undefined
-  placeObj.title = document.getElementById('title').value
-  placeObj.description = document.getElementById('description').value
-  placeObj.openfrom = document.getElementById('openfrom').value
-  placeObj.opento = document.getElementById('opento').value
-  placeObj.lat = document.getElementById('lat').value
-  placeObj.lng = document.getElementById('lng').value
-  placeObj.favourite = document.getElementById('favourite').checked ? 1 : 0
-  return placeObj
-}
 
 function getKeywords () {
   var keywords = []
@@ -100,17 +122,6 @@ function chooseLocation () {
   })
   var placeObj = getAllFields()
   closeModal()
-}
-
-function flushModal () {
-  document.getElementById('id').value = ''
-  document.getElementById('title').value = ''
-  document.getElementById('description').value = ''
-  document.getElementById('openfrom').value = ''
-  document.getElementById('opento').value = ''
-  document.getElementById('lat').value = ''
-  document.getElementById('lng').value = ''
-  document.getElementById('keyword').value = ''
 }
 
 function openEdit (id) {
