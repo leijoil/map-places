@@ -16,7 +16,7 @@ module.exports = {
         label: 'friend'
       },
       {
-        label: 'hotel'
+        label: 'coffee shop'
       },
       {
         label: 'sports'

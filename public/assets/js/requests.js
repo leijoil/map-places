@@ -25,11 +25,9 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
           }
         }
       }
-      if (filterArr.length === 0) {
-        filters.innerHTML = ''
-        for (i = 0; i < keywordsArr.length; i++) {
-          filters.innerHTML += '<input type=\"checkbox\" name=\"' + keywordsArr[i] + '\" value=\"' + keywordsArr[i] + '\" onchange=\"toggleCheckbox(this)\"><label>' + keywordsArr[i] + '<\/label><br>'
-        }
+      filters.innerHTML = ''
+      for (i = 0; i < keywordsArr.length; i++) {
+        filters.innerHTML += '<input type=\"checkbox\" name=\"' + keywordsArr[i] + '\" value=\"' + keywordsArr[i] + '\" onchange=\"toggleCheckbox(this)\"><label>' + keywordsArr[i] + '<\/label><br>'
       }
       if (!init) {
         reloadMarkers()
