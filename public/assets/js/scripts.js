@@ -5,7 +5,11 @@ var showopen = false
 var searchTerm = ''
 
 function openModal (id) {
-  keywords.innerHTML = '<input type=\"text\" name=\"keyword\" id=\"keyword\" onkeyup=\"checkIfEmpty(this)\"\/><br>'
+  if(!id) {
+    document.getElementById("kwpanel").style.display = "none";
+  } else {
+    document.getElementById("kwpanel").style.display = "";
+  }
   overlay.classList.remove('is-hidden')
 }
 
