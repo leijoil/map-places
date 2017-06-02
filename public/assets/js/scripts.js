@@ -5,10 +5,10 @@ var showopen = false
 var searchTerm = ''
 
 function openModal (id) {
-  if(!id) {
-    document.getElementById("kwpanel").style.display = "none";
+  if (!id) {
+    document.getElementById('kwpanel').style.display = 'none'
   } else {
-    document.getElementById("kwpanel").style.display = "";
+    document.getElementById('kwpanel').style.display = ''
   }
   overlay.classList.remove('is-hidden')
 }
@@ -37,7 +37,7 @@ function flushModal () {
   document.getElementById('opento').value = ''
   document.getElementById('lat').value = ''
   document.getElementById('lng').value = ''
-  //document.getElementById('keyword').value = ''
+  // document.getElementById('keyword').value = ''
 }
 
 function getAllFields () {
@@ -146,7 +146,6 @@ function addOrEditPlace () {
     updatePlace(placeObj)
     updateKeywordsForPlace(keywords, placeObj.id)
     closeModal()
-    
   }
 }
 
