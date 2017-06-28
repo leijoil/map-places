@@ -13,7 +13,7 @@
 ```
 
 ```
-> npm install restify restify-validator sequelize sequelize-cli mysql -g
+> npm install restify restify-validator sequelize sequelize-cli mysql mysql2 -g
 ```
 
 ```

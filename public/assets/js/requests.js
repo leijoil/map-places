@@ -1,26 +1,33 @@
 getPlaces(true, [], false, false, '')
 var keywordsArr = []
 
-function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm) {
+function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updateFilters) {
   onlyFavourites = onlyFavourites ? 1 : 0
-  onlyOpen = onlyOpen ? 1 : 0
+  onlyOpen = onlyOpen ? 1 : 0 
   var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&onlyopen=' + onlyOpen + '&keywords=' + filterArr + '&search=' + searchTerm
+  
   genericXhrReq('GET', url).onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      currentPlaces = xhr.response.data
+    if (this.readyState === 4 && this.status === 200) {
+      currentPlaces = this.response.data
       results.innerHTML = ''
-      for (var i = 0; i < xhr.response.data.length; i++) {
+      
+      if(updateFilters) {
+        keywordsArr = []
+      }
+
+      for (var i = 0; i < this.response.data.length; i++) {
         var favImage = ''
-        if (xhr.response.data[i].favourite) {
+        if (this.response.data[i].favourite) {
           favImage = '<\/p><img src="assets/images/favourite.png" height="22" width="22"><\/img>'
         }
 
-        results.innerHTML += '<li class=\"placeslist li_num_0_1\" onClick=\"openEdit(' + xhr.response.data[i].id + ');\"><a href=\"#\"><div id=\"openhours\"><p>' + (xhr.response.data[i].openfrom).slice(0, -3) + ' - ' + (xhr.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div id=\"title\"><h4>' + xhr.response.data[i].title + '<\/h4><p>' + xhr.response.data[i].description + favImage + '<\/div></a><\/li>'
+        results.innerHTML += '<li class=\"placeslist li_num_0_1\" onClick=\"openEdit(' + this.response.data[i].id + ');\"><a href=\"#\"><div id=\"openhours\"><p>' + (this.response.data[i].openfrom).slice(0, -3) + ' - ' + (this.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div id=\"title\"><h4>' + this.response.data[i].title + '<\/h4><p>' + this.response.data[i].description + favImage + '<\/div></a><\/li>'
 
         if (filterArr.length === 0) {
-          for (var k = 0; k < xhr.response.data[i].Keywords.length; k++) {
-            if (!keywordsArr.includes(xhr.response.data[i].Keywords[k].label)) {
-              keywordsArr.push(xhr.response.data[i].Keywords[k].label)
+          for (var k = 0; k < this.response.data[i].Keywords.length; k++) {
+            // console.log('jeas')
+            if (!keywordsArr.includes(this.response.data[i].Keywords[k].label)) {
+              keywordsArr.push(this.response.data[i].Keywords[k].label)
             }
           }
         }
@@ -40,17 +47,17 @@ function getPlace (id) {
   var keywords = document.getElementById('keywords')
   var url = '/api/v1/places/' + id
   genericXhrReq('GET', url).onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
+    if (this.readyState === 4 && this.status === 200) {
       keywords.innerHTML = ''
-      for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
-        keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + xhr.response.data.Keywords[i].id + '\" readonly><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + xhr.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
+      for (var i = 0; i < this.response.data.Keywords.length; i++) {
+        keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + this.response.data.Keywords[i].id + '\" readonly><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + this.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
       }
 
       keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"keyword\" onkeyup=\"checkIfEmpty(this)\"\/><br>'
-      fillModal(xhr.response.data)
+      fillModal(this.response.data)
 
-      for (var i = 0; i < xhr.response.data.Keywords.length; i++) {
-        document.getElementById(xhr.response.data.Keywords[i].id).value = xhr.response.data.Keywords[i].label
+      for (var i = 0; i < this.response.data.Keywords.length; i++) {
+        document.getElementById(this.response.data.Keywords[i].id).value = this.response.data.Keywords[i].label
       }
     }
   }
@@ -69,7 +76,7 @@ function deletePlace () {
 function createPlace (placeObj) {
   var url = '/api/v1/places'
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
+    if (this.readyState === 4 && this.status === 200) {
       closeModal()
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
     }
@@ -79,10 +86,9 @@ function createPlace (placeObj) {
 function updatePlace (placeObj) {
   var url = '/api/v1/places/' + placeObj.id
   genericXhrReq('PUT', url, placeObj).onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
+    if (this.readyState === 4 && this.status === 200) {
       closeModal()
-      flushModal()
-      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+      getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true)
     }
   }
 }
@@ -111,14 +117,14 @@ function updateKeywordsForPlace (keywords, placeId) {
 function deleteKeyword (placeId, keywordId) {
   var url = '/api/v1/' + placeId + '/' + keywordId + '/keywords'
   genericXhrReq('DELETE', url).onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
+    if (this.readyState === 4 && this.status === 200) {
       getPlace(placeId)
     }
   }
 }
 
 function genericXhrReq (httpVerb, url, dataObj) {
-  xhr = new XMLHttpRequest()
+  var xhr = new XMLHttpRequest()
   xhr.open(httpVerb, url, true)
   xhr.responseType = 'json'
   xhr.setRequestHeader('Content-Type', 'application/json')

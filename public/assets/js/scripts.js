@@ -5,6 +5,7 @@ var showopen = false
 var searchTerm = ''
 
 function openModal (id) {
+  flushModal();
   if (!id) {
     document.getElementById('kwpanel').style.display = 'none'
   } else {
@@ -15,8 +16,8 @@ function openModal (id) {
 
 function closeModal () {
   overlay.classList.add('is-hidden')
-  flushModal()
-  getPlaces(true, filterArr, showfavourites, showopen, searchTerm)
+  // flushModal()
+  // getPlaces(true, filterArr, showfavourites, showopen, searchTerm)
 }
 
 function fillModal (place) {
