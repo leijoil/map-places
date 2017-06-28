@@ -1,3 +1,4 @@
+checkFirstVisit();
 getPlaces(true, [], false, false, '')
 var keywordsArr = []
 
@@ -25,7 +26,6 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
 
         if (filterArr.length === 0) {
           for (var k = 0; k < this.response.data[i].Keywords.length; k++) {
-            // console.log('jeas')
             if (!keywordsArr.includes(this.response.data[i].Keywords[k].label)) {
               keywordsArr.push(this.response.data[i].Keywords[k].label)
             }
