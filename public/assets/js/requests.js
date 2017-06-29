@@ -123,6 +123,18 @@ function deleteKeyword (placeId, keywordId) {
   }
 }
 
+function createSession (sessionKey) {
+  var url = '/api/v1/sessions'
+  genericXhrReq('POST', url, sessionKey).onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      console.log('esa', this)
+      var sessionId = this.response.data.id
+      console.log('sessionId', sessionId)
+      getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true)
+    }
+  }
+}
+
 function genericXhrReq (httpVerb, url, dataObj) {
   var xhr = new XMLHttpRequest()
   xhr.open(httpVerb, url, true)

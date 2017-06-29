@@ -5,9 +5,10 @@ var showopen = false
 var searchTerm = ''
 
 function registerSession () {
-  var sessionId = makeId();
-  console.log(sessionId)
-  processAjaxData(sessionId)
+  var sessionKey = makeId();
+  console.log(sessionKey)
+  createSession({sessionKey: sessionKey})
+  processAjaxData(sessionKey)
 }
 
 function checkFirstVisit() {

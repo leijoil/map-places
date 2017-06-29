@@ -241,6 +241,27 @@ function verifyRequiredParams (request) {
   }
 }
 
+function addSession (request, response, next) {
+  console.log('addSession')
+  /*
+  if (!verifyRequiredParams(request)) {
+    response.send(422, errorMessages)
+    return
+  }
+  */
+  models.Session.create({
+    sessionKey: request.params['sessionKey']
+  }).then(function (Session) {
+    var data = {
+      error: 'false',
+      message: 'New Session created successfully',
+      data: Session
+    }
+    response.send(data)
+    next()
+  })
+}
+
 var server = restify.createServer()
 
 server.use(restify.bodyParser())
@@ -254,6 +275,8 @@ server.put('/api/v1/places/:id', updatePlace)
 server.del('/api/v1/places/:id', deletePlace)
 server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 server.del('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
+
+server.post('/api/v1/sessions', addSession)
 
 server.get(/\/?.*/, restify.serveStatic({
   directory: 'public/',
