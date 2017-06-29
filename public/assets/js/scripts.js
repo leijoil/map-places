@@ -7,6 +7,7 @@ var searchTerm = ''
 function registerSession () {
   var sessionId = makeId();
   console.log(sessionId)
+  processAjaxData(sessionId)
 }
 
 function checkFirstVisit() {
@@ -32,6 +33,10 @@ function makeId ()
 
     return text;
 }
+
+function processAjaxData(urlPath){
+     window.history.pushState({},"", urlPath);
+ }
 
 function openModal (id) {
   flushModal();
