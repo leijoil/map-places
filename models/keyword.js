@@ -4,7 +4,8 @@ module.exports = function (sequelize, DataTypes) {
     label: {
       type: DataTypes.STRING,
       validate: { len: [1, 15] }
-    }
+    },
+    sessionKey: DataTypes.STRING
   }, {
     classMethods: {
       associate: function (models) {

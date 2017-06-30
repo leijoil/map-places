@@ -15,6 +15,10 @@ module.exports = {
       keywordId: {
         type: Sequelize.INTEGER,
         foreignKey: true
+      },
+      sessionKey: {
+        allowNull: false,
+        type: Sequelize.STRING
       }
     })
   },

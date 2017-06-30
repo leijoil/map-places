@@ -10,6 +10,10 @@ module.exports = {
       },
       label: {
         type: Sequelize.STRING
+      },
+      sessionKey: {
+        allowNull: false,
+        type: Sequelize.STRING
       }
     })
   },

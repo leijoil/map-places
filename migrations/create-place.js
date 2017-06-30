@@ -28,6 +28,10 @@ module.exports = {
       },
       favourite: {
         type: Sequelize.BOOLEAN
+      },
+      sessionKey: {
+        allowNull: false,
+        type: Sequelize.STRING
       }
     })
   },

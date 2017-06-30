@@ -241,7 +241,7 @@ function verifyRequiredParams (request) {
   }
 }
 
-function addSession (request, response, next) {
+function addSession () {
   console.log('addSession')
   /*
   if (!verifyRequiredParams(request)) {
@@ -250,16 +250,25 @@ function addSession (request, response, next) {
   }
   */
   models.Session.create({
-    sessionKey: request.params['sessionKey']
+    sessionKey: makeId()
   }).then(function (Session) {
     var data = {
       error: 'false',
       message: 'New Session created successfully',
       data: Session
     }
-    response.send(data)
-    next()
   })
+}
+
+
+function makeId ()
+{
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i=0; i < 8; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
 }
 
 var server = restify.createServer()
@@ -279,9 +288,19 @@ server.del('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 server.post('/api/v1/sessions', addSession)
 
 
-server.get('/', function(req, res, next) {
-  console.log('main route')
-})
+
+
+
+server.get(/\/?.*/, [esantikkari, restify.serveStatic({
+  directory: 'public/',
+  default: 'index.html'
+})])
+
+function esantikkari () {
+  console.log('caccaa')
+}
+
+
 
 server.get(/.*/, function(req, res, next) {
   if (res) {

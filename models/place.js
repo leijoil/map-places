@@ -7,7 +7,8 @@ module.exports = function (sequelize, DataTypes) {
     opento: DataTypes.TIME,
     lat: DataTypes.DECIMAL,
     lng: DataTypes.DECIMAL,
-    favourite: DataTypes.BOOLEAN
+    favourite: DataTypes.BOOLEAN,
+    sessionKey: DataTypes.STRING
   }, {
     classMethods: {
       associate: function (models) {
