@@ -278,10 +278,35 @@ server.del('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
 server.post('/api/v1/sessions', addSession)
 
-server.get(/\/?.*/, restify.serveStatic({
-  directory: 'public/',
-  default: 'index.html'
-}))
+
+server.get('/', function(req, res, next) {
+  console.log('main route')
+})
+
+server.get(/.*/, function(req, res, next) {
+  if (res) {
+    console.log('jkees', (req.url).replace(/\//g, ''))
+    var urlPath = (req.url).replace(/\//g, '')
+    if(checkIfSessionExist(urlPath)) {
+    } else {
+      res.redirect('/', next);
+    }
+  } else {
+    console.log('something went wrong')
+  }
+
+})
+
+function checkIfSessionExist (urlPath) {
+  return false
+}
+
+
+//server.get(/\/?.*/, restify.serveStatic({
+//  directory: 'public/',
+//  default: 'index.html'
+//}))
+
 
 server.listen(3000, function () {
   console.log('REST API Server listening at http://localhost:3000')
