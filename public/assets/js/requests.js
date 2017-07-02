@@ -1,4 +1,4 @@
-checkFirstVisit();
+// registerSession();
 getPlaces(true, [], false, false, '')
 var keywordsArr = []
 

@@ -4,13 +4,17 @@ var showfavourites = false
 var showopen = false
 var searchTerm = ''
 
+
+
 function registerSession () {
   var sessionKey = makeId();
   console.log(sessionKey)
-  createSession({sessionKey: sessionKey})
-  processAjaxData(sessionKey)
+  
+  //createSession({sessionKey: sessionKey})
+  //processAjaxData(sessionKey)
 }
 
+/*
 function checkFirstVisit() {
   if(document.cookie.indexOf('mycookie')==-1) {
     // cookie doesn't exist, create it now
@@ -22,6 +26,7 @@ function checkFirstVisit() {
     console.log('You refreshed!');
   }
 }
+*/
 
 function makeId ()
 {

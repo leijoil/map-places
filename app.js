@@ -287,34 +287,36 @@ server.del('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
 server.post('/api/v1/sessions', addSession)
 
+server.get('/', root)
+server.get(/^\/([a-zA-Z]{3})\/?$/, hash) // works so far
 
 
-
-
-server.get(/\/?.*/, [esantikkari, restify.serveStatic({
-  directory: 'public/',
-  default: 'index.html'
-})])
-
-function esantikkari () {
-  console.log('caccaa')
+function root() {
+  console.log('root')
+  console.log(makeId())
 }
 
+function hash() {
+  console.log('hash')
+}
 
+function notfound() {
+  console.log('notfound')
+}
 
-server.get(/.*/, function(req, res, next) {
-  if (res) {
-    console.log('jkees', (req.url).replace(/\//g, ''))
-    var urlPath = (req.url).replace(/\//g, '')
-    if(checkIfSessionExist(urlPath)) {
-    } else {
-      res.redirect('/', next);
-    }
-  } else {
-    console.log('something went wrong')
-  }
+//server.get(/.*/, function(req, res, next) {
+//  if (res) {
+//    console.log('jkees', (req.url).replace(/\//g, ''))
+//    var urlPath = (req.url).replace(/\//g, '')
+//    if(checkIfSessionExist(urlPath)) {
+//    } else {
+//     res.redirect('/', next);
+//    }
+//  } else {
+//    console.log('something went wrong')
+//  }
 
-})
+//})
 
 function checkIfSessionExist (urlPath) {
   return false
