@@ -9,7 +9,6 @@ var searchTerm = ''
 function registerSession () {
 
   if(window.location.pathname === '/') {
-    console.log('ROOTPATH')
     createSession()    
   } else {
     sessionKey = (window.location.pathname).replace(/\//g, '');
@@ -17,6 +16,10 @@ function registerSession () {
     getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
   }
 
+}
+
+function saveSession () {
+  window.history.pushState("","", sessionKey); 
 }
 
 function openModal (id) {

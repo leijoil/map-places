@@ -76,13 +76,10 @@ function deletePlace () {
 }
 
 function createPlace (placeObj) {
-  console.log('jea', placeObj)
   var url = '/api/v1/places'
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
-      console.log('createPlace', sessionKey)
-      console.log('kuo', this.response.data.sessionKey)
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
     }
   }
@@ -132,9 +129,7 @@ function createSession () {
   var url = '/api/v1/sessions'
   genericXhrReq('GET', url).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
-      console.log('esa', this)
       sessionKey = this.response.data.sessionKey
-      console.log('sessionKey', sessionKey)
       getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
     }
   }
