@@ -1,6 +1,8 @@
+var sessionKey = ''
 registerSession();
-getPlaces(true, [], false, false, '')
+//getPlaces(true, [], false, false, '')
 var keywordsArr = []
+
 
 function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updateFilters) {
   onlyFavourites = onlyFavourites ? 1 : 0
@@ -74,11 +76,12 @@ function deletePlace () {
 }
 
 function createPlace (placeObj) {
+  console.log('jea', placeObj)
   var url = '/api/v1/places'
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
-      getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm, sessionKey)
     }
   }
 }
@@ -123,14 +126,14 @@ function deleteKeyword (placeId, keywordId) {
   }
 }
 
-function createSession (sessionKey) {
+function createSession () {
   var url = '/api/v1/sessions'
-  genericXhrReq('POST', url, sessionKey).onreadystatechange = function () {
+  genericXhrReq('POST', url).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       console.log('esa', this)
-      var sessionId = this.response.data.id
-      console.log('sessionId', sessionId)
-      getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true)
+      var sessionKey = this.response.data.sessionKey
+      console.log('sessionKey', sessionKey)
+      return sessionKey
     }
   }
 }

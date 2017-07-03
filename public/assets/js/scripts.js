@@ -8,6 +8,16 @@ var searchTerm = ''
 
 function registerSession () {
 
+  if(window.location.pathname === '/') {
+    console.log('ROOTPATH')
+    sessionKey = createSession()
+    getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+  } else {
+    sessionKey = (window.location.pathname).replace(/\//g, '');
+    console.log('path: '+ sessionKey)
+    getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+  }
+
 }
 
 function openModal (id) {
@@ -149,6 +159,7 @@ function addOrEditPlace () {
   var keywords = getKeywords()
 
   if (placeObj.id === undefined) {
+    placeObj.sessionKey = sessionKey
     createPlace(placeObj)
   } else {
     updatePlace(placeObj)
