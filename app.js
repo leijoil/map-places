@@ -1,5 +1,5 @@
 
-
+var path = require('path');
 var express = require('express')
 var server = express()
 // var restifyValidator = require('restify-validator')
@@ -309,6 +309,13 @@ server.use(function(req, res, next) {
 //server.use(express.static(path.join(application_root, "StaticPages")));
 //server.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
+
+console.log('path', path)
+
+server.use('/', express.static('public'))
+server.use(/^\/([a-zA-Z]{3})\/?$/, express.static('public'));
+
+
 server.get('/api/v1/places', getAllPlaces)
 server.get('/api/v1/places/:id', getPlace)
 server.post('/api/v1/places', addPlace)
@@ -317,19 +324,16 @@ server.delete('/api/v1/places/:id', deletePlace)
 server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 server.delete('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
-server.post('/api/v1/sessions', addSession)
+// All the others:
 
-//server.get('/', root)
-//server.use('/', express.static('public'))
-//server.get(/^\/([a-zA-Z]{3})\/?$/, hash) // works so far
-
-server.route('/*')
+/*
+server.route(/^\/([a-zA-Z]{3})\/?$/)
   .get(function(req, res) {
     console.log('KULLIA')
     res.send(JSON.stringify({ a: 1 }, null, 3));
-    res.sendFile('index.html', {root: 'public'});
-    
+    res.sendFile('index.html', {root: 'public'});  
   });
+*/
 
 function root() {
   console.log('root')
@@ -344,30 +348,9 @@ function notfound() {
   console.log('notfound')
 }
 
-//server.get(/.*/, function(req, res, next) {
-//  if (res) {
-//    console.log('jkees', (req.url).replace(/\//g, ''))
-//    var urlPath = (req.url).replace(/\//g, '')
-//    if(checkIfSessionExist(urlPath)) {
-//    } else {
-//     res.redirect('/', next);
-//    }
-//  } else {
-//    console.log('something went wrong')
-//  }
-
-//})
-
 function checkIfSessionExist (urlPath) {
   return false
 }
-
-
-//server.get(/\/?.*/, express.serveStatic({
-//  directory: 'public/',
-//  default: 'index.html'
-//}))
-
 
 server.listen(3000, function () {
   console.log('REST API Server listening at http://localhost:3000')
