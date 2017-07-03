@@ -10,11 +10,10 @@ function registerSession () {
 
   if(window.location.pathname === '/') {
     console.log('ROOTPATH')
-    sessionKey = createSession()
-    getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+    createSession()    
   } else {
     sessionKey = (window.location.pathname).replace(/\//g, '');
-    console.log('path: '+ sessionKey)
+    // console.log('path: '+ sessionKey)
     getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
   }
 

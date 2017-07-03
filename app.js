@@ -14,28 +14,30 @@ function getAllPlaces (request, response, next) {
   var timeNow = new Date()
   var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
   var wherePlace = {}
+  wherePlace.sessionKey = request.query.sessionKey
+  console.log('params: ', request.query)
 
-  if (request.params.onlyfav === '1') {
+  if (request.query.onlyfav === '1') {
     wherePlace.favourite = 1
   }
 
-  if (request.params.onlyopen === '1') {
+  if (request.query.onlyopen === '1') {
     wherePlace.openfrom = {$lt: currentTime}
     wherePlace.opento = {$gte: currentTime}
   }
 
-  if (request.params.search && (request.params.search).length > 0) {
+  if (request.query.search && (request.query.search).length > 0) {
     wherePlace.title = {
-      $like: '%' + request.params.search + '%'
+      $like: '%' + request.query.search + '%'
     }
   }
   
-  if (request.params.search &&  (request.params.keywords).length > 0) {
+  if (request.query.search &&  (request.query.keywords).length > 0) {
     var include = [{
       model: models.Keyword,
       where: {
         label: {
-          in: (request.params.keywords).split(',')
+          in: (request.query.keywords).split(',')
         }
       }
     }]
@@ -59,7 +61,7 @@ function getAllPlaces (request, response, next) {
 function getPlace (request, response, next) {
   models.Place.find({
     where: {
-      'id': request.params.id
+      'id': request.query.id
     },
     include: models.Keyword
   }).then(function (Place) {
@@ -79,7 +81,7 @@ function addPlace (request, response, next) {
     return
   }
   */
-  console.log('rea', request.body)
+  console.log('rea', request.body['sessionKey'])
   models.Place.create({
     title: request.body['title'],
     description: request.body['description'],
@@ -107,18 +109,18 @@ function updatePlace (request, response, next) {
   }
   models.Place.find({
     where: {
-      'id': request.params.id
+      'id': request.query.id
     }
   }).then(function (Place) {
     if (Place) {
       Place.updateAttributes({
-        title: request.params['title'],
-        description: request.params['description'],
-        openfrom: request.params['openfrom'],
-        opento: request.params['opento'],
-        lat: request.params['lat'],
-        lng: request.params['lng'],
-        favourite: request.params['favourite']
+        title: request.query['title'],
+        description: request.query['description'],
+        openfrom: request.query['openfrom'],
+        opento: request.query['opento'],
+        lat: request.query['lat'],
+        lng: request.query['lng'],
+        favourite: request.query['favourite']
       }).then(function (Place) {
         var data = {
           error: 'false',
@@ -135,7 +137,7 @@ function updatePlace (request, response, next) {
 function deletePlace (request, response, next) {
   models.Place.destroy({
     where: {
-      id: request.params['id']
+      id: request.query['id']
     }
   }).then(function (Place) {
     var data = {
@@ -147,7 +149,7 @@ function deletePlace (request, response, next) {
     next()
     models.PlaceKeyword.destroy({
       where: {
-        id: request.params['id']
+        id: request.query['id']
       }
     }).then(function (PlaceKeyword) {
       var data = {
@@ -164,19 +166,19 @@ function deletePlace (request, response, next) {
 function addKeywordForPlace (request, response, next) {
   models.Keyword.find({
     where: {
-      label: request.params['label']
+      label: request.query['label']
     }
   }).then(function (Keyword) {
     if (Keyword) {
       var addPlaceKeywordMappingReq = {}
-      addPlaceKeywordMappingReq.placeId = request.params.placeId
+      addPlaceKeywordMappingReq.placeId = request.query.placeId
       addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
       addPlaceKeywordMapping(addPlaceKeywordMappingReq)
 
       response.send('already exists, added mapping')
     } else {
       models.Keyword.create({
-        label: request.params['label']
+        label: request.query['label']
       }).then(function (Keyword) {
         var data = {
           error: 'false',
@@ -187,7 +189,7 @@ function addKeywordForPlace (request, response, next) {
         response.send(data)
         next()
         var addPlaceKeywordMappingReq = {}
-        addPlaceKeywordMappingReq.placeId = request.params.placeId
+        addPlaceKeywordMappingReq.placeId = request.query.placeId
         addPlaceKeywordMappingReq.keywordId = Keyword.dataValues.id
         addPlaceKeywordMapping(addPlaceKeywordMappingReq, response, next)
       })
@@ -213,8 +215,8 @@ function addPlaceKeywordMapping (request, response, next) {
 function deleteKeywordForPlace (request, response, next) {
   models.PlaceKeyword.destroy({
     where: {
-      placeId: request.params['placeId'],
-      keywordId: request.params['keywordId']
+      placeId: request.query['placeId'],
+      keywordId: request.query['keywordId']
     }
   }).then(function (Place) {
     var data = {
@@ -335,7 +337,7 @@ server.delete('/api/v1/places/:id', deletePlace)
 server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 server.delete('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
-server.post('/api/v1/sessions', addSession)
+server.get('/api/v1/sessions', addSession)
 
 // All the others:
 

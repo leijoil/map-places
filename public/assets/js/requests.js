@@ -4,10 +4,10 @@ registerSession();
 var keywordsArr = []
 
 
-function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updateFilters) {
+function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updateFilters, sessionKey) {
   onlyFavourites = onlyFavourites ? 1 : 0
   onlyOpen = onlyOpen ? 1 : 0 
-  var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&onlyopen=' + onlyOpen + '&keywords=' + filterArr + '&search=' + searchTerm
+  var url = '/api/v1/places?onlyfav=' + onlyFavourites + '&onlyopen=' + onlyOpen + '&keywords=' + filterArr + '&search=' + searchTerm + '&sessionKey=' + sessionKey
   
   genericXhrReq('GET', url).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
@@ -81,7 +81,9 @@ function createPlace (placeObj) {
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
-      getPlaces(false, filterArr, showfavourites, showopen, searchTerm, sessionKey)
+      console.log('createPlace', sessionKey)
+      console.log('kuo', this.response.data.sessionKey)
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
     }
   }
 }
@@ -128,12 +130,12 @@ function deleteKeyword (placeId, keywordId) {
 
 function createSession () {
   var url = '/api/v1/sessions'
-  genericXhrReq('POST', url).onreadystatechange = function () {
+  genericXhrReq('GET', url).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       console.log('esa', this)
-      var sessionKey = this.response.data.sessionKey
+      sessionKey = this.response.data.sessionKey
       console.log('sessionKey', sessionKey)
-      return sessionKey
+      getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
     }
   }
 }
