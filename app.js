@@ -1,5 +1,8 @@
-var restify = require('restify')
-var restifyValidator = require('restify-validator')
+
+
+var express = require('express')
+var server = express()
+// var restifyValidator = require('restify-validator')
 var util = require('util')
 
 var models = require('./models/index')
@@ -271,25 +274,62 @@ function makeId ()
   return text;
 }
 
-var server = restify.createServer()
+//server.use(express.bodyParser())
+//server.use(express.queryParser())
+//server.use(restifyValidator)
 
-server.use(restify.bodyParser())
-server.use(restify.queryParser())
-server.use(restifyValidator)
+
+/*
+server.use(function(req, res, next) {
+  var comparableUrl = req.url
+  while(comparableUrl.charAt(0) === '0')
+  {
+    comparableUrl = comparableUrl.substr(1);
+  }
+  var regex = /^\/([a-zA-Z]{3})\/?$/;
+  if(regex.test(comparableUrl)) {
+    console.log('hashPath')
+    res.setHeader("User", "12345");
+    server.use(req.url, express.static('public'))
+  } 
+  
+  else if(req.url === '/') {
+    console.log('rootPath')
+    server.use(req.url, express.static('public'))
+  }
+
+  else {
+    console.log('otherPath')
+    server.use(req.url, express.static('public/404.html'))
+  }
+  return next();
+});
+
+*/
+//server.use(express.static(path.join(application_root, "StaticPages")));
+//server.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 
 server.get('/api/v1/places', getAllPlaces)
 server.get('/api/v1/places/:id', getPlace)
 server.post('/api/v1/places', addPlace)
 server.put('/api/v1/places/:id', updatePlace)
-server.del('/api/v1/places/:id', deletePlace)
+server.delete('/api/v1/places/:id', deletePlace)
 server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
-server.del('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
+server.delete('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
 server.post('/api/v1/sessions', addSession)
 
-server.get('/', root)
-server.get(/^\/([a-zA-Z]{3})\/?$/, hash) // works so far
+//server.get('/', root)
+//server.use('/', express.static('public'))
+//server.get(/^\/([a-zA-Z]{3})\/?$/, hash) // works so far
 
+server.route('/*')
+  .get(function(req, res) {
+    console.log('KULLIA')
+    res.send(JSON.stringify({ a: 1 }, null, 3));
+    res.sendFile('index.html', {root: 'public'});
+    
+  });
 
 function root() {
   console.log('root')
@@ -323,7 +363,7 @@ function checkIfSessionExist (urlPath) {
 }
 
 
-//server.get(/\/?.*/, restify.serveStatic({
+//server.get(/\/?.*/, express.serveStatic({
 //  directory: 'public/',
 //  default: 'index.html'
 //}))

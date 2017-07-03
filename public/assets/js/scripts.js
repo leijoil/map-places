@@ -7,42 +7,8 @@ var searchTerm = ''
 
 
 function registerSession () {
-  var sessionKey = makeId();
-  console.log(sessionKey)
-  
-  //createSession({sessionKey: sessionKey})
-  //processAjaxData(sessionKey)
+
 }
-
-/*
-function checkFirstVisit() {
-  if(document.cookie.indexOf('mycookie')==-1) {
-    // cookie doesn't exist, create it now
-    registerSession();
-    document.cookie = 'mycookie=1';
-  }
-  else {
-    // not first visit, so alert
-    console.log('You refreshed!');
-  }
-}
-*/
-
-function makeId ()
-{
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i=0; i < 8; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return text;
-}
-
-function processAjaxData(urlPath){
-     window.history.pushState({},"", urlPath);
- }
 
 function openModal (id) {
   flushModal();

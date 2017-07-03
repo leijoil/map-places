@@ -1,4 +1,4 @@
-// registerSession();
+registerSession();
 getPlaces(true, [], false, false, '')
 var keywordsArr = []
 
