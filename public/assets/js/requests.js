@@ -2,6 +2,7 @@ var sessionKey = ''
 registerSession();
 //getPlaces(true, [], false, false, '')
 var keywordsArr = []
+var currentPlaces = {}
 
 
 function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updateFilters, sessionKey) {
@@ -131,6 +132,15 @@ function createSession () {
     if (this.readyState === 4 && this.status === 200) {
       sessionKey = this.response.data.sessionKey
       getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+    }
+  }
+}
+
+function checkIfExists (sessionKey, callback) {
+  var url = '/api/v1/sessions/' + sessionKey
+  genericXhrReq('GET', url).onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      callback(null, this.response.data)
     }
   }
 }

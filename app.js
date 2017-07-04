@@ -285,6 +285,23 @@ function makeId ()
   return text;
 }
 
+function getSession (request, response, next) {
+  console.log(request.params.sessionKey)
+  models.Session.find({
+    where: {
+      'sessionKey': request.params.sessionKey
+    }
+  }).then(function (Place) {
+    var data = {
+      error: 'false',
+      data: Place
+    }
+    console.log('DATA ', data)
+    response.send(data)
+    next()
+  })
+}
+
 // server.use(express.bodyParser())
 //server.use(express.queryParser())
 //server.use(restifyValidator)
@@ -338,6 +355,7 @@ server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 server.delete('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
 server.get('/api/v1/sessions', addSession)
+server.get('/api/v1/sessions/:sessionKey', getSession)
 
 // All the others:
 

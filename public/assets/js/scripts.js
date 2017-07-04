@@ -11,11 +11,19 @@ function registerSession () {
   if(window.location.pathname === '/') {
     createSession()    
   } else {
-    sessionKey = (window.location.pathname).replace(/\//g, '');
-    // console.log('path: '+ sessionKey)
-    getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+    var sessionKey = (window.location.pathname).replace(/\//g, '');
+    checkIfExists(sessionKey, function (err, data) {
+      if(err) {
+        console.log('error')
+      } else {
+        if (data) {
+          getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+        } else {
+          document.location.href='/';
+        }
+      }
+    })
   }
-
 }
 
 function saveSession () {

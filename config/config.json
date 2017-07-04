@@ -4,8 +4,11 @@
     "password": "map_places",
     "database": "map_places",
     "host": "127.0.0.1",
-    "port": "3306",
+    "port": "8889",
     "dialect": "mysql",
+    "dialectOptions": {
+      "socketPath": "/Applications/MAMP/tmp/mysql/mysql.sock"
+    },
     "define": {
       "timestamps": false
     }
