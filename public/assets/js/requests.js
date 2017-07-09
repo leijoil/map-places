@@ -82,6 +82,7 @@ function createPlace (placeObj) {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
+      document.getElementsByName('saveOption')[0].disabled = false;
     }
   }
 }
