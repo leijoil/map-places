@@ -3,6 +3,7 @@ registerSession();
 //getPlaces(true, [], false, false, '')
 var keywordsArr = []
 var currentPlaces = {}
+var length = 0
 
 
 function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updateFilters, sessionKey) {
@@ -18,13 +19,15 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
       if(updateFilters) {
         keywordsArr = []
       }
+      
+      console.log('kikkklength', this.response.data.length)
+      length = this.response.data.length
 
       for (var i = 0; i < this.response.data.length; i++) {
         var favImage = ''
         if (this.response.data[i].favourite) {
           favImage = '<\/p><img src="assets/images/favourite.png" height="22" width="22"><\/img>'
         }
-
         results.innerHTML += '<li class=\"placeslist li_num_0_1\" onClick=\"openEdit(' + this.response.data[i].id + ');\"><a href=\"#\"><div id=\"openhours\"><p>' + (this.response.data[i].openfrom).slice(0, -3) + ' - ' + (this.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div id=\"title\"><h4>' + this.response.data[i].title + '<\/h4><p>' + this.response.data[i].description + favImage + '<\/div></a><\/li>'
 
         if (filterArr.length === 0) {

@@ -30,14 +30,28 @@ function saveSession () {
   window.history.pushState("","", sessionKey); 
 }
 
-function openModal (id) {
+function openModal (id, length) {
   flushModal();
+  console.log('venaja', length)
   if (!id) {
     document.getElementById('kwpanel').style.display = 'none'
+    //initializeModal(length);
   } else {
     document.getElementById('kwpanel').style.display = ''
   }
   overlay.classList.remove('is-hidden')
+}
+
+
+function initializeModal (length) {
+  console.log('initializeModal AJETTU')
+  //document.getElementById('id').value = ''
+  document.getElementById('title').value = 'Place no. ' + length
+  document.getElementById('description').value = 'Description of place no. ' + length
+  document.getElementById('openfrom').value = '08.00'
+  document.getElementById('opento').value = '16.00'
+  document.getElementById('lat').value = ''
+  document.getElementById('lng').value = ''
 }
 
 function closeModal () {
@@ -161,7 +175,7 @@ function chooseLocation () {
 
 function openEdit (id) {
   getPlace(id)
-  openModal(id)
+  openModal(id, length)
 }
 
 function addOrEditPlace () {
@@ -202,3 +216,4 @@ function resetSearch () {
   searchTerm = ''
   getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
 }
+
