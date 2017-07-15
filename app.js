@@ -15,7 +15,7 @@ function getAllPlaces (request, response, next) {
   var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
   var wherePlace = {}
   wherePlace.sessionKey = request.query.sessionKey
-  console.log('params: ', request.query)
+  // // console.log('params: ', request.query)
 
   if (request.query.onlyfav === '1') {
     wherePlace.favourite = 1
@@ -61,7 +61,7 @@ function getAllPlaces (request, response, next) {
 function getPlace (request, response, next) {
   models.Place.find({
     where: {
-      'id': request.query.id
+      'id': request.params.id
     },
     include: models.Keyword
   }).then(function (Place) {
@@ -81,7 +81,7 @@ function addPlace (request, response, next) {
     return
   }
   */
-  console.log('rea', request.body['sessionKey'])
+  // console.log('rea', request.body['sessionKey'])
   models.Place.create({
     title: request.body['title'],
     description: request.body['description'],
@@ -137,7 +137,7 @@ function updatePlace (request, response, next) {
 function deletePlace (request, response, next) {
   models.Place.destroy({
     where: {
-      id: request.query['id']
+      id: request.params.id
     }
   }).then(function (Place) {
     var data = {
@@ -149,7 +149,7 @@ function deletePlace (request, response, next) {
     next()
     models.PlaceKeyword.destroy({
       where: {
-        id: request.query['id']
+        id: request.params.id
       }
     }).then(function (PlaceKeyword) {
       var data = {
@@ -254,7 +254,7 @@ function verifyRequiredParams (request) {
 */
 
 function addSession (request, response, next) {
-  console.log('addSession')
+  // console.log('addSession')
   /*
   if (!verifyRequiredParams(request)) {
     response.send(422, errorMessages)
@@ -286,7 +286,7 @@ function makeId ()
 }
 
 function getSession (request, response, next) {
-  console.log(request.params.sessionKey)
+  // console.log(request.params.sessionKey)
   models.Session.find({
     where: {
       'sessionKey': request.params.sessionKey
@@ -296,7 +296,7 @@ function getSession (request, response, next) {
       error: 'false',
       data: Place
     }
-    console.log('DATA ', data)
+    // console.log('DATA ', data)
     response.send(data)
     next()
   })
@@ -320,18 +320,18 @@ server.use(function(req, res, next) {
   }
   var regex = /^\/([a-zA-Z]{3})\/?$/;
   if(regex.test(comparableUrl)) {
-    console.log('hashPath')
+    // console.log('hashPath')
     res.setHeader("User", "12345");
     server.use(req.url, express.static('public'))
   } 
   
   else if(req.url === '/') {
-    console.log('rootPath')
+    // console.log('rootPath')
     server.use(req.url, express.static('public'))
   }
 
   else {
-    console.log('otherPath')
+    // console.log('otherPath')
     server.use(req.url, express.static('public/404.html'))
   }
   return next();
@@ -362,23 +362,23 @@ server.get('/api/v1/sessions/:sessionKey', getSession)
 /*
 server.route(/^\/([a-zA-Z]{3})\/?$/)
   .get(function(req, res) {
-    console.log('KULLIA')
+    // console.log('KULLIA')
     res.send(JSON.stringify({ a: 1 }, null, 3));
     res.sendFile('index.html', {root: 'public'});  
   });
 */
 
 function root() {
-  console.log('root')
-  console.log(makeId())
+  // console.log('root')
+  // console.log(makeId())
 }
 
 function hash() {
-  console.log('hash')
+  // console.log('hash')
 }
 
 function notfound() {
-  console.log('notfound')
+  // console.log('notfound')
 }
 
 function checkIfSessionExist (urlPath) {
@@ -386,5 +386,5 @@ function checkIfSessionExist (urlPath) {
 }
 
 server.listen(3000, function () {
-  console.log('REST API Server listening at http://localhost:3000')
+  // console.log('REST API Server listening at http://localhost:3000')
 })

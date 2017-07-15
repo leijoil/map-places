@@ -11,7 +11,7 @@ function registerSession () {
   if(window.location.pathname === '/') {
     createSession()    
   } else {
-    var sessionKey = (window.location.pathname).replace(/\//g, '');
+    sessionKey = (window.location.pathname).replace(/\//g, '');
     checkIfExists(sessionKey, function (err, data) {
       if(err) {
         console.log('error')
@@ -35,7 +35,7 @@ function openModal (id, length) {
   console.log('venaja', length)
   if (!id) {
     document.getElementById('kwpanel').style.display = 'none'
-    //initializeModal(length);
+    initializeModal(length);
   } else {
     document.getElementById('kwpanel').style.display = ''
   }
@@ -44,8 +44,8 @@ function openModal (id, length) {
 
 
 function initializeModal (length) {
-  console.log('initializeModal AJETTU')
-  //document.getElementById('id').value = ''
+  // console.log('initializeModal AJETTU')
+  // document.getElementById('id').value = ''
   document.getElementById('title').value = 'Place no. ' + length
   document.getElementById('description').value = 'Description of place no. ' + length
   document.getElementById('openfrom').value = '08.00'
@@ -129,7 +129,7 @@ function toggleCheckbox (element) {
   } else {
     filterArr.push(element.value)
   }
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
 }
 
 Array.prototype.remove = function () {
@@ -204,16 +204,16 @@ function extras (element) {
   if (element.id === 'showopen') {
     showopen = element.checked
   }
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
 }
 
 function search () {
   searchTerm = document.getElementById('search').value
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
 }
 
 function resetSearch () {
   searchTerm = ''
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
 }
 

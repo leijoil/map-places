@@ -1,4 +1,4 @@
-var sessionKey = ''
+//var sessionKey = ''
 registerSession();
 //getPlaces(true, [], false, false, '')
 var keywordsArr = []
@@ -20,7 +20,7 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
         keywordsArr = []
       }
       
-      console.log('kikkklength', this.response.data.length)
+      // console.log('kikkklength', this.response.data.length)
       length = this.response.data.length
 
       for (var i = 0; i < this.response.data.length; i++) {
@@ -75,15 +75,16 @@ function deletePlace () {
   genericXhrReq('DELETE', url).onreadystatechange = function () {
     closeModal()
     reloadMarkers()
-    getPlaces(false, filterArr, showfavourites, showopen, searchTerm)
+    getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
   }
 }
-
+fsfdäöaa
 function createPlace (placeObj) {
   var url = '/api/v1/places'
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
+      console.log('PILLU', this.response.data)
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
       document.getElementsByName('saveOption')[0].disabled = false;
     }
@@ -95,7 +96,7 @@ function updatePlace (placeObj) {
   genericXhrReq('PUT', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
-      getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true)
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
     }
   }
 }
@@ -135,7 +136,7 @@ function createSession () {
   genericXhrReq('GET', url).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       sessionKey = this.response.data.sessionKey
-      getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+      getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
     }
   }
 }
