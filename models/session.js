@@ -1,7 +1,8 @@
 'use strict'
 module.exports = function (sequelize, DataTypes) {
   var Session = sequelize.define('Session', {
-    sessionKey: DataTypes.STRING
+    sessionKey: DataTypes.STRING,
+    saveCount: DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function (models) {

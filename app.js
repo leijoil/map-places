@@ -7,6 +7,7 @@ var bodyParser  = require('body-parser');
 var util = require('util')
 
 var models = require('./models/index')
+var Sequelize = require('./models/index')
 
 var errorMessages = null
 
@@ -99,6 +100,15 @@ function addPlace (request, response, next) {
     }
     response.send(data)
     next()
+    var sqlQuery = 'SELECT * FROM place '
+
+    console.log('JUIU',Sequelize)
+  
+    Sequelize.query(sqlQuery, { type: Sequelize.QueryTypes.SELECT})
+      .then(users => {
+          console.log('KULLI')
+      })
+    
   })
 }
 

@@ -3,7 +3,6 @@ registerSession();
 //getPlaces(true, [], false, false, '')
 var keywordsArr = []
 var currentPlaces = {}
-var length = 0
 
 
 function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updateFilters, sessionKey) {
@@ -19,9 +18,6 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
       if(updateFilters) {
         keywordsArr = []
       }
-      
-      // console.log('kikkklength', this.response.data.length)
-      length = this.response.data.length
 
       for (var i = 0; i < this.response.data.length; i++) {
         var favImage = ''
@@ -78,7 +74,7 @@ function deletePlace () {
     getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
   }
 }
-fsfdäöaa
+
 function createPlace (placeObj) {
   var url = '/api/v1/places'
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {

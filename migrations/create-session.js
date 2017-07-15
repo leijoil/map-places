@@ -11,6 +11,10 @@ module.exports = {
       sessionKey: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      saveCount: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       }
     })
   },
