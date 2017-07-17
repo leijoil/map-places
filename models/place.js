@@ -10,15 +10,15 @@ module.exports = function (sequelize, DataTypes) {
     favourite: DataTypes.BOOLEAN,
     sessionKey: DataTypes.STRING
   }, {
-    classMethods: {
-      associate: function (models) {
-        Place.belongsToMany(models.Keyword, {
-          through: models.PlaceKeyword,
-          foreignKey: 'placeId'
-        })
-      }
-    },
     freezeTableName: true
   })
+
+  Place.associate = function (models) {
+    Place.belongsToMany(models.Keyword, {
+      through: models.PlaceKeyword,
+      foreignKey: 'placeId'
+    })
+  }
+
   return Place
 }

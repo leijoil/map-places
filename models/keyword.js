@@ -7,15 +7,15 @@ module.exports = function (sequelize, DataTypes) {
     },
     sessionKey: DataTypes.STRING
   }, {
-    classMethods: {
-      associate: function (models) {
-        Keyword.belongsToMany(models.Place, {
-          through: models.PlaceKeyword,
-          foreignKey: 'keywordId'
-        })
-      }
-    },
     freezeTableName: true
   })
+
+  Keyword.associate = function (models) {
+    Keyword.belongsToMany(models.Place, {
+      through: models.PlaceKeyword,
+      foreignKey: 'keywordId'
+    })
+  }
+
   return Keyword
 }

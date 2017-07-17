@@ -5,10 +5,6 @@ module.exports = function (sequelize, DataTypes) {
     keywordId: DataTypes.INTEGER,
     sessionKey: DataTypes.STRING
   }, {
-    classMethods: {
-      associate: function (models) {
-      }
-    },
     freezeTableName: true
   })
   return PlaceKeyword
