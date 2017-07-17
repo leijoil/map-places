@@ -43,8 +43,6 @@ function saveSession () {
 
 function openModal (id) {
   flushModal();
-  
-  console.log('venaja', saveCount)
   if (!id) {
     document.getElementById('kwpanel').style.display = 'none'
     initializeModal();

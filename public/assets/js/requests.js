@@ -80,8 +80,6 @@ function createPlace (placeObj) {
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
-      console.log('PILLU', this.response.saveCount)
-      console.log('esa', this.response)
       setSaveCount()
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
       document.getElementsByName('saveOption')[0].disabled = false;
