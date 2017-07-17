@@ -80,7 +80,9 @@ function createPlace (placeObj) {
   genericXhrReq('POST', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       closeModal()
-      console.log('PILLU', this.response.data)
+      console.log('PILLU', this.response.saveCount)
+      console.log('esa', this.response)
+      setSaveCount()
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
       document.getElementsByName('saveOption')[0].disabled = false;
     }
@@ -137,7 +139,7 @@ function createSession () {
   }
 }
 
-function checkIfExists (sessionKey, callback) {
+function getSession (sessionKey, callback) {
   var url = '/api/v1/sessions/' + sessionKey
   genericXhrReq('GET', url).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {

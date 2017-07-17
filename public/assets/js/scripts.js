@@ -3,7 +3,7 @@ var filterArr = []
 var showfavourites = false
 var showopen = false
 var searchTerm = ''
-
+var saveCount = 0
 
 
 function registerSession () {
@@ -12,11 +12,12 @@ function registerSession () {
     createSession()    
   } else {
     sessionKey = (window.location.pathname).replace(/\//g, '');
-    checkIfExists(sessionKey, function (err, data) {
+    getSession(sessionKey, function (err, data) {
       if(err) {
         console.log('error')
       } else {
         if (data) {
+          saveCount = data.saveCount
           getPlaces(true, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
         } else {
           document.location.href='/';
@@ -26,16 +27,27 @@ function registerSession () {
   }
 }
 
+function setSaveCount () {
+  getSession(sessionKey, function (err, data) {
+    if(err) {
+      console.log('setSaveCount error')
+    } else {
+      saveCount = data.saveCount
+    }
+  })
+}
+
 function saveSession () {
   window.history.pushState("","", sessionKey); 
 }
 
-function openModal (id, length) {
+function openModal (id) {
   flushModal();
-  console.log('venaja', length)
+  
+  console.log('venaja', saveCount)
   if (!id) {
     document.getElementById('kwpanel').style.display = 'none'
-    initializeModal(length);
+    initializeModal();
   } else {
     document.getElementById('kwpanel').style.display = ''
   }
@@ -43,11 +55,11 @@ function openModal (id, length) {
 }
 
 
-function initializeModal (length) {
+function initializeModal () {
   // console.log('initializeModal AJETTU')
   // document.getElementById('id').value = ''
-  document.getElementById('title').value = 'Place no. ' + length
-  document.getElementById('description').value = 'Description of place no. ' + length
+  document.getElementById('title').value = 'Place no. ' + saveCount
+  document.getElementById('description').value = 'Description of place no. ' + saveCount
   document.getElementById('openfrom').value = '08.00'
   document.getElementById('opento').value = '16.00'
   document.getElementById('lat').value = ''
@@ -175,7 +187,7 @@ function chooseLocation () {
 
 function openEdit (id) {
   getPlace(id)
-  openModal(id, length)
+  openModal(id)
 }
 
 function addOrEditPlace () {

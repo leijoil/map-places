@@ -1,9 +1,9 @@
 
-var path = require('path');
+var path = require('path')
 var express = require('express')
 var server = express()
-var bodyParser  = require('body-parser');
-// var restifyValidator = require('restify-validator')
+var bodyParser = require('body-parser')
+
 var util = require('util')
 
 var models = require('./models/index')
@@ -16,7 +16,6 @@ function getAllPlaces (request, response, next) {
   var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
   var wherePlace = {}
   wherePlace.sessionKey = request.query.sessionKey
-  // // console.log('params: ', request.query)
 
   if (request.query.onlyfav === '1') {
     wherePlace.favourite = 1
@@ -32,8 +31,8 @@ function getAllPlaces (request, response, next) {
       $like: '%' + request.query.search + '%'
     }
   }
-  
-  if (request.query.search &&  (request.query.keywords).length > 0) {
+
+  if (request.query.search && (request.query.keywords).length > 0) {
     var include = [{
       model: models.Keyword,
       where: {
@@ -76,13 +75,6 @@ function getPlace (request, response, next) {
 }
 
 function addPlace (request, response, next) {
-  /*
-  if (!verifyRequiredParams(request)) {
-    response.send(422, errorMessages)
-    return
-  }
-  */
-  // console.log('rea', request.body['sessionKey'])
   models.Place.create({
     title: request.body['title'],
     description: request.body['description'],
@@ -93,23 +85,19 @@ function addPlace (request, response, next) {
     favourite: request.body['favourite'],
     sessionKey: request.body['sessionKey']
   }).then(function (Place) {
-    var data = {
-      error: 'false',
-      message: 'New Place created successfully',
-      data: Place
-    }
-    response.send(data)
-    next()
     var sqlQuery = 'UPDATE session ' +
                     'SET saveCount = saveCount + 1 ' +
                     'WHERE sessionKey = ' + '\'' + request.body['sessionKey'] + '\''
-    
 
     sequelize.query(sqlQuery).spread((results, metadata) => {
-      console.log('metadata', metadata)
+      var data = {
+        error: 'false',
+        message: 'New Place created successfully',
+        data: Place
+      }
+      response.send(data)
+      next()
     })
-    
-    
   })
 }
 
@@ -285,19 +273,16 @@ function addSession (request, response, next) {
   })
 }
 
-
-function makeId ()
-{
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (var i=0; i < 8; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
+function makeId () {
+  var text = ''
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  for (var i = 0; i < 8; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
-  return text;
+  return text
 }
 
 function getSession (request, response, next) {
-  // console.log(request.params.sessionKey)
   models.Session.find({
     where: {
       'sessionKey': request.params.sessionKey
@@ -307,55 +292,18 @@ function getSession (request, response, next) {
       error: 'false',
       data: Place
     }
-    // console.log('DATA ', data)
     response.send(data)
     next()
   })
 }
 
-// server.use(express.bodyParser())
-//server.use(express.queryParser())
-//server.use(restifyValidator)
-
-server.use( bodyParser.json() );       // to support JSON-encoded bodies
+server.use(bodyParser.json())       // to support JSON-encoded bodies
 server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
-})); 
-
-/*
-server.use(function(req, res, next) {
-  var comparableUrl = req.url
-  while(comparableUrl.charAt(0) === '0')
-  {
-    comparableUrl = comparableUrl.substr(1);
-  }
-  var regex = /^\/([a-zA-Z]{3})\/?$/;
-  if(regex.test(comparableUrl)) {
-    // console.log('hashPath')
-    res.setHeader("User", "12345");
-    server.use(req.url, express.static('public'))
-  } 
-  
-  else if(req.url === '/') {
-    // console.log('rootPath')
-    server.use(req.url, express.static('public'))
-  }
-
-  else {
-    // console.log('otherPath')
-    server.use(req.url, express.static('public/404.html'))
-  }
-  return next();
-});
-
-*/
-//server.use(express.static(path.join(application_root, "StaticPages")));
-//server.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-
+}))
 
 server.use('/', express.static('public'))
-server.use(/^\/([a-zA-Z0-9]{8})\/?$/, express.static('public'));
-
+server.use(/^\/([a-zA-Z0-9]{8})\/?$/, express.static('public'))
 
 server.get('/api/v1/places', getAllPlaces)
 server.get('/api/v1/places/:id', getPlace)
@@ -368,27 +316,16 @@ server.delete('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 server.get('/api/v1/sessions', addSession)
 server.get('/api/v1/sessions/:sessionKey', getSession)
 
-// All the others:
-
-/*
-server.route(/^\/([a-zA-Z]{3})\/?$/)
-  .get(function(req, res) {
-    // console.log('KULLIA')
-    res.send(JSON.stringify({ a: 1 }, null, 3));
-    res.sendFile('index.html', {root: 'public'});  
-  });
-*/
-
-function root() {
+function root () {
   // console.log('root')
   // console.log(makeId())
 }
 
-function hash() {
+function hash () {
   // console.log('hash')
 }
 
-function notfound() {
+function notfound () {
   // console.log('notfound')
 }
 
