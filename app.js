@@ -7,7 +7,7 @@ var bodyParser  = require('body-parser');
 var util = require('util')
 
 var models = require('./models/index')
-var Sequelize = require('./models/index')
+var sequelize = require('./models/index').sequelize
 
 var errorMessages = null
 
@@ -100,14 +100,15 @@ function addPlace (request, response, next) {
     }
     response.send(data)
     next()
-    var sqlQuery = 'SELECT * FROM place '
+    var sqlQuery = 'UPDATE session ' +
+                    'SET saveCount = saveCount + 1 ' +
+                    'WHERE sessionKey = ' + '\'' + request.body['sessionKey'] + '\''
+    
 
-    console.log('JUIU',Sequelize)
-  
-    Sequelize.query(sqlQuery, { type: Sequelize.QueryTypes.SELECT})
-      .then(users => {
-          console.log('KULLI')
-      })
+    sequelize.query(sqlQuery).spread((results, metadata) => {
+      console.log('metadata', metadata)
+    })
+    
     
   })
 }

@@ -30,6 +30,10 @@ Object.keys(db).forEach(function (modelName) {
   }
 })
 
+/*sequelize.query("SELECT * FROM place").spread((results, metadata) => {
+  console.log('results', results)
+})
+*/
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
