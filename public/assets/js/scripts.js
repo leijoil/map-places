@@ -44,9 +44,10 @@ function saveSession () {
 function openModal (id) {
   flushModal();
   if (!id) {
-    document.getElementById('kwpanel').style.display = 'none'
+    document.getElementById('newPlaceKeywords').style.display = ''
     initializeModal();
   } else {
+    document.getElementById('newPlaceKeywords').style.display = 'none'
     document.getElementById('kwpanel').style.display = ''
   }
   overlay.classList.remove('is-hidden')
@@ -84,8 +85,8 @@ function initializeModal () {
   // document.getElementById('id').value = ''
   document.getElementById('title').value = 'Place no. ' + saveCount
   document.getElementById('description').value = 'Description of place no. ' + saveCount
-  document.getElementById('openfrom').value = '08.00'
-  document.getElementById('opento').value = '16.00'
+  document.getElementById('openfrom').value = '09:00:00'
+  document.getElementById('opento').value = '17:00:00'
   document.getElementById('lat').value = ''
   document.getElementById('lng').value = ''
 }
