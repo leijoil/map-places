@@ -181,6 +181,7 @@ Array.prototype.remove = function () {
 }
 
 function checkIfEmpty (esa) {
+  console.log('checkIfEmpty')
   if (esa.value.length > 0) {
     document.getElementById('addkeywordbtn').disabled = false
   } else {
@@ -191,7 +192,20 @@ function checkIfEmpty (esa) {
 function addKeyword () {
   var placeObj = getAllFields()
   var keywords = getKeywords()
-  updateKeywordsForPlace(keywords, placeObj.id)
+
+  console.log('keywords', keywords)
+
+  var input = document.createElement("input");
+  var br = document.createElement("br");
+  input.type = "text";
+  // input.className = "css-class-name"; // set the CSS class
+  input.name = 'keyword'
+  input.id = 'keyword'
+  console.log('jotai', this)
+  input.setAttribute('onkeyup','checkIfEmpty(this)')
+  newPlaceKeywords.appendChild(br)
+  newPlaceKeywords.appendChild(input); // put it into the DOM
+  // updateKeywordsForPlace(keywords, placeObj.id)
 }
 
 function chooseLocation () {
