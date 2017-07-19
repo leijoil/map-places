@@ -53,6 +53,32 @@ function openModal (id) {
 }
 
 
+function validate () {
+
+  var valid = true;
+  var validateElements = document.getElementsByClassName("validate");
+  var inputs = Array.prototype.filter.call(validateElements, function(element){
+    return element.nodeName === 'INPUT';
+  });
+
+  for(var i=0; i < inputs.length; i ++ ){
+    var input = inputs[i];
+    if(input.value.length == 0) {
+      input.placeholder = "kindly enter value";
+      input.classList.add("err");
+      input.focus();
+      valid = false;
+      break;
+    }
+  }
+
+  if (valid) {
+    console.log('hyva')
+    addOrEditPlace();
+  }
+
+}
+
 function initializeModal () {
   // console.log('initializeModal AJETTU')
   // document.getElementById('id').value = ''

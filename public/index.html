@@ -34,27 +34,27 @@
           </tr>
           <tr>
             <td><label for="title">Title</label></td>
-            <td><input type="text" name="title" id="title"><br></td>
+            <td><input type="text" name="title" class="validate" id="title"><br></td>
           </tr>
           <tr>
             <td><label for="description">Description</label></td>
-            <td><input type="text" name="description" id="description"><br></td>
+            <td><input type="text" name="description" class="validate" id="description"><br></td>
           </tr>
           <tr>
             <td><label for="from">From</label></td>
-            <td><input type="text" name="openfrom" id="openfrom"><br></td>
+            <td><input type="text" name="openfrom" class="validate" id="openfrom"><br></td>
           </tr>
           <tr>
             <td><label for="until">Until</label></td>
-            <td><input type="text" name="opento" id="opento"><br></td>
+            <td><input type="text" name="opento" class="validate" id="opento"><br></td>
           </tr>
           <tr>
             <td><label for="lat">Lat</label></td>
-            <td><input type="text" name="lat" id="lat"><br></td>
+            <td><input type="text" name="lat" class="validate" id="lat"><br></td>
           </tr>
           <tr>
             <td><label for="lng">Lng</label></td>
-            <td><input type="text" name="lng" id="lng"><br></td>
+            <td><input type="text" name="lng" class="validate" id="lng"><br></td>
           </tr>
           <tr>
             <td><label for="lng">Favourite</label></td>
@@ -72,7 +72,7 @@
         <br><br><br>
       </div>
 
-      <button type="button" onclick="addOrEditPlace();">Save</button>
+      <button type="button" onclick="validate();">Save</button>
       <button type="button" onclick="removePlace(id);">Delete</button>
       <button type="button" onclick="chooseLocation();">Choose location from map</button>
 
