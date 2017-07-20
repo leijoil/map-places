@@ -195,6 +195,7 @@ function addKeyword () {
 
   console.log('keywords', keywords)
 
+  /*
   var input = document.createElement("input");
   var br = document.createElement("br");
   input.type = "text";
@@ -206,6 +207,14 @@ function addKeyword () {
   newPlaceKeywords.appendChild(br)
   newPlaceKeywords.appendChild(input); // put it into the DOM
   // updateKeywordsForPlace(keywords, placeObj.id)
+
+  */
+
+  var x = new MyImage(document.getElementById('keyword').value, 2);
+  document.getElementById("screen").appendChild(x.getImage());
+  document.getElementById("keyword").value = ''
+  
+
 }
 
 function chooseLocation () {
@@ -267,4 +276,88 @@ function resetSearch () {
   searchTerm = ''
   getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var data = ["http://cdn.cutestpaw.com/wp-content/uploads/2011/11/cute-cat-l.jpg"]
+
+/*
+var MyImage = function (url, id) {
+    this.url = url;
+    this.id = id;
+};
+*/
+
+function MyImage (inputValue, id) {
+  console.log('inputValue JA ID', inputValue, id)
+  this.inputValue = inputValue;
+  this.id = id;
+}
+
+MyImage.prototype.getImage = function () {
+
+  // <input type="text" name="keyword" id="keyword" onkeyup="checkIfEmpty(this)">
+
+    var s = document.createElement('span');
+    s.id = "myImage" + this.id;
+    var i = document.createElement('input');
+    var br = document.createElement("br");
+    i.name = "keyword"
+    i.readOnly = true
+    i.value = this.inputValue
+    s.appendChild(br)
+    s.appendChild(i);
+    var c = document.createElement('img');
+    c.src = "https://www.flooranddecor.com/on/demandware.static/Sites-floor-decor-Site/Sites-floor-decor-Library/default/v1414669733935/images/close-icon-grey.png";
+    c.className = "close";
+    c.onclick = function () {
+        var d = document.getElementById("myImage" + this.id);
+        var s = document.getElementById("screen");
+        if (d !== null && s !== null) {
+            console.log("removing " + d.id);
+            s.removeChild(d);
+        }
+    }.bind(this);
+    s.appendChild(c);
+    return s;
+
+/*
+
+  
+
+    var s = document.createElement('span');
+    s.id = "myImage" + this.id;
+    var i = document.createElement('img');
+    i.src = this.url;
+    i.width = 150;
+    i.height = 150;
+    s.appendChild(i);
+    var c = document.createElement('img');
+    c.src = "https://www.flooranddecor.com/on/demandware.static/Sites-floor-decor-Site/Sites-floor-decor-Library/default/v1414669733935/images/close-icon-grey.png";
+    c.className = "close";
+    c.onclick = function () {
+        var d = document.getElementById("myImage" + this.id);
+        var s = document.getElementById("screen");
+        if (d !== null && s !== null) {
+            console.log("removing " + d.id);
+            s.removeChild(d);
+        }
+    }.bind(this);
+    s.appendChild(c);
+    return s;
+
+*/
+};
+
 
