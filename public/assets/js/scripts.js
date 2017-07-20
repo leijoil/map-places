@@ -251,6 +251,10 @@ function addOrEditPlace () {
   var placeObj = getAllFields()
   var keywords = getKeywords()
 
+  placeObj.keywords = keywords
+
+  console.log('placeObj', placeObj)
+
   if (placeObj.id === undefined) {
     placeObj.sessionKey = sessionKey
     createPlace(placeObj)
