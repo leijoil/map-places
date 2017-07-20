@@ -85,6 +85,26 @@ function addPlace (request, response, next) {
     favourite: request.body['favourite'],
     sessionKey: request.body['sessionKey']
   }).then(function (Place) {
+    if(request.body['keywords'].length > 0) {
+      for(var i=0; i<request.body['keywords'].length; i++) {
+        models.Keyword.create({
+          label: request.body['keywords'][i],
+          sessionKey: request.body['sessionKey']
+        }).then(function (Keyword) {
+          models.PlaceKeyword.create({ 
+            placeId: Place.dataValues.id,
+            keywordId: Keyword.dataValues.id,
+            sessionKey: request.body['sessionKey']
+          }).then(function (PlaceKeyword) { 
+            //console.log('PlaceKeyword', PlaceKeyword)
+            return
+          })
+        })
+      }
+    }
+    return Place
+  }).then(function (Place) {
+    console.log('KULLIA KANSALLE', Place)
     var sqlQuery = 'UPDATE session ' +
                     'SET saveCount = saveCount + 1 ' +
                     'WHERE sessionKey = ' + '\'' + request.body['sessionKey'] + '\''
