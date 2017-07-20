@@ -188,12 +188,16 @@ function checkIfEmpty (esa) {
     document.getElementById('addkeywordbtn').disabled = true
   }
 }
-
+var counter = 0;
 function addKeyword () {
+
+  document.getElementById("keyword").setAttribute("id", 'keyword-' + counter++);
+
   var placeObj = getAllFields()
   var keywords = getKeywords()
 
-  console.log('keywords', keywords)
+  var keywordId = document.getElementsByName("keyword")[0].id
+  var keywordValue = document.getElementsByName("keyword")[0].value
 
   /*
   var input = document.createElement("input");
@@ -209,12 +213,17 @@ function addKeyword () {
   // updateKeywordsForPlace(keywords, placeObj.id)
 
   */
+  //console.log('lokki', document.getElementById('keyword').id)
 
-  var x = new MyImage(document.getElementById('keyword').value, 2);
+  var x = new MyImage(keywordValue, keywordId);
   document.getElementById("screen").appendChild(x.getImage());
-  document.getElementById("keyword").value = ''
+  document.getElementById(keywordId).value = ''
   
 
+}
+
+function getIdForKeyword () {
+  return document.getElementById('keyword').id + 1 || 0
 }
 
 function chooseLocation () {
