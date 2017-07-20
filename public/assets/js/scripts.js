@@ -191,7 +191,7 @@ function checkIfEmpty (esa) {
 var counter = 0;
 function addKeyword () {
 
-  document.getElementById("keyword").setAttribute("id", 'keyword-' + counter++);
+  document.getElementsByName("keyword")[0].setAttribute("id", 'keyword-' + counter++);
 
   var placeObj = getAllFields()
   var keywords = getKeywords()
@@ -217,7 +217,7 @@ function addKeyword () {
 
   var x = new MyImage(keywordValue, keywordId);
   document.getElementById("screen").appendChild(x.getImage());
-  document.getElementById(keywordId).value = ''
+  document.getElementsByName("keyword")[0].value = ''
   
 
 }
