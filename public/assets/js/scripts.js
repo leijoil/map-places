@@ -74,7 +74,7 @@ function validate () {
   }
 
   if (valid) {
-    console.log('hyva')
+    // console.log('hyva')
     addOrEditPlace();
   }
 
@@ -107,7 +107,7 @@ function fillModal (place) {
   document.getElementById('lng').value = place.lng
   document.getElementById('favourite').checked = place.favourite
 
-  console.log('place', place)
+  // console.log('place', place)
 
   for (var i = 0; i<place.Keywords.length; i++) {
     var keywordId = place.Keywords[i].id
@@ -196,7 +196,7 @@ Array.prototype.remove = function () {
 }
 
 function checkIfEmpty (esa) {
-  console.log('checkIfEmpty')
+  // console.log('checkIfEmpty')
   if (esa.value.length > 0) {
     document.getElementById('addkeywordbtn').disabled = false
   } else {
@@ -268,7 +268,7 @@ function addOrEditPlace () {
 
   placeObj.keywords = keywords
 
-  console.log('placeObj', placeObj)
+  // console.log('placeObj', placeObj)
 
   if (placeObj.id === undefined) {
     placeObj.sessionKey = sessionKey
@@ -328,7 +328,7 @@ var MyImage = function (url, id) {
 */
 
 function MyImage (inputValue, id) {
-  console.log('inputValue JA ID', inputValue, id)
+  // console.log('inputValue JA ID', inputValue, id)
   this.inputValue = inputValue;
   this.id = id;
 }

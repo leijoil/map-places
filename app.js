@@ -104,7 +104,7 @@ function addPlace (request, response, next) {
     }
     return Place
   }).then(function (Place) {
-    console.log('KULLIA KANSALLE', Place)
+    // console.log('KULLIA KANSALLE', Place)
     var sqlQuery = 'UPDATE session ' +
                     'SET saveCount = saveCount + 1 ' +
                     'WHERE sessionKey = ' + '\'' + request.body['sessionKey'] + '\''
