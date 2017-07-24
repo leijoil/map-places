@@ -47,7 +47,7 @@ function openModal (id) {
     document.getElementById('newPlaceKeywords').style.display = ''
     initializeModal();
   } else {
-    document.getElementById('newPlaceKeywords').style.display = 'none'
+    // document.getElementById('newPlaceKeywords').style.display = 'none'
     document.getElementById('kwpanel').style.display = ''
   }
   overlay.classList.remove('is-hidden')
@@ -106,6 +106,17 @@ function fillModal (place) {
   document.getElementById('lat').value = place.lat
   document.getElementById('lng').value = place.lng
   document.getElementById('favourite').checked = place.favourite
+
+  console.log('place', place)
+
+  for (var i = 0; i<place.Keywords.length; i++) {
+    var keywordId = place.Keywords[i].id
+    var keywordValue = place.Keywords[i].label
+    var x = new MyImage(keywordValue, keywordId);
+    document.getElementById("screen").appendChild(x.getImage());
+    // document.getElementsByName("keyword")[0].value = ''
+  }
+
 }
 
 function flushModal () {
@@ -117,6 +128,10 @@ function flushModal () {
   document.getElementById('lat').value = ''
   document.getElementById('lng').value = ''
   // document.getElementById('keyword').value = ''
+  var screenDiv = document.getElementById("screen");
+  while (screenDiv.firstChild) {
+      screenDiv.removeChild(screenDiv.firstChild);
+  }
 }
 
 function getAllFields () {

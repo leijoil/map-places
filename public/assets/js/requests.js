@@ -46,21 +46,24 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
 }
 
 function getPlace (id) {
-  var keywords = document.getElementById('keywords')
+  //var keywords = document.getElementById('keywords')
   var url = '/api/v1/places/' + id
   genericXhrReq('GET', url).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
+      fillModal(this.response.data)
+      /*
       keywords.innerHTML = ''
       for (var i = 0; i < this.response.data.Keywords.length; i++) {
         keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"' + this.response.data.Keywords[i].id + '\" readonly><input type=\"button\" id=\"deletekeywordbtn\" onclick=\"deleteKeyword(' + id + ',' + this.response.data.Keywords[i].id + ');\" value=\"x\"\/><br>'
       }
 
       keywords.innerHTML += '<input type=\"text\" name=\"keyword\" id=\"keyword\" onkeyup=\"checkIfEmpty(this)\"\/><br>'
-      fillModal(this.response.data)
+      
 
       for (var i = 0; i < this.response.data.Keywords.length; i++) {
         document.getElementById(this.response.data.Keywords[i].id).value = this.response.data.Keywords[i].label
       }
+      */
     }
   }
 }
