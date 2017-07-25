@@ -4,6 +4,7 @@ var showfavourites = false
 var showopen = false
 var searchTerm = ''
 var saveCount = 0
+var placeCopy = {}
 
 
 function registerSession () {
@@ -107,8 +108,6 @@ function fillModal (place) {
   document.getElementById('lng').value = place.lng
   document.getElementById('favourite').checked = place.favourite
 
-  // console.log('place', place)
-
   for (var i = 0; i<place.Keywords.length; i++) {
     var keywordId = place.Keywords[i].id
     var keywordValue = place.Keywords[i].label
@@ -116,7 +115,7 @@ function fillModal (place) {
     document.getElementById("screen").appendChild(x.getImage());
     // document.getElementsByName("keyword")[0].value = ''
   }
-
+  placeCopy = place
 }
 
 function flushModal () {
@@ -136,14 +135,22 @@ function flushModal () {
 
 function getAllFields () {
   var placeObj = {}
-  placeObj.id = document.getElementById('id').value || undefined
+  placeObj.keywords = []
+  placeObj.id = Number(document.getElementById('id').value) || undefined
   placeObj.title = document.getElementById('title').value
   placeObj.description = document.getElementById('description').value
   placeObj.openfrom = document.getElementById('openfrom').value
   placeObj.opento = document.getElementById('opento').value
   placeObj.lat = document.getElementById('lat').value
   placeObj.lng = document.getElementById('lng').value
-  placeObj.favourite = document.getElementById('favourite').checked ? 1 : 0
+  placeObj.favourite = document.getElementById('favourite').checked
+  
+  if (document.getElementsByName('keyword').length > 0 ) {
+    for(var i = 1; i<document.getElementsByName('keyword').length; i++) {
+      placeObj.keywords.push(document.getElementsByName('keyword')[i].value)
+    }
+  }
+
   return placeObj
 }
 
@@ -260,13 +267,11 @@ function chooseLocation () {
 function openEdit (id) {
   getPlace(id)
   openModal(id)
+  //console.log('placeCopy', placeCopy)
 }
 
 function addOrEditPlace () {
   var placeObj = getAllFields()
-  var keywords = getKeywords()
-
-  placeObj.keywords = keywords
 
   // console.log('placeObj', placeObj)
 
@@ -274,9 +279,30 @@ function addOrEditPlace () {
     placeObj.sessionKey = sessionKey
     createPlace(placeObj)
   } else {
-    updatePlace(placeObj)
-    updateKeywordsForPlace(keywords, placeObj.id)
-    closeModal()
+
+    var keywordsComparable = []
+
+    if (placeCopy.Keywords.length > 0 ) {
+
+      for(var i=0; i<placeCopy.Keywords.length; i++) {
+         keywordsComparable.push(placeCopy.Keywords[i].label)
+         
+      }
+       
+    }
+    var comparablePlaceObj = placeObj
+    var comparableplaceCopy = placeCopy
+
+    delete comparableplaceCopy.Keywords
+    delete comparableplaceCopy.sessionKey
+    comparableplaceCopy.keywords = keywordsComparable
+
+    if(_.isEqual(comparablePlaceObj, comparableplaceCopy)) {
+      closeModal()
+    } else {
+      updatePlace(placeObj)
+    }
+
   }
 }
 

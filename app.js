@@ -122,10 +122,12 @@ function addPlace (request, response, next) {
 }
 
 function updatePlace (request, response, next) {
+  /*
   if (!verifyRequiredParams(request)) {
     response.send(422, errorMessages)
     return
   }
+  */
   models.Place.find({
     where: {
       'id': request.query.id
