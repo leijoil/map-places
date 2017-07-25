@@ -75,7 +75,7 @@ function validate () {
   }
 
   if (valid) {
-    // console.log('hyva')
+    console.log('hyva')
     addOrEditPlace();
   }
 
@@ -274,13 +274,14 @@ function addOrEditPlace () {
   var placeObj = getAllFields()
 
   // console.log('placeObj', placeObj)
-
+  placeObj.sessionKey = sessionKey
   if (placeObj.id === undefined) {
-    placeObj.sessionKey = sessionKey
     createPlace(placeObj)
   } else {
 
     var keywordsComparable = []
+
+    console.log('placeCopy', placeCopy)
 
     if (placeCopy.Keywords.length > 0 ) {
 
@@ -300,6 +301,12 @@ function addOrEditPlace () {
     if(_.isEqual(comparablePlaceObj, comparableplaceCopy)) {
       closeModal()
     } else {
+      placeObj.newKeywords = false
+      console.log('ELSE')
+       if(!_.isEqual(comparablePlaceObj.keywords, comparableplaceCopy.keywords)) { 
+        placeObj.newKeywords = true
+        placeObj.keywordsToBeDeleted = _.difference(comparableplaceCopy.keywords, comparablePlaceObj.keywords)
+       }
       updatePlace(placeObj)
     }
 

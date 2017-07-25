@@ -92,9 +92,11 @@ function createPlace (placeObj) {
 }
 
 function updatePlace (placeObj) {
+  console.log('updatePLAce', placeObj)
   var url = '/api/v1/places/' + placeObj.id
   genericXhrReq('PUT', url, placeObj).onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
+      console.log('200')
       closeModal()
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
     }

@@ -85,19 +85,19 @@ function addPlace (request, response, next) {
     favourite: request.body['favourite'],
     sessionKey: request.body['sessionKey']
   }).then(function (Place) {
-    if(request.body['keywords'].length > 0) {
-      for(var i=0; i<request.body['keywords'].length; i++) {
+    if (request.body['keywords'].length > 0) {
+      for (var i = 0; i < request.body['keywords'].length; i++) {
         models.Keyword.create({
           label: request.body['keywords'][i],
           sessionKey: request.body['sessionKey']
         }).then(function (Keyword) {
-          models.PlaceKeyword.create({ 
+          models.PlaceKeyword.create({
             placeId: Place.dataValues.id,
             keywordId: Keyword.dataValues.id,
             sessionKey: request.body['sessionKey']
-          }).then(function (PlaceKeyword) { 
-            //console.log('PlaceKeyword', PlaceKeyword)
-            return
+          }).then(function (PlaceKeyword) {
+            // console.log('PlaceKeyword', PlaceKeyword)
+
           })
         })
       }
@@ -128,21 +128,50 @@ function updatePlace (request, response, next) {
     return
   }
   */
+  console.log('SUPERKULLIA', request.body)
   models.Place.find({
     where: {
-      'id': request.query.id
+      'id': request.body['id']
     }
   }).then(function (Place) {
     if (Place) {
       Place.updateAttributes({
-        title: request.query['title'],
-        description: request.query['description'],
-        openfrom: request.query['openfrom'],
-        opento: request.query['opento'],
-        lat: request.query['lat'],
-        lng: request.query['lng'],
-        favourite: request.query['favourite']
+        title: request.body['title'],
+        description: request.body['description'],
+        openfrom: request.body['openfrom'],
+        opento: request.body['opento'],
+        lat: request.body['lat'],
+        lng: request.body['lng'],
+        favourite: request.body['favourite']
       }).then(function (Place) {
+        if (request.body['newKeywords'] && request.body['keywordsToBeDeleted'].length > 0) {
+          for (var i = 0; i < request.body['keywordsToBeDeleted'].length; i++) {
+            models.Keyword.find({
+              where: {
+                'label': request.body['keywordsToBeDeleted'][i],
+                'sessionKey': request.body['sessionKey']
+              }
+            }).then(function (Keyword) {
+              models.PlaceKeyword.destroy({
+                where: {
+                  'placeId': request.body['id'],
+                  'keywordId': Keyword.dataValues.id
+                }
+              }).then(function (Keyword) {
+                models.Keyword.destroy({
+                  where: {
+                    'id': Keyword.dataValues.id,
+                    'sessionKey': request.body['sessionKey']
+                  }
+                }).then(function (Keyword) {
+                  console.log('deleted')
+                })
+              })
+            })
+          }
+        }
+
+        /*
         var data = {
           error: 'false',
           message: 'Updated Place successfully',
@@ -150,7 +179,10 @@ function updatePlace (request, response, next) {
         }
         response.send(data)
         next()
+        */
       })
+
+      
     }
   })
 }
