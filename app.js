@@ -144,33 +144,7 @@ function updatePlace (request, response, next) {
         lng: request.body['lng'],
         favourite: request.body['favourite']
       }).then(function (Place) {
-        if (request.body['newKeywords'] && request.body['keywordsToBeDeleted'].length > 0) {
-          for (var i = 0; i < request.body['keywordsToBeDeleted'].length; i++) {
-            models.Keyword.find({
-              where: {
-                'label': request.body['keywordsToBeDeleted'][i],
-                'sessionKey': request.body['sessionKey']
-              }
-            }).then(function (Keyword) {
-              models.PlaceKeyword.destroy({
-                where: {
-                  'placeId': request.body['id'],
-                  'keywordId': Keyword.dataValues.id
-                }
-              }).then(function (Keyword) {
-                models.Keyword.destroy({
-                  where: {
-                    'id': Keyword.dataValues.id,
-                    'sessionKey': request.body['sessionKey']
-                  }
-                }).then(function (Keyword) {
-                  console.log('deleted')
-                })
-              })
-            })
-          }
-        }
-
+        console.log('YKSI')
         /*
         var data = {
           error: 'false',
@@ -180,11 +154,80 @@ function updatePlace (request, response, next) {
         response.send(data)
         next()
         */
-      })
+        return deleteKeywords(request)
+      }).then(function (msg) {
+        console.log('VIIMEINEN', msg)
 
+        for (var i =0; i<request.body['keywordsToBeAdded'].length; i++) {
+          models.Keyword.create({
+            label: request.body['keywordsToBeAdded'][i],
+            sessionKey: request.body['sessionKey']
+          }).then(function (Keyword) {
+
+            models.PlaceKeyword.create({
+              placeId: request.body['id'],
+              keywordId: Keyword.dataValues.id
+            }).then(function (PlaceKeyword) {
+              console.log('ALL ADDED')
+              var data = {
+                error: 'false',
+                message: 'Updated Place successfully',
+                data: Place
+              }
+              response.send(data)
+              next()
+            })
+
+          })
+        }
+
+      })
       
     }
   })
+}
+
+function deleteKeywords (request) {
+  return new Promise(function (resolve) {
+
+    if (request.body['newKeywords'] && request.body['keywordsToBeDeleted'].length > 0) {
+      for (var i = 0; i < request.body['keywordsToBeDeleted'].length; i++) {
+        var keywordDelete = request.body['keywordsToBeDeleted'][i]
+        models.Keyword.find({
+          where: {
+            'label': request.body['keywordsToBeDeleted'][i],
+            'sessionKey': request.body['sessionKey']
+          }
+        }).then(function (Keyword) {
+          console.log('KAKSI')
+          models.PlaceKeyword.destroy({
+            where: {
+              'placeId': request.body['id'],
+              'keywordId': Keyword.dataValues.id
+            }
+          }).then(function () {
+            console.log('KOLME', keywordDelete)
+            models.Keyword.destroy({
+              where: {
+                'label': keywordDelete,
+                'sessionKey': request.body['sessionKey']
+              }
+            }).then(function (Keyword) {
+              console.log('NELJA', request.body['keywordsToBeDeleted'].length)
+              if(i === request.body['keywordsToBeDeleted'].length) {
+                resolve('all shit deleted')
+              }
+            })
+          })
+        })
+      }
+    } else {
+      resolve('no things to be deleted')
+    }
+  
+
+  })
+
 }
 
 function deletePlace (request, response, next) {

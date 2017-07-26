@@ -281,7 +281,7 @@ function addOrEditPlace () {
 
     var keywordsComparable = []
 
-    console.log('placeCopy', placeCopy)
+    // console.log('placeCopy', placeCopy)
 
     if (placeCopy.Keywords.length > 0 ) {
 
@@ -306,7 +306,9 @@ function addOrEditPlace () {
        if(!_.isEqual(comparablePlaceObj.keywords, comparableplaceCopy.keywords)) { 
         placeObj.newKeywords = true
         placeObj.keywordsToBeDeleted = _.difference(comparableplaceCopy.keywords, comparablePlaceObj.keywords)
+        placeObj.keywordsToBeAdded = _.difference(comparablePlaceObj.keywords, comparableplaceCopy.keywords)
        }
+      console.log('placeObjKERA', placeObj)
       updatePlace(placeObj)
     }
 
