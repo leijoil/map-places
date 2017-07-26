@@ -145,7 +145,12 @@ function updatePlace (request, response, next) {
         favourite: request.body['favourite']
       }).then(function (Place) {
         console.log('YKSI')
-        /*
+        return deleteKeywords(request)
+      }).then(function (msg) {
+        console.log('TOKAVIIMEINEN', msg)
+        return addNewKeywords(request)
+      }).then(function (msg) {
+        console.log('VIIMEINEN', msg)
         var data = {
           error: 'false',
           message: 'Updated Place successfully',
@@ -153,43 +158,37 @@ function updatePlace (request, response, next) {
         }
         response.send(data)
         next()
-        */
-        return deleteKeywords(request)
-      }).then(function (msg) {
-        console.log('VIIMEINEN', msg)
-
-        for (var i =0; i<request.body['keywordsToBeAdded'].length; i++) {
-          models.Keyword.create({
-            label: request.body['keywordsToBeAdded'][i],
-            sessionKey: request.body['sessionKey']
-          }).then(function (Keyword) {
-
-            models.PlaceKeyword.create({
-              placeId: request.body['id'],
-              keywordId: Keyword.dataValues.id
-            }).then(function (PlaceKeyword) {
-              console.log('ALL ADDED')
-              var data = {
-                error: 'false',
-                message: 'Updated Place successfully',
-                data: Place
-              }
-              response.send(data)
-              next()
-            })
-
-          })
-        }
-
       })
-      
     }
+  })
+}
+
+
+function addNewKeywords (request) {
+  return new Promise(function (resolve) {
+      if (request.body['newKeywords'] && request.body['keywordsToBeAdded'].length > 0) {
+          for (var i =0; i<request.body['keywordsToBeAdded'].length; i++) {
+            models.Keyword.create({
+              label: request.body['keywordsToBeAdded'][i],
+              sessionKey: request.body['sessionKey']
+            }).then(function (Keyword) {
+              models.PlaceKeyword.create({
+                placeId: request.body['id'],
+                keywordId: Keyword.dataValues.id
+              }).then(function (PlaceKeyword) {
+                resolve('PlaceKeyword creation')
+              })
+
+            })
+          }
+      } else {
+        resolve('no keywords to add')
+      }
   })
 }
 
 function deleteKeywords (request) {
   return new Promise(function (resolve) {
-
     if (request.body['newKeywords'] && request.body['keywordsToBeDeleted'].length > 0) {
       for (var i = 0; i < request.body['keywordsToBeDeleted'].length; i++) {
         var keywordDelete = request.body['keywordsToBeDeleted'][i]
@@ -224,10 +223,7 @@ function deleteKeywords (request) {
     } else {
       resolve('no things to be deleted')
     }
-  
-
   })
-
 }
 
 function deletePlace (request, response, next) {
@@ -259,6 +255,8 @@ function deletePlace (request, response, next) {
   })
 }
 
+
+/*
 function addKeywordForPlace (request, response, next) {
   models.Keyword.find({
     where: {
@@ -292,6 +290,8 @@ function addKeywordForPlace (request, response, next) {
     }
   })
 }
+
+*/
 
 function addPlaceKeywordMapping (request, response, next) {
   models.PlaceKeyword.create({
@@ -407,7 +407,7 @@ server.get('/api/v1/places/:id', getPlace)
 server.post('/api/v1/places', addPlace)
 server.put('/api/v1/places/:id', updatePlace)
 server.delete('/api/v1/places/:id', deletePlace)
-server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
+// server.post('/api/v1/:placeId/keywords', addKeywordForPlace)
 server.delete('/api/v1/:placeId/:keywordId/keywords', deleteKeywordForPlace)
 
 server.get('/api/v1/sessions', addSession)
