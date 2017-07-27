@@ -250,6 +250,7 @@ function getIdForKeyword () {
 
 function chooseLocation () {
   google.maps.event.addListener(map, 'click', function (event) {
+    console.log('placeObj', placeObj)
     var latitude = event.latLng.lat()
     var longitude = event.latLng.lng()
     openModal()
@@ -259,6 +260,15 @@ function chooseLocation () {
     document.getElementById('opento').value = placeObj.opento
     document.getElementById('lat').value = latitude
     document.getElementById('lng').value = longitude
+    document.getElementById('favourite').checked = placeObj.favourite
+
+    for (var i = 0; i < placeObj.keywords.length; i++) {
+      var keywordId = ''
+      var keywordValue = placeObj.keywords[i]
+      var x = new MyImage(keywordValue, keywordId);
+      document.getElementById("screen").appendChild(x.getImage());
+    }
+
   })
   var placeObj = getAllFields()
   closeModal()
