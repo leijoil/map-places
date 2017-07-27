@@ -39,7 +39,8 @@ function setSaveCount () {
 }
 
 function saveSession () {
-  window.history.pushState("","", sessionKey); 
+  window.history.pushState("","", sessionKey);
+  document.getElementsByName('saveOption')[0].disabled = true;
 }
 
 function openModal (id) {
