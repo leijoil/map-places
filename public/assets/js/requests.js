@@ -86,7 +86,9 @@ function createPlace (placeObj) {
       setSaveCount()
       // console.log('this.response.data', this.response.data)
       getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
-      document.getElementsByName('saveOption')[0].disabled = false;
+      if(saveCount === 0) {
+        document.getElementsByName('saveOption')[0].disabled = false;
+      }
     }
   }
 }
