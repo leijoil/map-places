@@ -189,7 +189,7 @@ function toggleCheckbox (element) {
   } else {
     filterArr.push(element.value)
   }
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
 }
 
 Array.prototype.remove = function () {
@@ -338,17 +338,17 @@ function extras (element) {
   if (element.id === 'showopen') {
     showopen = element.checked
   }
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
 }
 
 function search () {
   searchTerm = document.getElementById('search').value
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
 }
 
 function resetSearch () {
   searchTerm = ''
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, this.response.data.sessionKey)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
 }
 
 
