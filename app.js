@@ -12,6 +12,7 @@ var sequelize = require('./models/index').sequelize
 var errorMessages = null
 
 function getAllPlaces (request, response, next) {
+  console.log('request.query ', request.query)
   var timeNow = new Date()
   var currentTime = timeNow.getHours() + ':' + timeNow.getMinutes() + ':00'
   var wherePlace = {}
@@ -32,7 +33,8 @@ function getAllPlaces (request, response, next) {
     }
   }
 
-  if (request.query.search && (request.query.keywords).length > 0) {
+  if ((request.query.keywords).length > 0) {
+    console.log('request.query.keywords', request.query.keywords)
     var include = [{
       model: models.Keyword,
       where: {

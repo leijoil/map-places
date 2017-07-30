@@ -14,7 +14,7 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
     if (this.readyState === 4 && this.status === 200) {
       currentPlaces = this.response.data
       results.innerHTML = ''
-      
+
       if(updateFilters) {
         keywordsArr = []
       }
@@ -26,7 +26,8 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
         }
         results.innerHTML += '<li class=\"placeslist li_num_0_1\" onClick=\"openEdit(' + this.response.data[i].id + ');\"><a href=\"#\"><div id=\"openhours\"><p>' + (this.response.data[i].openfrom).slice(0, -3) + ' - ' + (this.response.data[i].opento).slice(0, -3) + '<\/p><\/div><div id=\"title\"><h4>' + this.response.data[i].title + '<\/h4><p>' + this.response.data[i].description + favImage + '<\/div></a><\/li>'
 
-        if (filterArr.length === 0) {
+        if (updateFilters) {
+          // console.log('keywordsArr', keywordsArr)
           for (var k = 0; k < this.response.data[i].Keywords.length; k++) {
             if (!keywordsArr.includes(this.response.data[i].Keywords[k].label)) {
               keywordsArr.push(this.response.data[i].Keywords[k].label)
@@ -34,9 +35,12 @@ function getPlaces (init, filterArr, onlyFavourites, onlyOpen, searchTerm, updat
           }
         }
       }
-      filters.innerHTML = ''
-      for (i = 0; i < keywordsArr.length; i++) {
-        filters.innerHTML += '<input type=\"checkbox\" name=\"' + keywordsArr[i] + '\" value=\"' + keywordsArr[i] + '\" onchange=\"toggleCheckbox(this)\"><label>' + keywordsArr[i] + '<\/label><br>'
+      // filters.innerHTML = ''
+      // console.log('keywordsArr', keywordsArr)
+      if (updateFilters) {
+        for (i = 0; i < keywordsArr.length; i++) {
+          filters.innerHTML += '<input type=\"checkbox\" name=\"' + keywordsArr[i] + '\" value=\"' + keywordsArr[i] + '\" onchange=\"toggleCheckbox(this)\"><label>' + keywordsArr[i] + '<\/label><br>'
+        }
       }
       if (!init) {
         reloadMarkers()

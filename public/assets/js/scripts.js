@@ -184,12 +184,15 @@ function getKeywords () {
 }
 
 function toggleCheckbox (element) {
+
+  // console.log('element ', element)
+  
   if (filterArr.includes(element.value)) {
     filterArr.remove(element.value)
   } else {
     filterArr.push(element.value)
   }
-  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, true, sessionKey)
+  getPlaces(false, filterArr, showfavourites, showopen, searchTerm, false, sessionKey)
 }
 
 Array.prototype.remove = function () {
