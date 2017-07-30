@@ -84,7 +84,7 @@ table, th, td {
   background: white;
   border: 1px solid;
   overflow-y: auto;
-  height: 15%;
+  height: 20%;
 }
 
 #filters {
@@ -96,7 +96,7 @@ table, th, td {
 
 #places {
   overflow-y: auto;
-  height: 76%;
+  height: 65%;
 }
 
 #placebox ul li  {
